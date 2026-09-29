@@ -24,7 +24,18 @@ type EstadoCamara =
   | 'error';
 
 export default function Login({ onLogin }: LoginProps) {
-  const videoRef = useRef<HTMLVideoElement | null>(null);
+  const videoDesktopRef = useRef<HTMLVideoElement | null>(null);
+  const videoMobileRef = useRef<HTMLVideoElement | null>(null);
+
+  const obtenerVideoVisible = () => {
+    if (typeof window === 'undefined') {
+      return videoDesktopRef.current ?? videoMobileRef.current;
+    }
+
+    return window.innerWidth >= 1024
+      ? videoDesktopRef.current
+      : videoMobileRef.current;
+  };
   const streamRef = useRef<MediaStream | null>(null);
   const intervaloRef = useRef<number | null>(null);
 
@@ -114,8 +125,12 @@ export default function Login({ onLogin }: LoginProps) {
       streamRef.current = null;
     }
 
-    if (videoRef.current) {
-      videoRef.current.srcObject = null;
+    if (videoDesktopRef.current) {
+      videoDesktopRef.current.srcObject = null;
+    }
+
+    if (videoMobileRef.current) {
+      videoMobileRef.current.srcObject = null;
     }
 
     setRostroDetectado(false);
@@ -308,7 +323,9 @@ export default function Login({ onLogin }: LoginProps) {
 
     streamRef.current = stream;
 
-    if (!videoRef.current) {
+    const videoVisible = obtenerVideoVisible();
+
+    if (!videoVisible) {
       stream.getTracks().forEach((track) => track.stop());
 
       throw new Error(
@@ -316,17 +333,43 @@ export default function Login({ onLogin }: LoginProps) {
       );
     }
 
-    videoRef.current.srcObject = stream;
+    // Hay dos versiones del formulario (desktop y móvil).
+    // El stream se conecta a ambas para evitar que el ref
+    // apunte al video oculto mientras se muestra el otro.
+    const videos = [
+      videoDesktopRef.current,
+      videoMobileRef.current,
+    ].filter(
+      (video): video is HTMLVideoElement => video !== null
+    );
 
-videoRef.current.muted = true;
-videoRef.current.playsInline = true;
+    for (const video of videos) {
+      video.srcObject = stream;
+      video.muted = true;
+      video.playsInline = true;
 
-await videoRef.current.play();
+      try {
+        await video.play();
+      } catch (playError) {
+        console.warn(
+          'No se pudo reproducir automáticamente un video:',
+          playError
+        );
+      }
+    }
 
-console.log('CÁMARA ACTIVA');
-console.log('Video width:', videoRef.current.videoWidth);
-console.log('Video height:', videoRef.current.videoHeight);
-console.log('Video readyState:', videoRef.current.readyState);
+    console.log('CÁMARA ACTIVA');
+    console.log('Video visible width:', videoVisible.videoWidth);
+    console.log('Video visible height:', videoVisible.videoHeight);
+    console.log('Video visible readyState:', videoVisible.readyState);
+    console.log(
+      'Tracks de cámara:',
+      stream.getVideoTracks().map((track) => ({
+        label: track.label,
+        enabled: track.enabled,
+        readyState: track.readyState,
+      }))
+    );
 
 setEstadoCamara('activa');
 
@@ -431,12 +474,16 @@ setEstadoCamara('activa');
     intervaloRef.current =
       window.setInterval(
         async () => {
-          if (!videoRef.current) {
+          const video = obtenerVideoVisible();
+
+          if (!video) {
             return;
           }
 
           if (
-            videoRef.current.readyState < 2
+            video.readyState < 2 ||
+            video.videoWidth === 0 ||
+            video.videoHeight === 0
           ) {
             return;
           }
@@ -445,7 +492,7 @@ setEstadoCamara('activa');
             const resultado =
               await faceapi
                 .detectSingleFace(
-                  videoRef.current,
+                  video,
                   new faceapi.TinyFaceDetectorOptions(
                     {
                       inputSize: 320,
@@ -457,10 +504,10 @@ setEstadoCamara('activa');
                 .withFaceDescriptor();
 
            if (
-  resultado &&
-  videoRef.current.videoWidth > 0 &&
-  videoRef.current.videoHeight > 0
-) {
+              resultado &&
+              video.videoWidth > 0 &&
+              video.videoHeight > 0
+            ) {
   setRostroDetectado(true);
 
               if (usuario?.tiene_rostro) {
@@ -496,7 +543,9 @@ setEstadoCamara('activa');
 
   const obtenerDescriptorActual =
     async (): Promise<number[]> => {
-      if (!videoRef.current) {
+      const video = obtenerVideoVisible();
+
+      if (!video) {
         throw new Error(
           'La cámara no está disponible.'
         );
@@ -511,7 +560,7 @@ setEstadoCamara('activa');
       const resultado =
         await faceapi
           .detectSingleFace(
-            videoRef.current,
+            video,
             new faceapi.TinyFaceDetectorOptions(
               {
                 inputSize: 320,
@@ -1015,7 +1064,7 @@ setEstadoCamara('activa');
                     <div className="aspect-video">
 
                  <video
-  ref={videoRef}
+  ref={videoDesktopRef}
   autoPlay
   muted
   playsInline
@@ -1477,7 +1526,7 @@ setEstadoCamara('activa');
                   <div className="aspect-video">
 
                     <video
-                      ref={videoRef}
+                      ref={videoMobileRef}
                       autoPlay
                       muted
                       playsInline
