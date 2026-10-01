@@ -13,15 +13,25 @@ import {
 import API from '../services/api';
 
 /* =========================================================
-   PALETA MATRIXFLOW
+   IDENTIDAD MATAS PERU EIRL
 ========================================================= */
 
-const VINO = '#775b66';
-const VINO_OSCURO = '#6B4652';
-const VINO_SUAVE = '#F8E9EE';
-const GRIS_FONDO = '#F3F3F1';
-const GRIS = '#6B7280';
+const EMPRESA_NOMBRE = 'MATAS PERU EIRL';
+const EMPRESA_GERENTE = 'GERARDO GARCIA MATAS';
+const EMPRESA_RUBRO = 'Electricidad y Soluciones Integrales';
+
+/* =========================================================
+   PALETA GRIS / BLANCO / NEGRO
+========================================================= */
+
+const GRIS_MARCA = '#4B5563';
+const GRIS_OSCURO = '#2F3337';
+const GRIS_MEDIO = '#6B7280';
+const GRIS_SUAVE = '#E5E7EB';
+const GRIS_FONDO = '#F3F4F6';
+const GRIS_MUY_SUAVE = '#F9FAFB';
 const NEGRO = '#111111';
+const BLANCO = '#FFFFFF';
 
 /* =========================================================
    TIPOS
@@ -383,8 +393,8 @@ export default function Inventario() {
           <div
             className="rounded-xl p-3"
             style={{
-              backgroundColor: VINO_SUAVE,
-              color: VINO,
+              backgroundColor: GRIS_SUAVE,
+              color: GRIS_OSCURO,
             }}
           >
             <Package size={24} />
@@ -404,10 +414,19 @@ export default function Inventario() {
             <p
               className="text-sm"
               style={{
-                color: GRIS,
+                color: GRIS_MEDIO,
               }}
             >
               Control y administración del stock de productos.
+            </p>
+
+            <p
+              className="mt-1 text-xs"
+              style={{
+                color: GRIS_MARCA,
+              }}
+            >
+              {EMPRESA_NOMBRE} · {EMPRESA_RUBRO} · Gerente: {EMPRESA_GERENTE}
             </p>
 
           </div>
@@ -425,7 +444,7 @@ export default function Inventario() {
             disabled={cargando}
             className="flex items-center gap-2 rounded-xl border bg-white px-4 py-3 text-sm font-medium transition hover:bg-gray-50 disabled:cursor-not-allowed disabled:opacity-60"
             style={{
-              borderColor: '#E5E5E3',
+              borderColor: GRIS_SUAVE,
               color: NEGRO,
             }}
           >
@@ -454,9 +473,9 @@ export default function Inventario() {
             }}
             className="flex items-center gap-2 rounded-xl px-4 py-3 text-sm font-medium text-white transition"
             style={{
-              backgroundColor: VINO,
+              backgroundColor: GRIS_OSCURO,
               boxShadow:
-                '0 8px 18px rgba(119,91,102,0.18)',
+                '0 8px 18px rgba(47,51,55,0.18)',
             }}
           >
 
@@ -478,9 +497,9 @@ export default function Inventario() {
         <div
           className="rounded-xl border p-4 text-sm"
           style={{
-            borderColor: '#D8C5CC',
-            backgroundColor: VINO_SUAVE,
-            color: VINO_OSCURO,
+            borderColor: GRIS_SUAVE,
+            backgroundColor: GRIS_MUY_SUAVE,
+            color: GRIS_OSCURO,
           }}
         >
           {mensaje}
@@ -510,7 +529,7 @@ export default function Inventario() {
         <div
           className="rounded-2xl border bg-white p-5 shadow-sm"
           style={{
-            borderColor: '#E5E5E3',
+            borderColor: GRIS_SUAVE,
           }}
         >
 
@@ -521,7 +540,7 @@ export default function Inventario() {
               <p
                 className="text-sm"
                 style={{
-                  color: GRIS,
+                  color: GRIS_MEDIO,
                 }}
               >
                 Unidades en stock
@@ -541,8 +560,8 @@ export default function Inventario() {
             <div
               className="rounded-xl p-3"
               style={{
-                backgroundColor: VINO_SUAVE,
-                color: VINO,
+                backgroundColor: GRIS_SUAVE,
+                color: GRIS_OSCURO,
               }}
             >
               <Boxes size={21} />
@@ -566,7 +585,7 @@ export default function Inventario() {
         <div
           className="rounded-2xl border bg-white p-5 shadow-sm"
           style={{
-            borderColor: '#E5E5E3',
+            borderColor: GRIS_SUAVE,
           }}
         >
 
@@ -577,7 +596,7 @@ export default function Inventario() {
               <p
                 className="text-sm"
                 style={{
-                  color: GRIS,
+                  color: GRIS_MEDIO,
                 }}
               >
                 Productos con stock
@@ -597,8 +616,8 @@ export default function Inventario() {
             <div
               className="rounded-xl p-3"
               style={{
-                backgroundColor: VINO_SUAVE,
-                color: VINO,
+                backgroundColor: GRIS_SUAVE,
+                color: GRIS_OSCURO,
               }}
             >
               <Package size={21} />
@@ -622,7 +641,7 @@ export default function Inventario() {
         <div
           className="rounded-2xl border bg-white p-5 shadow-sm"
           style={{
-            borderColor: '#E5E5E3',
+            borderColor: GRIS_SUAVE,
           }}
         >
 
@@ -633,7 +652,7 @@ export default function Inventario() {
               <p
                 className="text-sm"
                 style={{
-                  color: GRIS,
+                  color: GRIS_MEDIO,
                 }}
               >
                 Stock bajo
@@ -653,8 +672,8 @@ export default function Inventario() {
             <div
               className="rounded-xl p-3"
               style={{
-                backgroundColor: VINO_SUAVE,
-                color: VINO,
+                backgroundColor: GRIS_SUAVE,
+                color: GRIS_OSCURO,
               }}
             >
               <AlertTriangle size={21} />
@@ -682,7 +701,7 @@ export default function Inventario() {
       <div
         className="rounded-2xl border bg-white shadow-sm"
         style={{
-          borderColor: '#E5E5E3',
+          borderColor: GRIS_SUAVE,
         }}
       >
 
@@ -691,7 +710,7 @@ export default function Inventario() {
         <div
           className="flex flex-col gap-4 border-b p-5 sm:flex-row sm:items-center sm:justify-between"
           style={{
-            borderColor: '#EEEEEC',
+            borderColor: '#EEEEEE',
           }}
         >
 
@@ -709,7 +728,7 @@ export default function Inventario() {
             <p
               className="mt-1 text-xs"
               style={{
-                color: GRIS,
+                color: GRIS_MEDIO,
               }}
             >
               Consulta y administra las existencias.
@@ -733,9 +752,9 @@ export default function Inventario() {
                 setBusqueda(e.target.value)
               }
               placeholder="Buscar producto..."
-              className="w-full rounded-xl border bg-[#F8F8F7] py-2.5 pl-10 pr-4 text-sm outline-none transition sm:w-72"
+              className="w-full rounded-xl border bg-gray-50 py-2.5 pl-10 pr-4 text-sm outline-none transition sm:w-72"
               style={{
-                borderColor: '#E5E5E3',
+                borderColor: GRIS_SUAVE,
                 color: NEGRO,
               }}
             />
@@ -753,8 +772,8 @@ export default function Inventario() {
             <div
               className="mx-auto flex h-16 w-16 items-center justify-center rounded-2xl"
               style={{
-                backgroundColor: VINO_SUAVE,
-                color: VINO,
+                backgroundColor: GRIS_SUAVE,
+                color: GRIS_OSCURO,
               }}
             >
               <Package size={28} />
@@ -772,7 +791,7 @@ export default function Inventario() {
             <p
               className="mt-1 text-sm"
               style={{
-                color: GRIS,
+                color: GRIS_MEDIO,
               }}
             >
               Registra existencias para comenzar.
@@ -791,15 +810,15 @@ export default function Inventario() {
                 <tr
                   className="border-b"
                   style={{
-                    borderColor: '#EEEEEC',
-                    backgroundColor: '#FAFAF9',
+                    borderColor: '#EEEEEE',
+                    backgroundColor: GRIS_MUY_SUAVE,
                   }}
                 >
 
                   <th
                     className="px-5 py-4 text-xs font-semibold uppercase tracking-wide"
                     style={{
-                      color: GRIS,
+                      color: GRIS_MEDIO,
                     }}
                   >
                     ID
@@ -808,7 +827,7 @@ export default function Inventario() {
                   <th
                     className="px-5 py-4 text-xs font-semibold uppercase tracking-wide"
                     style={{
-                      color: GRIS,
+                      color: GRIS_MEDIO,
                     }}
                   >
                     Producto
@@ -817,7 +836,7 @@ export default function Inventario() {
                   <th
                     className="px-5 py-4 text-xs font-semibold uppercase tracking-wide"
                     style={{
-                      color: GRIS,
+                      color: GRIS_MEDIO,
                     }}
                   >
                     Categoría
@@ -826,7 +845,7 @@ export default function Inventario() {
                   <th
                     className="px-5 py-4 text-xs font-semibold uppercase tracking-wide"
                     style={{
-                      color: GRIS,
+                      color: GRIS_MEDIO,
                     }}
                   >
                     Sucursal
@@ -835,7 +854,7 @@ export default function Inventario() {
                   <th
                     className="px-5 py-4 text-xs font-semibold uppercase tracking-wide"
                     style={{
-                      color: GRIS,
+                      color: GRIS_MEDIO,
                     }}
                   >
                     Cantidad
@@ -844,7 +863,7 @@ export default function Inventario() {
                   <th
                     className="px-5 py-4 text-xs font-semibold uppercase tracking-wide text-right"
                     style={{
-                      color: GRIS,
+                      color: GRIS_MEDIO,
                     }}
                   >
                     Acción
@@ -874,9 +893,9 @@ export default function Inventario() {
                     return (
                       <tr
                         key={item.id}
-                        className="border-b last:border-0 transition hover:bg-[#FCFAFB]"
+                        className="border-b last:border-0 transition hover:bg-gray-50"
                         style={{
-                          borderColor: '#F0F0EE',
+                          borderColor: '#F0F0F0',
                         }}
                       >
 
@@ -901,8 +920,8 @@ export default function Inventario() {
                               className="flex h-9 w-9 items-center justify-center rounded-lg"
                               style={{
                                 backgroundColor:
-                                  VINO_SUAVE,
-                                color: VINO,
+                                  GRIS_SUAVE,
+                                color: GRIS_OSCURO,
                               }}
                             >
                               <Package size={17} />
@@ -923,7 +942,7 @@ export default function Inventario() {
                               <p
                                 className="text-xs"
                                 style={{
-                                  color: GRIS,
+                                  color: GRIS_MEDIO,
                                 }}
                               >
                                 ID producto:{' '}
@@ -941,7 +960,7 @@ export default function Inventario() {
                         <td
                           className="px-5 py-4 text-sm"
                           style={{
-                            color: GRIS,
+                            color: GRIS_MEDIO,
                           }}
                         >
                           {producto?.categoria ??
@@ -953,7 +972,7 @@ export default function Inventario() {
                         <td
                           className="px-5 py-4 text-sm"
                           style={{
-                            color: GRIS,
+                            color: GRIS_MEDIO,
                           }}
                         >
                           Sucursal{' '}
@@ -976,9 +995,9 @@ export default function Inventario() {
                                   }
                                 : {
                                     backgroundColor:
-                                      VINO_SUAVE,
+                                      GRIS_SUAVE,
                                     color:
-                                      VINO_OSCURO,
+                                      GRIS_OSCURO,
                                   }
                             }
                           >
@@ -989,7 +1008,7 @@ export default function Inventario() {
                                 backgroundColor:
                                   stockBajo
                                     ? '#9A6700'
-                                    : VINO,
+                                    : GRIS_MARCA,
                               }}
                             />
 
@@ -1021,7 +1040,7 @@ export default function Inventario() {
                             }}
                             className="rounded-lg p-2 transition hover:bg-red-50"
                             style={{
-                              color: '#9B4D5A',
+                              color: '#B91C1C',
                             }}
                             title="Eliminar"
                           >
@@ -1060,7 +1079,7 @@ export default function Inventario() {
             <div
               className="flex items-center justify-between border-b p-5"
               style={{
-                borderColor: '#EEEEEC',
+                borderColor: '#EEEEEE',
               }}
             >
 
@@ -1070,8 +1089,8 @@ export default function Inventario() {
                   className="rounded-xl p-2.5"
                   style={{
                     backgroundColor:
-                      VINO_SUAVE,
-                    color: VINO,
+                      GRIS_SUAVE,
+                    color: GRIS_OSCURO,
                   }}
                 >
                   <Package size={20} />
@@ -1091,10 +1110,10 @@ export default function Inventario() {
                   <p
                     className="text-sm"
                     style={{
-                      color: GRIS,
+                      color: GRIS_MEDIO,
                     }}
                   >
-                    Agrega existencias a un producto.
+                    Agrega existencias para {EMPRESA_NOMBRE}.
                   </p>
 
                 </div>
@@ -1110,7 +1129,7 @@ export default function Inventario() {
                 }}
                 className="rounded-lg p-2 transition hover:bg-gray-100"
                 style={{
-                  color: GRIS,
+                  color: GRIS_MEDIO,
                 }}
               >
                 <X size={20} />
@@ -1154,7 +1173,7 @@ export default function Inventario() {
                   disabled={guardando}
                   className="w-full rounded-xl border bg-white px-4 py-3 text-sm outline-none transition disabled:opacity-60"
                   style={{
-                    borderColor: '#D9D9D6',
+                    borderColor: '#D1D5DB',
                     color: NEGRO,
                   }}
                 >
@@ -1205,7 +1224,7 @@ export default function Inventario() {
                   placeholder="Ej. 100"
                   className="w-full rounded-xl border bg-white px-4 py-3 text-sm outline-none transition disabled:opacity-60"
                   style={{
-                    borderColor: '#D9D9D6',
+                    borderColor: '#D1D5DB',
                     color: NEGRO,
                   }}
                 />
@@ -1218,7 +1237,8 @@ export default function Inventario() {
                 className="rounded-2xl p-4"
                 style={{
                   backgroundColor:
-                    VINO_SUAVE,
+                    GRIS_MUY_SUAVE,
+                  border: `1px solid ${GRIS_SUAVE}`,
                 }}
               >
 
@@ -1227,7 +1247,7 @@ export default function Inventario() {
                   <Boxes
                     size={19}
                     style={{
-                      color: VINO,
+                      color: GRIS_MARCA,
                     }}
                   />
 
@@ -1236,7 +1256,7 @@ export default function Inventario() {
                     <p
                       className="text-sm font-semibold"
                       style={{
-                        color: VINO_OSCURO,
+                        color: GRIS_OSCURO,
                       }}
                     >
                       Control de stock
@@ -1245,7 +1265,7 @@ export default function Inventario() {
                     <p
                       className="mt-1 text-xs leading-5"
                       style={{
-                        color: GRIS,
+                        color: GRIS_MEDIO,
                       }}
                     >
                       La cantidad registrada se asociará
@@ -1270,8 +1290,8 @@ export default function Inventario() {
                   disabled={guardando}
                   className="rounded-xl border px-5 py-3 text-sm font-medium transition hover:bg-gray-50 disabled:opacity-60"
                   style={{
-                    borderColor: '#D9D9D6',
-                    color: GRIS,
+                    borderColor: '#D1D5DB',
+                    color: GRIS_MEDIO,
                   }}
                 >
                   Cancelar
@@ -1286,7 +1306,7 @@ export default function Inventario() {
                   }
                   className="flex items-center gap-2 rounded-xl px-5 py-3 text-sm font-medium text-white transition disabled:cursor-not-allowed disabled:opacity-60"
                   style={{
-                    backgroundColor: VINO,
+                    backgroundColor: GRIS_OSCURO,
                   }}
                 >
 
@@ -1336,8 +1356,8 @@ export default function Inventario() {
                   className="rounded-xl p-3"
                   style={{
                     backgroundColor:
-                      VINO_SUAVE,
-                    color: VINO_OSCURO,
+                      GRIS_SUAVE,
+                    color: GRIS_OSCURO,
                   }}
                 >
                   <AlertTriangle size={22} />
@@ -1357,7 +1377,7 @@ export default function Inventario() {
                   <p
                     className="mt-2 text-sm leading-6"
                     style={{
-                      color: GRIS,
+                      color: GRIS_MEDIO,
                     }}
                   >
                     ¿Estás seguro de que deseas eliminar
@@ -1376,7 +1396,7 @@ export default function Inventario() {
                   }}
                   className="rounded-lg p-2 hover:bg-gray-100"
                   style={{
-                    color: GRIS,
+                    color: GRIS_MEDIO,
                   }}
                 >
                   <X size={19} />
@@ -1388,7 +1408,7 @@ export default function Inventario() {
                 className="mt-5 rounded-xl p-4"
                 style={{
                   backgroundColor:
-                    '#FAFAF9',
+                    GRIS_MUY_SUAVE,
                 }}
               >
 
@@ -1407,7 +1427,7 @@ export default function Inventario() {
                 <p
                   className="mt-1 text-xs"
                   style={{
-                    color: GRIS,
+                    color: GRIS_MEDIO,
                   }}
                 >
                   Cantidad:{' '}
@@ -1431,8 +1451,8 @@ export default function Inventario() {
                   disabled={eliminando}
                   className="rounded-xl border px-5 py-3 text-sm font-medium transition hover:bg-gray-50 disabled:opacity-60"
                   style={{
-                    borderColor: '#D9D9D6',
-                    color: GRIS,
+                    borderColor: '#D1D5DB',
+                    color: GRIS_MEDIO,
                   }}
                 >
                   Cancelar
@@ -1444,7 +1464,7 @@ export default function Inventario() {
                   disabled={eliminando}
                   className="flex items-center gap-2 rounded-xl px-5 py-3 text-sm font-medium text-white transition disabled:cursor-not-allowed disabled:opacity-60"
                   style={{
-                    backgroundColor: VINO_OSCURO,
+                    backgroundColor: GRIS_OSCURO,
                   }}
                 >
 
@@ -1477,3 +1497,4 @@ export default function Inventario() {
     </div>
   );
 }
+
