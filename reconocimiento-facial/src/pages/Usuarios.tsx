@@ -12,14 +12,20 @@ import {
 } from 'lucide-react';
 
 /* =========================================================
-   PALETA MATRIXFLOW
+   IDENTIDAD MATAS PERU EIRL
 ========================================================= */
 
-const VINO = '#775b66';
-const VINO_OSCURO = '#6B4652';
-const VINO_SUAVE = '#F8E9EE';
-const GRIS_FONDO = '#F3F3F1';
-const GRIS = '#6B7280';
+const EMPRESA_NOMBRE = 'MATAS PERU EIRL';
+const EMPRESA_GERENTE = 'GERARDO GARCIA MATAS';
+const EMPRESA_RUBRO = 'Electricidad y Soluciones Integrales';
+
+const GRIS_MARCA = '#4B5563';
+const GRIS_OSCURO = '#2F3337';
+const GRIS_MEDIO = '#6B7280';
+const GRIS_SUAVE = '#E5E7EB';
+const GRIS_FONDO = '#F3F4F6';
+const GRIS_MUY_SUAVE = '#F9FAFB';
+const BLANCO = '#FFFFFF';
 const NEGRO = '#111111';
 
 /* =========================================================
@@ -248,7 +254,6 @@ export default function Usuarios() {
           GRIS_FONDO,
       }}
     >
-
       {/* ===================================================
           ENCABEZADO
       =================================================== */}
@@ -261,8 +266,8 @@ export default function Usuarios() {
             className="rounded-xl p-3"
             style={{
               backgroundColor:
-                VINO_SUAVE,
-              color: VINO,
+                GRIS_SUAVE,
+              color: GRIS_OSCURO,
             }}
           >
             <Users size={24} />
@@ -282,10 +287,19 @@ export default function Usuarios() {
             <p
               className="text-sm"
               style={{
-                color: GRIS,
+                color: GRIS_MEDIO,
               }}
             >
               Administración de usuarios y roles del sistema.
+            </p>
+
+            <p
+              className="mt-1 text-xs"
+              style={{
+                color: GRIS_MARCA,
+              }}
+            >
+              {EMPRESA_NOMBRE} · {EMPRESA_RUBRO} · Gerente: {EMPRESA_GERENTE}
             </p>
 
           </div>
@@ -301,7 +315,7 @@ export default function Usuarios() {
             className="flex items-center gap-2 rounded-xl border bg-white px-4 py-3 text-sm font-medium transition hover:bg-gray-50 disabled:cursor-not-allowed disabled:opacity-60"
             style={{
               borderColor:
-                '#E5E5E3',
+                '#D1D5DB',
               color: NEGRO,
             }}
           >
@@ -333,9 +347,9 @@ export default function Usuarios() {
             className="flex items-center gap-2 rounded-xl px-4 py-3 text-sm font-medium text-white transition hover:opacity-90"
             style={{
               backgroundColor:
-                VINO,
+                GRIS_OSCURO,
               boxShadow:
-                '0 8px 18px rgba(119,91,102,0.18)',
+                '0 8px 18px rgba(47,51,55,0.18)',
             }}
           >
 
@@ -358,10 +372,10 @@ export default function Usuarios() {
           className="flex items-center gap-3 rounded-xl border p-4 text-sm"
           style={{
             borderColor:
-              '#D8C5CC',
+              '#9CA3AF',
             backgroundColor:
-              VINO_SUAVE,
-            color: VINO_OSCURO,
+              GRIS_SUAVE,
+            color: GRIS_OSCURO,
           }}
         >
 
@@ -377,7 +391,14 @@ export default function Usuarios() {
       =================================================== */}
 
       {error && !modal && (
-        <div className="rounded-xl border border-red-200 bg-red-50 p-4 text-sm text-red-700">
+        <div
+          className="rounded-xl border p-4 text-sm"
+          style={{
+            borderColor: '#9CA3AF',
+            backgroundColor: '#E5E7EB',
+            color: '#374151',
+          }}
+        >
           {error}
         </div>
       )}
@@ -394,7 +415,7 @@ export default function Usuarios() {
           className="rounded-2xl border bg-white p-5 shadow-sm"
           style={{
             borderColor:
-              '#E5E5E3',
+              '#E5E7EB',
           }}
         >
 
@@ -405,7 +426,7 @@ export default function Usuarios() {
               <p
                 className="text-sm"
                 style={{
-                  color: GRIS,
+                  color: GRIS_MEDIO,
                 }}
               >
                 Usuarios registrados
@@ -426,8 +447,8 @@ export default function Usuarios() {
               className="rounded-xl p-3"
               style={{
                 backgroundColor:
-                  VINO_SUAVE,
-                color: VINO,
+                  GRIS_SUAVE,
+                color: GRIS_OSCURO,
               }}
             >
               <Users size={21} />
@@ -438,7 +459,7 @@ export default function Usuarios() {
           <p
             className="mt-3 text-xs"
             style={{
-              color: '#9CA3AF',
+              color: GRIS_MEDIO,
             }}
           >
             Total de usuarios del sistema
@@ -452,7 +473,7 @@ export default function Usuarios() {
           className="rounded-2xl border bg-white p-5 shadow-sm"
           style={{
             borderColor:
-              '#E5E5E3',
+              '#E5E7EB',
           }}
         >
 
@@ -463,7 +484,7 @@ export default function Usuarios() {
               <p
                 className="text-sm"
                 style={{
-                  color: GRIS,
+                  color: GRIS_MEDIO,
                 }}
               >
                 Usuarios activos
@@ -484,8 +505,8 @@ export default function Usuarios() {
               className="rounded-xl p-3"
               style={{
                 backgroundColor:
-                  VINO_SUAVE,
-                color: VINO,
+                  GRIS_SUAVE,
+                color: GRIS_OSCURO,
               }}
             >
               <UserCheck size={21} />
@@ -496,7 +517,7 @@ export default function Usuarios() {
           <p
             className="mt-3 text-xs"
             style={{
-              color: '#9CA3AF',
+              color: GRIS_MEDIO,
             }}
           >
             Usuarios habilitados
@@ -510,7 +531,7 @@ export default function Usuarios() {
           className="rounded-2xl border bg-white p-5 shadow-sm"
           style={{
             borderColor:
-              '#E5E5E3',
+              '#E5E7EB',
           }}
         >
 
@@ -521,7 +542,7 @@ export default function Usuarios() {
               <p
                 className="text-sm"
                 style={{
-                  color: GRIS,
+                  color: GRIS_MEDIO,
                 }}
               >
                 Administradores
@@ -542,8 +563,8 @@ export default function Usuarios() {
               className="rounded-xl p-3"
               style={{
                 backgroundColor:
-                  VINO_SUAVE,
-                color: VINO,
+                  GRIS_SUAVE,
+                color: GRIS_OSCURO,
               }}
             >
               <ShieldCheck size={21} />
@@ -554,7 +575,7 @@ export default function Usuarios() {
           <p
             className="mt-3 text-xs"
             style={{
-              color: '#9CA3AF',
+              color: GRIS_MEDIO,
             }}
           >
             Usuarios con rol administrador
@@ -572,7 +593,7 @@ export default function Usuarios() {
         className="rounded-2xl border bg-white shadow-sm"
         style={{
           borderColor:
-            '#E5E5E3',
+            '#E5E7EB',
         }}
       >
 
@@ -582,7 +603,7 @@ export default function Usuarios() {
           className="flex flex-col gap-4 border-b p-5 sm:flex-row sm:items-center sm:justify-between"
           style={{
             borderColor:
-              '#EEEEEC',
+              '#E5E7EB',
           }}
         >
 
@@ -600,7 +621,7 @@ export default function Usuarios() {
             <p
               className="mt-1 text-xs"
               style={{
-                color: GRIS,
+                color: GRIS_MEDIO,
               }}
             >
               Usuarios registrados en el sistema.
@@ -614,7 +635,7 @@ export default function Usuarios() {
               size={18}
               className="absolute left-3 top-1/2 -translate-y-1/2"
               style={{
-                color: '#9CA3AF',
+                color: GRIS_MEDIO,
               }}
             />
 
@@ -626,10 +647,10 @@ export default function Usuarios() {
                 )
               }
               placeholder="Buscar usuario..."
-              className="w-full rounded-xl border bg-[#F8F8F7] py-2.5 pl-10 pr-4 text-sm outline-none transition sm:w-72"
+              className="w-full rounded-xl border bg-white py-2.5 pl-10 pr-4 text-sm outline-none transition sm:w-72"
               style={{
                 borderColor:
-                  '#E5E5E3',
+                  '#D1D5DB',
                 color: NEGRO,
               }}
             />
@@ -649,8 +670,8 @@ export default function Usuarios() {
               className="mx-auto flex h-16 w-16 items-center justify-center rounded-2xl"
               style={{
                 backgroundColor:
-                  VINO_SUAVE,
-                color: VINO,
+                  GRIS_SUAVE,
+                color: GRIS_OSCURO,
               }}
             >
               <UserRound size={28} />
@@ -668,7 +689,7 @@ export default function Usuarios() {
             <p
               className="mt-1 text-sm"
               style={{
-                color: GRIS,
+                color: GRIS_MEDIO,
               }}
             >
               Registra un nuevo usuario para comenzar.
@@ -688,16 +709,16 @@ export default function Usuarios() {
                   className="border-b"
                   style={{
                     borderColor:
-                      '#EEEEEC',
+                      '#E5E7EB',
                     backgroundColor:
-                      '#FAFAF9',
+                      '#FAFAFA',
                   }}
                 >
 
                   <th
                     className="px-5 py-4 text-xs font-semibold uppercase tracking-wide"
                     style={{
-                      color: GRIS,
+                      color: GRIS_MEDIO,
                     }}
                   >
                     ID
@@ -706,7 +727,7 @@ export default function Usuarios() {
                   <th
                     className="px-5 py-4 text-xs font-semibold uppercase tracking-wide"
                     style={{
-                      color: GRIS,
+                      color: GRIS_MEDIO,
                     }}
                   >
                     DNI
@@ -715,7 +736,7 @@ export default function Usuarios() {
                   <th
                     className="px-5 py-4 text-xs font-semibold uppercase tracking-wide"
                     style={{
-                      color: GRIS,
+                      color: GRIS_MEDIO,
                     }}
                   >
                     Nombre
@@ -724,7 +745,7 @@ export default function Usuarios() {
                   <th
                     className="px-5 py-4 text-xs font-semibold uppercase tracking-wide"
                     style={{
-                      color: GRIS,
+                      color: GRIS_MEDIO,
                     }}
                   >
                     Rol
@@ -733,7 +754,7 @@ export default function Usuarios() {
                   <th
                     className="px-5 py-4 text-xs font-semibold uppercase tracking-wide"
                     style={{
-                      color: GRIS,
+                      color: GRIS_MEDIO,
                     }}
                   >
                     Estado
@@ -750,10 +771,18 @@ export default function Usuarios() {
 
                     <tr
                       key={usuario.id}
-                      className="border-b last:border-0 transition hover:bg-[#FCFAFB]"
+                      className="border-b last:border-0 transition"
                       style={{
                         borderColor:
-                          '#F0F0EE',
+                          '#F0F0F0',
+                      }}
+                      onMouseEnter={(e) => {
+                        e.currentTarget.style.backgroundColor =
+                          GRIS_MUY_SUAVE;
+                      }}
+                      onMouseLeave={(e) => {
+                        e.currentTarget.style.backgroundColor =
+                          BLANCO;
                       }}
                     >
 
@@ -773,7 +802,7 @@ export default function Usuarios() {
                       <td
                         className="px-5 py-4 text-sm"
                         style={{
-                          color: GRIS,
+                          color: GRIS_MEDIO,
                         }}
                       >
                         {usuario.dni}
@@ -789,8 +818,8 @@ export default function Usuarios() {
                             className="flex h-9 w-9 items-center justify-center rounded-lg"
                             style={{
                               backgroundColor:
-                                VINO_SUAVE,
-                              color: VINO,
+                                GRIS_SUAVE,
+                              color: GRIS_OSCURO,
                             }}
                           >
                             <UserRound
@@ -817,30 +846,18 @@ export default function Usuarios() {
 
                         <span
                           className="inline-flex items-center rounded-full px-3 py-1 text-xs font-semibold"
-                          style={
-                            usuario.rol ===
-                            'Administrador'
-                              ? {
-                                  backgroundColor:
-                                    VINO_SUAVE,
-                                  color:
-                                    VINO_OSCURO,
-                                }
-                              : usuario.rol ===
-                                  'Analista'
-                                ? {
-                                    backgroundColor:
-                                      '#F1E8EC',
-                                    color:
-                                      VINO,
-                                  }
-                                : {
-                                    backgroundColor:
-                                      '#F3F3F1',
-                                    color:
-                                      GRIS,
-                                  }
-                          }
+                          style={{
+                            backgroundColor:
+                              usuario.rol ===
+                              'Administrador'
+                                ? GRIS_OSCURO
+                                : GRIS_SUAVE,
+                            color:
+                              usuario.rol ===
+                              'Administrador'
+                                ? BLANCO
+                                : GRIS_OSCURO,
+                          }}
                         >
                           {usuario.rol}
                         </span>
@@ -853,23 +870,20 @@ export default function Usuarios() {
 
                         <span
                           className="inline-flex items-center gap-2 rounded-full px-3 py-1 text-xs font-semibold"
-                          style={
-                            usuario.estado
-                              .toLowerCase() ===
-                            'activo'
-                              ? {
-                                  backgroundColor:
-                                    VINO_SUAVE,
-                                  color:
-                                    VINO_OSCURO,
-                                }
-                              : {
-                                  backgroundColor:
-                                    '#F3F3F1',
-                                  color:
-                                    GRIS,
-                                }
-                          }
+                          style={{
+                            backgroundColor:
+                              usuario.estado
+                                .toLowerCase() ===
+                              'activo'
+                                ? GRIS_SUAVE
+                                : '#F3F4F6',
+                            color:
+                              usuario.estado
+                                .toLowerCase() ===
+                              'activo'
+                                ? GRIS_OSCURO
+                                : GRIS_MEDIO,
+                          }}
                         >
 
                           <span
@@ -879,8 +893,8 @@ export default function Usuarios() {
                                 usuario.estado
                                   .toLowerCase() ===
                                 'activo'
-                                  ? VINO
-                                  : GRIS,
+                                  ? GRIS_MARCA
+                                  : GRIS_MEDIO,
                             }}
                           />
 
@@ -921,7 +935,7 @@ export default function Usuarios() {
               className="flex items-center justify-between border-b p-5"
               style={{
                 borderColor:
-                  '#EEEEEC',
+                  '#E5E7EB',
               }}
             >
 
@@ -931,8 +945,8 @@ export default function Usuarios() {
                   className="rounded-xl p-2.5"
                   style={{
                     backgroundColor:
-                      VINO_SUAVE,
-                    color: VINO,
+                      GRIS_SUAVE,
+                    color: GRIS_OSCURO,
                   }}
                 >
                   <UserRound size={20} />
@@ -952,7 +966,7 @@ export default function Usuarios() {
                   <p
                     className="text-sm"
                     style={{
-                      color: GRIS,
+                      color: GRIS_MEDIO,
                     }}
                   >
                     Completa los datos del nuevo usuario.
@@ -971,7 +985,7 @@ export default function Usuarios() {
                 }}
                 className="rounded-lg p-2 transition hover:bg-gray-100"
                 style={{
-                  color: GRIS,
+                  color: GRIS_MEDIO,
                 }}
               >
                 <X size={20} />
@@ -987,7 +1001,14 @@ export default function Usuarios() {
             >
 
               {error && (
-                <div className="rounded-xl border border-red-200 bg-red-50 p-3 text-sm text-red-700">
+                <div
+                  className="rounded-xl border p-3 text-sm"
+                  style={{
+                    borderColor: '#9CA3AF',
+                    backgroundColor: '#E5E7EB',
+                    color: '#374151',
+                  }}
+                >
                   {error}
                 </div>
               )}
@@ -1018,7 +1039,7 @@ export default function Usuarios() {
                   className="w-full rounded-xl border bg-white px-4 py-3 text-sm outline-none transition disabled:opacity-60"
                   style={{
                     borderColor:
-                      '#D9D9D6',
+                      '#D1D5DB',
                     color: NEGRO,
                   }}
                 />
@@ -1050,7 +1071,7 @@ export default function Usuarios() {
                   className="w-full rounded-xl border bg-white px-4 py-3 text-sm outline-none transition disabled:opacity-60"
                   style={{
                     borderColor:
-                      '#D9D9D6',
+                      '#D1D5DB',
                     color: NEGRO,
                   }}
                 />
@@ -1081,7 +1102,7 @@ export default function Usuarios() {
                   className="w-full rounded-xl border bg-white px-4 py-3 text-sm outline-none transition disabled:opacity-60"
                   style={{
                     borderColor:
-                      '#D9D9D6',
+                      '#D1D5DB',
                     color: NEGRO,
                   }}
                 >
@@ -1129,7 +1150,7 @@ export default function Usuarios() {
                   className="w-full rounded-xl border bg-white px-4 py-3 text-sm outline-none transition disabled:opacity-60"
                   style={{
                     borderColor:
-                      '#D9D9D6',
+                      '#D1D5DB',
                     color: NEGRO,
                   }}
                 >
@@ -1152,7 +1173,7 @@ export default function Usuarios() {
                 className="rounded-2xl p-4"
                 style={{
                   backgroundColor:
-                    VINO_SUAVE,
+                    GRIS_SUAVE,
                 }}
               >
 
@@ -1161,7 +1182,7 @@ export default function Usuarios() {
                   <ShieldCheck
                     size={19}
                     style={{
-                      color: VINO,
+                      color: GRIS_OSCURO,
                     }}
                   />
 
@@ -1171,7 +1192,7 @@ export default function Usuarios() {
                       className="text-sm font-semibold"
                       style={{
                         color:
-                          VINO_OSCURO,
+                          GRIS_OSCURO,
                       }}
                     >
                       Acceso al sistema
@@ -1180,7 +1201,7 @@ export default function Usuarios() {
                     <p
                       className="mt-1 text-xs leading-5"
                       style={{
-                        color: GRIS,
+                        color: GRIS_MEDIO,
                       }}
                     >
                       El rol asignado determina las
@@ -1206,8 +1227,8 @@ export default function Usuarios() {
                   className="rounded-xl border px-5 py-3 text-sm font-medium transition hover:bg-gray-50 disabled:opacity-60"
                   style={{
                     borderColor:
-                      '#D9D9D6',
-                    color: GRIS,
+                      '#D1D5DB',
+                    color: GRIS_MEDIO,
                   }}
                 >
                   Cancelar
@@ -1223,7 +1244,7 @@ export default function Usuarios() {
                   className="flex items-center gap-2 rounded-xl px-5 py-3 text-sm font-medium text-white transition disabled:cursor-not-allowed disabled:opacity-60"
                   style={{
                     backgroundColor:
-                      VINO,
+                      GRIS_OSCURO,
                   }}
                 >
 
