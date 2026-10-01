@@ -10,14 +10,20 @@ import {
 } from 'lucide-react';
 
 /* =========================================================
-   PALETA MATRIXFLOW
+   PALETA MATAS PERU EIRL
 ========================================================= */
 
-const VINO = '#775b66';
-const VINO_OSCURO = '#6B4652';
-const VINO_SUAVE = '#F8E9EE';
-const GRIS_FONDO = '#F3F3F1';
-const GRIS = '#6B7280';
+const EMPRESA_NOMBRE = 'MATAS PERU EIRL';
+const EMPRESA_GERENTE = 'GERARDO GARCIA MATAS';
+const EMPRESA_RUBRO = 'Electricidad y Soluciones Integrales';
+
+const GRIS_MARCA = '#4B5563';
+const GRIS_OSCURO = '#2F3337';
+const GRIS_MEDIO = '#6B7280';
+const GRIS_SUAVE = '#E5E7EB';
+const GRIS_FONDO = '#F3F4F6';
+const GRIS_MUY_SUAVE = '#F9FAFB';
+const BLANCO = '#FFFFFF';
 const NEGRO = '#111111';
 
 export default function Configuracion() {
@@ -59,8 +65,8 @@ export default function Configuracion() {
           <div
             className="flex h-12 w-12 items-center justify-center rounded-xl"
             style={{
-              backgroundColor: VINO_SUAVE,
-              color: VINO,
+              backgroundColor: GRIS_SUAVE,
+              color: GRIS_OSCURO,
             }}
           >
             <Settings
@@ -82,11 +88,20 @@ export default function Configuracion() {
             <p
               className="text-sm"
               style={{
-                color: GRIS,
+                color: GRIS_MEDIO,
               }}
             >
-              Administra las preferencias generales de
-              MatrixFlow Enterprise.
+              Administra las preferencias generales de{' '}
+              {EMPRESA_NOMBRE}.
+            </p>
+
+            <p
+              className="mt-1 text-xs"
+              style={{
+                color: GRIS_MEDIO,
+              }}
+            >
+              {EMPRESA_RUBRO} · Gerente: {EMPRESA_GERENTE}
             </p>
           </div>
         </div>
@@ -100,9 +115,9 @@ export default function Configuracion() {
         <div
           className="flex items-center gap-3 rounded-xl border p-4 text-sm font-medium"
           style={{
-            borderColor: '#E3D2D8',
-            backgroundColor: VINO_SUAVE,
-            color: VINO_OSCURO,
+            borderColor: GRIS_SUAVE,
+            backgroundColor: BLANCO,
+            color: GRIS_OSCURO,
           }}
         >
           <CheckCircle2 size={18} />
@@ -124,15 +139,15 @@ export default function Configuracion() {
         <div
           className="rounded-2xl border bg-white p-6 shadow-sm transition-shadow hover:shadow-md"
           style={{
-            borderColor: '#E5E5E2',
+            borderColor: GRIS_SUAVE,
           }}
         >
           <div className="mb-6 flex items-center gap-3">
             <div
               className="flex h-10 w-10 items-center justify-center rounded-xl"
               style={{
-                backgroundColor: VINO_SUAVE,
-                color: VINO,
+                backgroundColor: GRIS_SUAVE,
+                color: GRIS_OSCURO,
               }}
             >
               <Bell
@@ -154,7 +169,7 @@ export default function Configuracion() {
               <p
                 className="text-sm"
                 style={{
-                  color: GRIS,
+                  color: GRIS_MEDIO,
                 }}
               >
                 Controla los avisos del sistema.
@@ -176,7 +191,7 @@ export default function Configuracion() {
               <p
                 className="mt-1 text-sm"
                 style={{
-                  color: GRIS,
+                  color: GRIS_MEDIO,
                 }}
               >
                 Mostrar avisos importantes del sistema.
@@ -192,7 +207,7 @@ export default function Configuracion() {
               className="relative h-6 w-11 shrink-0 rounded-full transition-all"
               style={{
                 backgroundColor: notificaciones
-                  ? VINO
+                  ? GRIS_OSCURO
                   : '#D1D5DB',
               }}
             >
@@ -215,15 +230,15 @@ export default function Configuracion() {
         <div
           className="rounded-2xl border bg-white p-6 shadow-sm transition-shadow hover:shadow-md"
           style={{
-            borderColor: '#E5E5E2',
+            borderColor: GRIS_SUAVE,
           }}
         >
           <div className="mb-6 flex items-center gap-3">
             <div
               className="flex h-10 w-10 items-center justify-center rounded-xl"
               style={{
-                backgroundColor: VINO_SUAVE,
-                color: VINO,
+                backgroundColor: GRIS_SUAVE,
+                color: GRIS_OSCURO,
               }}
             >
               <Shield
@@ -245,7 +260,7 @@ export default function Configuracion() {
               <p
                 className="text-sm"
                 style={{
-                  color: GRIS,
+                  color: GRIS_MEDIO,
                 }}
               >
                 Preferencias de seguridad del sistema.
@@ -267,7 +282,7 @@ export default function Configuracion() {
               <p
                 className="mt-1 text-sm"
                 style={{
-                  color: GRIS,
+                  color: GRIS_MEDIO,
                 }}
               >
                 Solicitar confirmación antes de
@@ -284,7 +299,7 @@ export default function Configuracion() {
               className="relative h-6 w-11 shrink-0 rounded-full transition-all"
               style={{
                 backgroundColor: confirmacion
-                  ? VINO
+                  ? GRIS_OSCURO
                   : '#D1D5DB',
               }}
             >
@@ -307,15 +322,15 @@ export default function Configuracion() {
         <div
           className="rounded-2xl border bg-white p-6 shadow-sm transition-shadow hover:shadow-md"
           style={{
-            borderColor: '#E5E5E2',
+            borderColor: GRIS_SUAVE,
           }}
         >
           <div className="mb-6 flex items-center gap-3">
             <div
               className="flex h-10 w-10 items-center justify-center rounded-xl"
               style={{
-                backgroundColor: VINO_SUAVE,
-                color: VINO,
+                backgroundColor: GRIS_SUAVE,
+                color: GRIS_OSCURO,
               }}
             >
               <Moon
@@ -337,7 +352,7 @@ export default function Configuracion() {
               <p
                 className="text-sm"
                 style={{
-                  color: GRIS,
+                  color: GRIS_MEDIO,
                 }}
               >
                 Configura la apariencia de la aplicación.
@@ -359,7 +374,7 @@ export default function Configuracion() {
               <p
                 className="mt-1 text-sm"
                 style={{
-                  color: GRIS,
+                  color: GRIS_MEDIO,
                 }}
               >
                 Activar la interfaz en modo oscuro.
@@ -375,7 +390,7 @@ export default function Configuracion() {
               className="relative h-6 w-11 shrink-0 rounded-full transition-all"
               style={{
                 backgroundColor: modoOscuro
-                  ? VINO
+                  ? GRIS_OSCURO
                   : '#D1D5DB',
               }}
             >
@@ -398,15 +413,15 @@ export default function Configuracion() {
         <div
           className="rounded-2xl border bg-white p-6 shadow-sm transition-shadow hover:shadow-md"
           style={{
-            borderColor: '#E5E5E2',
+            borderColor: GRIS_SUAVE,
           }}
         >
           <div className="mb-6 flex items-center gap-3">
             <div
               className="flex h-10 w-10 items-center justify-center rounded-xl"
               style={{
-                backgroundColor: VINO_SUAVE,
-                color: VINO,
+                backgroundColor: GRIS_SUAVE,
+                color: GRIS_OSCURO,
               }}
             >
               <Database
@@ -428,10 +443,10 @@ export default function Configuracion() {
               <p
                 className="text-sm"
                 style={{
-                  color: GRIS,
+                  color: GRIS_MEDIO,
                 }}
               >
-                Información del sistema MatrixFlow.
+                Información del sistema {EMPRESA_NOMBRE}.
               </p>
             </div>
           </div>
@@ -439,13 +454,13 @@ export default function Configuracion() {
           <div
             className="space-y-3 text-sm"
             style={{
-              color: GRIS,
+              color: GRIS_MEDIO,
             }}
           >
             <div
               className="flex justify-between border-b pb-3"
               style={{
-                borderColor: '#EEEEEC',
+                borderColor: GRIS_SUAVE,
               }}
             >
               <span>Aplicación</span>
@@ -456,14 +471,14 @@ export default function Configuracion() {
                   color: NEGRO,
                 }}
               >
-                MatrixFlow Enterprise
+                {EMPRESA_NOMBRE}
               </span>
             </div>
 
             <div
               className="flex justify-between border-b pb-3"
               style={{
-                borderColor: '#EEEEEC',
+                borderColor: GRIS_SUAVE,
               }}
             >
               <span>Versión</span>
@@ -478,19 +493,37 @@ export default function Configuracion() {
               </span>
             </div>
 
+            <div
+              className="flex justify-between border-b pb-3"
+              style={{
+                borderColor: GRIS_SUAVE,
+              }}
+            >
+              <span>Gerente</span>
+
+              <span
+                className="font-medium text-right"
+                style={{
+                  color: NEGRO,
+                }}
+              >
+                {EMPRESA_GERENTE}
+              </span>
+            </div>
+
             <div className="flex justify-between">
               <span>Estado</span>
 
               <span
                 className="flex items-center gap-2 font-medium"
                 style={{
-                  color: VINO,
+                  color: GRIS_OSCURO,
                 }}
               >
                 <span
                   className="h-2 w-2 rounded-full"
                   style={{
-                    backgroundColor: VINO,
+                    backgroundColor: GRIS_OSCURO,
                   }}
                 />
 
@@ -511,9 +544,9 @@ export default function Configuracion() {
           onClick={guardarConfiguracion}
           className="flex items-center gap-2 rounded-xl px-5 py-3 text-sm font-medium text-white shadow-sm transition-all hover:opacity-90"
           style={{
-            backgroundColor: VINO,
+            backgroundColor: GRIS_OSCURO,
             boxShadow:
-              '0 7px 18px rgba(119,91,102,0.18)',
+              '0 7px 18px rgba(47,51,55,0.18)',
           }}
         >
           <Save size={18} />
