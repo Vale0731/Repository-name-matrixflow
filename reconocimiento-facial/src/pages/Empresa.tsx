@@ -23,40 +23,33 @@ interface Empresa {
 
 const EMPRESA_NOMBRE = 'MATAS PERU EIRL';
 const EMPRESA_GERENTE = 'GERARDO GARCIA MATAS';
-const EMPRESA_RUBRO =
-  'Electricidad y Soluciones Integrales';
+const EMPRESA_RUBRO = 'Electricidad y Soluciones Integrales';
 
 /* =========================================================
-   PALETA ACTUAL
-   Se mantiene por ahora.
-   El cambio a plomo/blanco/negro será en el siguiente paso.
+   PALETA MATAS PERU EIRL
 ========================================================= */
 
-const VINO = '#775b66';
-const VINO_OSCURO = '#6B4652';
-const VINO_SUAVE = '#F8E9EE';
-const GRIS_FONDO = '#F3F3F1';
-const GRIS = '#6B7280';
+const GRIS_MARCA = '#4B5563';
+const GRIS_OSCURO = '#2F3337';
+const GRIS_MEDIO = '#6B7280';
+const GRIS_SUAVE = '#E5E7EB';
+const GRIS_FONDO = '#F3F4F6';
+const GRIS_MUY_SUAVE = '#F9FAFB';
 const NEGRO = '#111111';
+const BLANCO = '#FFFFFF';
 
 export default function Empresa() {
   const [empresas, setEmpresas] = useState<Empresa[]>([]);
   const [cargando, setCargando] = useState(false);
   const [modalAbierto, setModalAbierto] = useState(false);
 
-  const [nombre, setNombre] =
-    useState(EMPRESA_NOMBRE);
-
+  const [nombre, setNombre] = useState(EMPRESA_NOMBRE);
   const [ruc, setRuc] = useState('');
   const [direccion, setDireccion] = useState('');
-  const [estado, setEstado] =
-    useState('Activo');
+  const [estado, setEstado] = useState('Activo');
 
-  const [mensaje, setMensaje] =
-    useState('');
-
-  const [error, setError] =
-    useState('');
+  const [mensaje, setMensaje] = useState('');
+  const [error, setError] = useState('');
 
   /* =======================================================
      CARGAR EMPRESAS
@@ -67,34 +60,25 @@ export default function Empresa() {
     setError('');
 
     try {
-      const respuesta = await fetch(
-        `${API}/empresas`
-      );
+      const respuesta = await fetch(`${API}/empresas`);
 
       if (!respuesta.ok) {
-        throw new Error(
-          'No se pudieron cargar las empresas'
-        );
+        throw new Error('No se pudieron cargar las empresas');
       }
 
-      const datos =
-        await respuesta.json();
+      const datos = await respuesta.json();
 
       setEmpresas(
         Array.isArray(datos)
           ? datos
-          : Array.isArray(
-                datos.empresas
-              )
+          : Array.isArray(datos.empresas)
             ? datos.empresas
             : []
       );
     } catch (err) {
       console.error(err);
 
-      setError(
-        'No se pudo conectar con el backend.'
-      );
+      setError('No se pudo conectar con el backend.');
     } finally {
       setCargando(false);
     }
@@ -139,69 +123,51 @@ export default function Empresa() {
      GUARDAR EMPRESA
   ======================================================= */
 
-  const guardarEmpresa = async (
-    e: React.FormEvent
-  ) => {
+  const guardarEmpresa = async (e: React.FormEvent) => {
     e.preventDefault();
 
     setMensaje('');
     setError('');
 
     if (!nombre.trim()) {
-      setError(
-        'Ingresa el nombre de la empresa.'
-      );
+      setError('Ingresa el nombre de la empresa.');
       return;
     }
 
     if (!ruc.trim()) {
-      setError(
-        'Ingresa el RUC de la empresa.'
-      );
+      setError('Ingresa el RUC de la empresa.');
       return;
     }
 
     if (!direccion.trim()) {
-      setError(
-        'Ingresa la dirección de la empresa.'
-      );
+      setError('Ingresa la dirección de la empresa.');
       return;
     }
 
     try {
-      const respuesta = await fetch(
-        `${API}/empresas`,
-        {
-          method: 'POST',
-          headers: {
-            'Content-Type':
-              'application/json',
-          },
-          body: JSON.stringify({
-            nombre: nombre.trim(),
-            ruc: ruc.trim(),
-            direccion:
-              direccion.trim(),
-            estado,
-          }),
-        }
-      );
+      const respuesta = await fetch(`${API}/empresas`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          nombre: nombre.trim(),
+          ruc: ruc.trim(),
+          direccion: direccion.trim(),
+          estado,
+        }),
+      });
 
-      const datos =
-        await respuesta.json();
+      const datos = await respuesta.json();
 
       if (!respuesta.ok) {
         const detalle =
-          typeof datos.detail ===
-          'string'
+          typeof datos.detail === 'string'
             ? datos.detail
-            : JSON.stringify(
-                datos.detail
-              );
+            : JSON.stringify(datos.detail);
 
         throw new Error(
-          detalle ||
-            'No se pudo registrar la empresa'
+          detalle || 'No se pudo registrar la empresa'
         );
       }
 
@@ -227,21 +193,15 @@ export default function Empresa() {
      ESTADÍSTICAS
   ======================================================= */
 
-  const empresasActivas =
-    empresas.filter(
-      (empresa) =>
-        empresa.estado
-          ?.toLowerCase() ===
-        'activo'
-    ).length;
+  const empresasActivas = empresas.filter(
+    (empresa) =>
+      empresa.estado?.toLowerCase() === 'activo'
+  ).length;
 
-  const empresasInactivas =
-    empresas.filter(
-      (empresa) =>
-        empresa.estado
-          ?.toLowerCase() !==
-        'activo'
-    ).length;
+  const empresasInactivas = empresas.filter(
+    (empresa) =>
+      empresa.estado?.toLowerCase() !== 'activo'
+  ).length;
 
   /* =======================================================
      RENDER
@@ -251,11 +211,9 @@ export default function Empresa() {
     <div
       className="min-h-full"
       style={{
-        backgroundColor:
-          GRIS_FONDO,
+        backgroundColor: GRIS_FONDO,
       }}
     >
-
       <div className="mx-auto max-w-[1500px] space-y-6 p-5 lg:p-7">
 
         {/* =================================================
@@ -269,10 +227,8 @@ export default function Empresa() {
             <div
               className="flex h-12 w-12 items-center justify-center rounded-xl"
               style={{
-                backgroundColor:
-                  VINO_SUAVE,
-                color:
-                  VINO_OSCURO,
+                backgroundColor: GRIS_SUAVE,
+                color: GRIS_OSCURO,
               }}
             >
               <Building2 size={24} />
@@ -283,7 +239,7 @@ export default function Empresa() {
               <p
                 className="text-[11px] font-semibold uppercase tracking-[0.18em]"
                 style={{
-                  color: VINO,
+                  color: GRIS_MARCA,
                 }}
               >
                 {EMPRESA_RUBRO}
@@ -301,7 +257,7 @@ export default function Empresa() {
               <p
                 className="mt-1 text-sm"
                 style={{
-                  color: GRIS,
+                  color: GRIS_MEDIO,
                 }}
               >
                 Gestión de la información empresarial
@@ -310,7 +266,7 @@ export default function Empresa() {
               <p
                 className="mt-1 text-xs font-medium"
                 style={{
-                  color: GRIS,
+                  color: GRIS_MEDIO,
                 }}
               >
                 Gerente: {EMPRESA_GERENTE}
@@ -326,18 +282,14 @@ export default function Empresa() {
 
             <button
               type="button"
-              onClick={
-                cargarEmpresas
-              }
+              onClick={cargarEmpresas}
               disabled={cargando}
               className="inline-flex items-center gap-2 rounded-xl border bg-white px-4 py-2.5 text-sm font-medium shadow-sm transition hover:bg-gray-50 disabled:cursor-not-allowed disabled:opacity-50"
               style={{
-                borderColor:
-                  '#E5E7EB',
+                borderColor: GRIS_SUAVE,
                 color: NEGRO,
               }}
             >
-
               <RefreshCw
                 className={
                   cargando
@@ -347,27 +299,21 @@ export default function Empresa() {
               />
 
               Actualizar
-
             </button>
 
             {/* NUEVA EMPRESA */}
 
             <button
               type="button"
-              onClick={
-                abrirModal
-              }
+              onClick={abrirModal}
               className="inline-flex items-center gap-2 rounded-xl px-4 py-2.5 text-sm font-semibold text-white shadow-sm transition hover:opacity-90"
               style={{
-                backgroundColor:
-                  VINO_OSCURO,
+                backgroundColor: GRIS_OSCURO,
               }}
             >
-
               <Plus className="h-4 w-4" />
 
               Nueva empresa
-
             </button>
 
           </div>
@@ -382,19 +328,14 @@ export default function Empresa() {
           <div
             className="flex items-center gap-3 rounded-xl border px-4 py-3 text-sm"
             style={{
-              borderColor:
-                '#D8C3CB',
-              backgroundColor:
-                VINO_SUAVE,
-              color:
-                VINO_OSCURO,
+              borderColor: '#D1D5DB',
+              backgroundColor: GRIS_SUAVE,
+              color: GRIS_OSCURO,
             }}
           >
-
             <CheckCircle2 className="h-5 w-5 shrink-0" />
 
             {mensaje}
-
           </div>
         )}
 
@@ -402,36 +343,26 @@ export default function Empresa() {
             ERROR
         ================================================= */}
 
-        {error &&
-          !modalAbierto && (
-            <div
-              className="flex items-center justify-between gap-4 rounded-xl border px-4 py-3 text-sm"
-              style={{
-                borderColor:
-                  '#FECACA',
-                backgroundColor:
-                  '#FEF2F2',
-                color:
-                  '#B91C1C',
-              }}
+        {error && !modalAbierto && (
+          <div
+            className="flex items-center justify-between gap-4 rounded-xl border px-4 py-3 text-sm"
+            style={{
+              borderColor: '#FECACA',
+              backgroundColor: '#FEF2F2',
+              color: '#B91C1C',
+            }}
+          >
+            <span>{error}</span>
+
+            <button
+              type="button"
+              onClick={() => setError('')}
+              className="transition hover:opacity-70"
             >
-
-              <span>
-                {error}
-              </span>
-
-              <button
-                type="button"
-                onClick={() =>
-                  setError('')
-                }
-                className="transition hover:opacity-70"
-              >
-                <X size={18} />
-              </button>
-
-            </div>
-          )}
+              <X size={18} />
+            </button>
+          </div>
+        )}
 
         {/* =================================================
             KPI
@@ -450,7 +381,7 @@ export default function Empresa() {
                 <p
                   className="text-xs font-medium uppercase tracking-wide"
                   style={{
-                    color: GRIS,
+                    color: GRIS_MEDIO,
                   }}
                 >
                   Empresas registradas
@@ -470,10 +401,8 @@ export default function Empresa() {
               <div
                 className="rounded-xl p-2.5"
                 style={{
-                  backgroundColor:
-                    VINO_SUAVE,
-                  color:
-                    VINO_OSCURO,
+                  backgroundColor: GRIS_SUAVE,
+                  color: GRIS_OSCURO,
                 }}
               >
                 <Building2 className="h-5 w-5" />
@@ -484,7 +413,7 @@ export default function Empresa() {
             <p
               className="mt-3 text-xs"
               style={{
-                color: GRIS,
+                color: GRIS_MEDIO,
               }}
             >
               Total de empresas en el sistema
@@ -503,7 +432,7 @@ export default function Empresa() {
                 <p
                   className="text-xs font-medium uppercase tracking-wide"
                   style={{
-                    color: GRIS,
+                    color: GRIS_MEDIO,
                   }}
                 >
                   Empresas activas
@@ -512,8 +441,7 @@ export default function Empresa() {
                 <p
                   className="mt-3 text-3xl font-bold"
                   style={{
-                    color:
-                      VINO_OSCURO,
+                    color: GRIS_OSCURO,
                   }}
                 >
                   {empresasActivas}
@@ -524,10 +452,8 @@ export default function Empresa() {
               <div
                 className="rounded-xl p-2.5"
                 style={{
-                  backgroundColor:
-                    VINO_SUAVE,
-                  color:
-                    VINO_OSCURO,
+                  backgroundColor: GRIS_SUAVE,
+                  color: GRIS_OSCURO,
                 }}
               >
                 <CheckCircle2 className="h-5 w-5" />
@@ -538,7 +464,7 @@ export default function Empresa() {
             <p
               className="mt-3 text-xs"
               style={{
-                color: GRIS,
+                color: GRIS_MEDIO,
               }}
             >
               Empresas actualmente activas
@@ -557,7 +483,7 @@ export default function Empresa() {
                 <p
                   className="text-xs font-medium uppercase tracking-wide"
                   style={{
-                    color: GRIS,
+                    color: GRIS_MEDIO,
                   }}
                 >
                   Empresas inactivas
@@ -566,7 +492,7 @@ export default function Empresa() {
                 <p
                   className="mt-3 text-3xl font-bold"
                   style={{
-                    color: GRIS,
+                    color: GRIS_MEDIO,
                   }}
                 >
                   {empresasInactivas}
@@ -577,9 +503,8 @@ export default function Empresa() {
               <div
                 className="rounded-xl p-2.5"
                 style={{
-                  backgroundColor:
-                    '#F3F4F6',
-                  color: GRIS,
+                  backgroundColor: GRIS_FONDO,
+                  color: GRIS_MEDIO,
                 }}
               >
                 <Ban className="h-5 w-5" />
@@ -590,7 +515,7 @@ export default function Empresa() {
             <p
               className="mt-3 text-xs"
               style={{
-                color: GRIS,
+                color: GRIS_MEDIO,
               }}
             >
               Empresas desactivadas
@@ -622,11 +547,11 @@ export default function Empresa() {
               <p
                 className="mt-1 text-xs"
                 style={{
-                  color: GRIS,
+                  color: GRIS_MEDIO,
                 }}
               >
-                Información empresarial registrada
-                en {EMPRESA_NOMBRE}
+                Información empresarial registrada en{' '}
+                {EMPRESA_NOMBRE}
               </p>
 
             </div>
@@ -634,10 +559,8 @@ export default function Empresa() {
             <div
               className="rounded-lg px-3 py-1.5 text-xs font-semibold"
               style={{
-                backgroundColor:
-                  VINO_SUAVE,
-                color:
-                  VINO_OSCURO,
+                backgroundColor: GRIS_SUAVE,
+                color: GRIS_OSCURO,
               }}
             >
               {empresas.length} registros
@@ -645,18 +568,15 @@ export default function Empresa() {
 
           </div>
 
-          {empresas.length ===
-          0 ? (
+          {empresas.length === 0 ? (
 
             <div className="px-6 py-16 text-center">
 
               <div
                 className="mx-auto flex h-14 w-14 items-center justify-center rounded-2xl"
                 style={{
-                  backgroundColor:
-                    VINO_SUAVE,
-                  color:
-                    VINO_OSCURO,
+                  backgroundColor: GRIS_SUAVE,
+                  color: GRIS_OSCURO,
                 }}
               >
                 <Building2 className="h-7 w-7" />
@@ -674,7 +594,7 @@ export default function Empresa() {
               <p
                 className="mt-1 text-sm"
                 style={{
-                  color: GRIS,
+                  color: GRIS_MEDIO,
                 }}
               >
                 Registra la empresa para comenzar.
@@ -682,13 +602,10 @@ export default function Empresa() {
 
               <button
                 type="button"
-                onClick={
-                  abrirModal
-                }
+                onClick={abrirModal}
                 className="mt-5 rounded-xl px-4 py-2.5 text-sm font-semibold text-white shadow-sm transition hover:opacity-90"
                 style={{
-                  backgroundColor:
-                    VINO_OSCURO,
+                  backgroundColor: GRIS_OSCURO,
                 }}
               >
                 Registrar empresa
@@ -704,12 +621,10 @@ export default function Empresa() {
 
                 <thead
                   style={{
-                    backgroundColor:
-                      '#FAFAF9',
-                    color: GRIS,
+                    backgroundColor: '#F9FAFB',
+                    color: GRIS_MEDIO,
                   }}
                 >
-
                   <tr>
 
                     <th className="px-6 py-4 text-xs font-semibold uppercase tracking-wide">
@@ -733,145 +648,122 @@ export default function Empresa() {
                     </th>
 
                   </tr>
-
                 </thead>
 
                 <tbody>
 
-                  {empresas.map(
-                    (empresa) => (
+                  {empresas.map((empresa) => (
 
-                      <tr
-                        key={
-                          empresa.id
-                        }
-                        className="border-t border-gray-100 transition hover:bg-gray-50"
+                    <tr
+                      key={empresa.id}
+                      className="border-t border-gray-100 transition hover:bg-gray-50"
+                    >
+
+                      <td
+                        className="px-6 py-4 text-sm"
+                        style={{
+                          color: GRIS_MEDIO,
+                        }}
                       >
+                        #{empresa.id}
+                      </td>
 
-                        <td
-                          className="px-6 py-4 text-sm"
-                          style={{
-                            color: GRIS,
-                          }}
-                        >
-                          #{empresa.id}
-                        </td>
+                      <td className="px-6 py-4">
 
-                        <td className="px-6 py-4">
+                        <div className="flex items-center gap-3">
 
-                          <div className="flex items-center gap-3">
+                          <div
+                            className="flex h-9 w-9 items-center justify-center rounded-lg"
+                            style={{
+                              backgroundColor: GRIS_SUAVE,
+                              color: GRIS_OSCURO,
+                            }}
+                          >
+                            <Building2 className="h-4 w-4" />
+                          </div>
 
-                            <div
-                              className="flex h-9 w-9 items-center justify-center rounded-lg"
+                          <div>
+
+                            <p
+                              className="font-semibold"
                               style={{
-                                backgroundColor:
-                                  VINO_SUAVE,
-                                color:
-                                  VINO_OSCURO,
+                                color: NEGRO,
                               }}
                             >
-                              <Building2 className="h-4 w-4" />
-                            </div>
+                              {empresa.nombre}
+                            </p>
 
-                            <div>
-
-                              <p
-                                className="font-semibold"
-                                style={{
-                                  color:
-                                    NEGRO,
-                                }}
-                              >
-                                {
-                                  empresa.nombre
-                                }
-                              </p>
-
-                              <p
-                                className="mt-0.5 text-xs"
-                                style={{
-                                  color:
-                                    GRIS,
-                                }}
-                              >
-                                Empresa de electricidad y soluciones integrales
-                              </p>
-
-                            </div>
+                            <p
+                              className="mt-0.5 text-xs"
+                              style={{
+                                color: GRIS_MEDIO,
+                              }}
+                            >
+                              Empresa de electricidad y soluciones integrales
+                            </p>
 
                           </div>
 
-                        </td>
+                        </div>
 
-                        <td
-                          className="px-6 py-4 text-sm"
-                          style={{
-                            color: GRIS,
-                          }}
-                        >
-                          {
-                            empresa.ruc
+                      </td>
+
+                      <td
+                        className="px-6 py-4 text-sm"
+                        style={{
+                          color: GRIS_MEDIO,
+                        }}
+                      >
+                        {empresa.ruc}
+                      </td>
+
+                      <td
+                        className="px-6 py-4 text-sm"
+                        style={{
+                          color: GRIS_MEDIO,
+                        }}
+                      >
+                        {empresa.direccion}
+                      </td>
+
+                      <td className="px-6 py-4">
+
+                        <span
+                          className="inline-flex items-center gap-1.5 rounded-full px-3 py-1 text-xs font-semibold"
+                          style={
+                            empresa.estado?.toLowerCase() ===
+                            'activo'
+                              ? {
+                                  backgroundColor: GRIS_SUAVE,
+                                  color: GRIS_OSCURO,
+                                }
+                              : {
+                                  backgroundColor: GRIS_FONDO,
+                                  color: GRIS_MEDIO,
+                                }
                           }
-                        </td>
-
-                        <td
-                          className="px-6 py-4 text-sm"
-                          style={{
-                            color: GRIS,
-                          }}
                         >
-                          {
-                            empresa.direccion
-                          }
-                        </td>
-
-                        <td className="px-6 py-4">
 
                           <span
-                            className="inline-flex items-center gap-1.5 rounded-full px-3 py-1 text-xs font-semibold"
-                            style={
-                              empresa.estado
-                                ?.toLowerCase() ===
-                              'activo'
-                                ? {
-                                    backgroundColor:
-                                      VINO_SUAVE,
-                                    color:
-                                      VINO_OSCURO,
-                                  }
-                                : {
-                                    backgroundColor:
-                                      '#F3F4F6',
-                                    color:
-                                      GRIS,
-                                  }
-                            }
-                          >
+                            className="h-1.5 w-1.5 rounded-full"
+                            style={{
+                              backgroundColor:
+                                empresa.estado?.toLowerCase() ===
+                                'activo'
+                                  ? GRIS_MARCA
+                                  : GRIS_MEDIO,
+                            }}
+                          />
 
-                            <span
-                              className="h-1.5 w-1.5 rounded-full"
-                              style={{
-                                backgroundColor:
-                                  empresa.estado
-                                    ?.toLowerCase() ===
-                                  'activo'
-                                    ? VINO
-                                    : GRIS,
-                              }}
-                            />
+                          {empresa.estado}
 
-                            {
-                              empresa.estado
-                            }
+                        </span>
 
-                          </span>
+                      </td>
 
-                        </td>
+                    </tr>
 
-                      </tr>
-
-                    )
-                  )}
+                  ))}
 
                 </tbody>
 
@@ -902,10 +794,8 @@ export default function Empresa() {
                 <div
                   className="flex h-10 w-10 items-center justify-center rounded-xl"
                   style={{
-                    backgroundColor:
-                      VINO_SUAVE,
-                    color:
-                      VINO_OSCURO,
+                    backgroundColor: GRIS_SUAVE,
+                    color: GRIS_OSCURO,
                   }}
                 >
                   <Building2 className="h-5 w-5" />
@@ -925,7 +815,7 @@ export default function Empresa() {
                   <p
                     className="text-sm"
                     style={{
-                      color: GRIS,
+                      color: GRIS_MEDIO,
                     }}
                   >
                     {EMPRESA_NOMBRE}
@@ -937,12 +827,10 @@ export default function Empresa() {
 
               <button
                 type="button"
-                onClick={
-                  cerrarModal
-                }
+                onClick={cerrarModal}
                 className="rounded-xl p-2 transition hover:bg-gray-100"
                 style={{
-                  color: GRIS,
+                  color: GRIS_MEDIO,
                 }}
               >
                 <X className="h-5 w-5" />
@@ -951,9 +839,7 @@ export default function Empresa() {
             </div>
 
             <form
-              onSubmit={
-                guardarEmpresa
-              }
+              onSubmit={guardarEmpresa}
               className="space-y-5 p-6"
             >
 
@@ -974,23 +860,20 @@ export default function Empresa() {
                   type="text"
                   value={nombre}
                   onChange={(e) =>
-                    setNombre(
-                      e.target.value
-                    )
+                    setNombre(e.target.value)
                   }
                   placeholder={EMPRESA_NOMBRE}
                   className="w-full rounded-xl border bg-white px-4 py-3 text-sm outline-none transition placeholder:text-gray-400"
                   style={{
-                    borderColor:
-                      '#D1D5DB',
+                    borderColor: '#D1D5DB',
                     color: NEGRO,
                   }}
                   onFocus={(e) => {
                     e.currentTarget.style.borderColor =
-                      VINO;
+                      GRIS_MARCA;
 
                     e.currentTarget.style.boxShadow =
-                      `0 0 0 3px ${VINO_SUAVE}`;
+                      `0 0 0 3px ${GRIS_SUAVE}`;
                   }}
                   onBlur={(e) => {
                     e.currentTarget.style.borderColor =
@@ -1021,23 +904,20 @@ export default function Empresa() {
                   type="text"
                   value={ruc}
                   onChange={(e) =>
-                    setRuc(
-                      e.target.value
-                    )
+                    setRuc(e.target.value)
                   }
                   placeholder="Ingresa el RUC de MATAS PERU EIRL"
                   className="w-full rounded-xl border bg-white px-4 py-3 text-sm outline-none transition placeholder:text-gray-400"
                   style={{
-                    borderColor:
-                      '#D1D5DB',
+                    borderColor: '#D1D5DB',
                     color: NEGRO,
                   }}
                   onFocus={(e) => {
                     e.currentTarget.style.borderColor =
-                      VINO;
+                      GRIS_MARCA;
 
                     e.currentTarget.style.boxShadow =
-                      `0 0 0 3px ${VINO_SUAVE}`;
+                      `0 0 0 3px ${GRIS_SUAVE}`;
                   }}
                   onBlur={(e) => {
                     e.currentTarget.style.borderColor =
@@ -1068,23 +948,20 @@ export default function Empresa() {
                   type="text"
                   value={direccion}
                   onChange={(e) =>
-                    setDireccion(
-                      e.target.value
-                    )
+                    setDireccion(e.target.value)
                   }
                   placeholder="Dirección de MATAS PERU EIRL"
                   className="w-full rounded-xl border bg-white px-4 py-3 text-sm outline-none transition placeholder:text-gray-400"
                   style={{
-                    borderColor:
-                      '#D1D5DB',
+                    borderColor: '#D1D5DB',
                     color: NEGRO,
                   }}
                   onFocus={(e) => {
                     e.currentTarget.style.borderColor =
-                      VINO;
+                      GRIS_MARCA;
 
                     e.currentTarget.style.boxShadow =
-                      `0 0 0 3px ${VINO_SUAVE}`;
+                      `0 0 0 3px ${GRIS_SUAVE}`;
                   }}
                   onBlur={(e) => {
                     e.currentTarget.style.borderColor =
@@ -1114,22 +991,19 @@ export default function Empresa() {
                 <select
                   value={estado}
                   onChange={(e) =>
-                    setEstado(
-                      e.target.value
-                    )
+                    setEstado(e.target.value)
                   }
                   className="w-full rounded-xl border bg-white px-4 py-3 text-sm outline-none transition"
                   style={{
-                    borderColor:
-                      '#D1D5DB',
+                    borderColor: '#D1D5DB',
                     color: NEGRO,
                   }}
                   onFocus={(e) => {
                     e.currentTarget.style.borderColor =
-                      VINO;
+                      GRIS_MARCA;
 
                     e.currentTarget.style.boxShadow =
-                      `0 0 0 3px ${VINO_SUAVE}`;
+                      `0 0 0 3px ${GRIS_SUAVE}`;
                   }}
                   onBlur={(e) => {
                     e.currentTarget.style.borderColor =
@@ -1157,17 +1031,15 @@ export default function Empresa() {
               <div
                 className="rounded-xl border px-4 py-3"
                 style={{
-                  borderColor:
-                    '#E5E7EB',
-                  backgroundColor:
-                    '#F9FAFB',
+                  borderColor: GRIS_SUAVE,
+                  backgroundColor: GRIS_MUY_SUAVE,
                 }}
               >
 
                 <p
                   className="text-xs font-semibold uppercase tracking-wide"
                   style={{
-                    color: GRIS,
+                    color: GRIS_MEDIO,
                   }}
                 >
                   Información empresarial
@@ -1185,7 +1057,7 @@ export default function Empresa() {
                 <p
                   className="mt-1 text-xs"
                   style={{
-                    color: GRIS,
+                    color: GRIS_MEDIO,
                   }}
                 >
                   {EMPRESA_RUBRO}
@@ -1200,12 +1072,9 @@ export default function Empresa() {
                 <div
                   className="rounded-xl border px-4 py-3 text-sm"
                   style={{
-                    borderColor:
-                      '#FECACA',
-                    backgroundColor:
-                      '#FEF2F2',
-                    color:
-                      '#B91C1C',
+                    borderColor: '#FECACA',
+                    backgroundColor: '#FEF2F2',
+                    color: '#B91C1C',
                   }}
                 >
                   {error}
@@ -1219,13 +1088,10 @@ export default function Empresa() {
 
                 <button
                   type="button"
-                  onClick={
-                    cerrarModal
-                  }
+                  onClick={cerrarModal}
                   className="rounded-xl border bg-white px-5 py-2.5 text-sm font-medium transition hover:bg-gray-50"
                   style={{
-                    borderColor:
-                      '#D1D5DB',
+                    borderColor: '#D1D5DB',
                     color: NEGRO,
                   }}
                 >
@@ -1236,8 +1102,7 @@ export default function Empresa() {
                   type="submit"
                   className="rounded-xl px-5 py-2.5 text-sm font-semibold text-white shadow-sm transition hover:opacity-90"
                   style={{
-                    backgroundColor:
-                      VINO_OSCURO,
+                    backgroundColor: GRIS_OSCURO,
                   }}
                 >
                   Guardar empresa
@@ -1256,5 +1121,3 @@ export default function Empresa() {
     </div>
   );
 }
-
-
