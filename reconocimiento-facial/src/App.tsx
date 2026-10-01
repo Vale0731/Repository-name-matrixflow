@@ -88,22 +88,24 @@ const EMPRESA_RUBRO =
   'Electricidad y Soluciones Integrales';
 
 /* =========================================================
-   PALETA ACTUAL
+   PALETA MATAS PERU EIRL
 ========================================================= */
 
-const VINO = '#7c636c';
-const VINO_SUAVE = '#F8E9EE';
+const GRIS_PRINCIPAL = '#4B5563';
+const GRIS_OSCURO = '#2F3337';
+const GRIS_MEDIO = '#6B7280';
+const GRIS_SUAVE = '#E5E7EB';
+const GRIS_FONDO = '#F3F4F6';
 
-const SIDEBAR = '#E8EAEC';
-const SIDEBAR_BORDE = '#D9DCDF';
+const SIDEBAR = '#E5E7EB';
+const SIDEBAR_BORDE = '#D1D5DB';
 
-const FONDO = '#F3F3F1';
+const FONDO = '#F3F4F6';
 const BLANCO = '#FFFFFF';
 
 const NEGRO = '#111111';
 const TEXTO = '#374151';
-const GRIS = '#6B7280';
-const ICONO = '#69717C';
+const ICONO = '#6B7280';
 
 /* =========================================================
    MENÚ
@@ -504,9 +506,10 @@ export default function App() {
             <div
               className="flex h-11 w-11 items-center justify-center rounded-xl text-white"
               style={{
-                backgroundColor: VINO,
+                backgroundColor:
+                  GRIS_OSCURO,
                 boxShadow:
-                  '0 5px 12px rgba(80,80,80,0.20)',
+                  '0 5px 12px rgba(0,0,0,0.16)',
               }}
             >
               <Activity
@@ -520,7 +523,8 @@ export default function App() {
               <h1
                 className="text-[16px] font-bold tracking-wide"
                 style={{
-                  color: VINO,
+                  color:
+                    NEGRO,
                 }}
               >
                 {EMPRESA_NOMBRE}
@@ -529,7 +533,8 @@ export default function App() {
               <p
                 className="text-[8px] font-semibold uppercase tracking-[0.16em]"
                 style={{
-                  color: GRIS,
+                  color:
+                    GRIS_MEDIO,
                 }}
               >
                 {EMPRESA_RUBRO}
@@ -557,7 +562,8 @@ export default function App() {
                 <p
                   className="mb-2 px-3 text-[9px] font-bold tracking-[0.16em]"
                   style={{
-                    color: '#737A83',
+                    color:
+                      GRIS_MEDIO,
                   }}
                 >
                   {seccion.nombre}
@@ -588,11 +594,11 @@ export default function App() {
                             activo
                               ? {
                                   backgroundColor:
-                                    VINO,
+                                    GRIS_OSCURO,
                                   color:
-                                    '#FFFFFF',
+                                    BLANCO,
                                   boxShadow:
-                                    '0 5px 12px rgba(80,80,80,0.20)',
+                                    '0 5px 12px rgba(0,0,0,0.16)',
                                 }
                               : {
                                   color:
@@ -605,9 +611,10 @@ export default function App() {
                             size={17}
                             strokeWidth={1.9}
                             style={{
-                              color: activo
-                                ? '#FFFFFF'
-                                : ICONO,
+                              color:
+                                activo
+                                  ? BLANCO
+                                  : ICONO,
                             }}
                           />
 
@@ -644,7 +651,7 @@ export default function App() {
             className="mb-2 flex items-center gap-3 rounded-xl p-3"
             style={{
               backgroundColor:
-                '#DDE0E3',
+                '#D1D5DB',
             }}
           >
 
@@ -652,7 +659,7 @@ export default function App() {
               className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full text-xs font-bold text-white"
               style={{
                 backgroundColor:
-                  VINO,
+                  GRIS_PRINCIPAL,
               }}
             >
               {obtenerIniciales(
@@ -679,7 +686,7 @@ export default function App() {
                 className="mt-0.5 text-[10px] uppercase"
                 style={{
                   color:
-                    GRIS,
+                    GRIS_MEDIO,
                 }}
               >
                 {rolActual}
@@ -697,7 +704,7 @@ export default function App() {
             className="flex w-full items-center gap-2 rounded-lg px-3 py-2 text-xs font-medium transition"
             style={{
               color:
-                '#4B5563',
+                GRIS_OSCURO,
             }}
           >
 
@@ -705,7 +712,7 @@ export default function App() {
               size={16}
               style={{
                 color:
-                  '#555E68',
+                  GRIS_PRINCIPAL,
               }}
             />
 
@@ -735,7 +742,7 @@ export default function App() {
             backgroundColor:
               BLANCO,
             borderBottom:
-              '1px solid #E5E5E2',
+              `1px solid ${GRIS_SUAVE}`,
           }}
         >
 
@@ -747,9 +754,9 @@ export default function App() {
               className="flex h-10 items-center rounded-xl border px-3"
               style={{
                 backgroundColor:
-                  '#F5F5F4',
+                  '#F9FAFB',
                 borderColor:
-                  '#E1E2E3',
+                  GRIS_SUAVE,
               }}
             >
 
@@ -786,7 +793,7 @@ export default function App() {
                   className="absolute left-0 right-0 top-12 z-50 overflow-hidden rounded-xl border bg-white p-1.5 shadow-xl"
                   style={{
                     borderColor:
-                      '#E5E5E2',
+                      GRIS_SUAVE,
                   }}
                 >
 
@@ -817,7 +824,7 @@ export default function App() {
                             size={16}
                             style={{
                               color:
-                                VINO,
+                                GRIS_PRINCIPAL,
                             }}
                           />
 
@@ -840,7 +847,7 @@ export default function App() {
                   className="absolute left-0 right-0 top-12 z-50 rounded-xl border bg-white p-4 text-center text-sm shadow-xl"
                   style={{
                     borderColor:
-                      '#E5E5E2',
+                      GRIS_SUAVE,
                     color:
                       '#9CA3AF',
                   }}
@@ -869,7 +876,7 @@ export default function App() {
                 className="relative flex h-10 w-10 items-center justify-center rounded-xl"
                 style={{
                   color:
-                    '#6B7280',
+                    GRIS_MEDIO,
                 }}
               >
 
@@ -879,7 +886,7 @@ export default function App() {
                   className="absolute right-2.5 top-2 h-1.5 w-1.5 rounded-full"
                   style={{
                     backgroundColor:
-                      VINO,
+                      GRIS_OSCURO,
                   }}
                 />
 
@@ -890,7 +897,7 @@ export default function App() {
                   className="absolute right-0 top-12 z-50 w-72 rounded-xl border bg-white p-4 shadow-xl"
                   style={{
                     borderColor:
-                      '#E5E5E2',
+                      GRIS_SUAVE,
                   }}
                 >
 
@@ -910,9 +917,9 @@ export default function App() {
                       className="rounded-full px-2 py-1 text-[10px] font-semibold"
                       style={{
                         backgroundColor:
-                          VINO_SUAVE,
+                          GRIS_SUAVE,
                         color:
-                          VINO,
+                          GRIS_OSCURO,
                       }}
                     >
                       Sistema
@@ -924,7 +931,7 @@ export default function App() {
                     className="rounded-xl p-3"
                     style={{
                       backgroundColor:
-                        '#F5F5F4',
+                        '#F9FAFB',
                     }}
                   >
 
@@ -934,9 +941,9 @@ export default function App() {
                         className="rounded-lg p-2"
                         style={{
                           backgroundColor:
-                            VINO_SUAVE,
+                            GRIS_SUAVE,
                           color:
-                            VINO,
+                            GRIS_OSCURO,
                         }}
                       >
                         <Activity
@@ -983,7 +990,7 @@ export default function App() {
               className="h-8 w-px"
               style={{
                 backgroundColor:
-                  '#E5E5E2',
+                  GRIS_SUAVE,
               }}
             />
 
@@ -1031,7 +1038,7 @@ export default function App() {
                   className="flex h-9 w-9 items-center justify-center rounded-full text-xs font-bold text-white"
                   style={{
                     backgroundColor:
-                      VINO,
+                      GRIS_PRINCIPAL,
                   }}
                 >
                   {obtenerIniciales(
@@ -1055,7 +1062,7 @@ export default function App() {
                   className="absolute right-0 top-12 z-50 w-56 rounded-xl border bg-white p-2 shadow-xl"
                   style={{
                     borderColor:
-                      '#E5E5E2',
+                      GRIS_SUAVE,
                   }}
                 >
 
@@ -1063,7 +1070,7 @@ export default function App() {
                     className="border-b px-3 py-3"
                     style={{
                       borderColor:
-                        '#F0F0EE',
+                        GRIS_SUAVE,
                     }}
                   >
 
@@ -1096,7 +1103,7 @@ export default function App() {
                       className="mt-1 text-xs font-medium"
                       style={{
                         color:
-                          VINO,
+                          GRIS_PRINCIPAL,
                       }}
                     >
                       {rolActual}
@@ -1120,7 +1127,7 @@ export default function App() {
                       size={16}
                       style={{
                         color:
-                          VINO,
+                          GRIS_PRINCIPAL,
                       }}
                     />
 
@@ -1236,3 +1243,4 @@ export default function App() {
     </div>
   );
 }
+
