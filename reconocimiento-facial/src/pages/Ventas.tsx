@@ -14,14 +14,24 @@ import {
 import API from '../services/api';
 
 /* =========================================================
-   PALETA MATRIXFLOW
+   IDENTIDAD MATAS PERU EIRL
 ========================================================= */
 
-const VINO = '#775b66';
-const VINO_OSCURO = '#6B4652';
-const VINO_SUAVE = '#F8E9EE';
-const GRIS_FONDO = '#F3F3F1';
-const GRIS = '#6B7280';
+const EMPRESA_NOMBRE = 'MATAS PERU EIRL';
+const EMPRESA_GERENTE = 'GERARDO GARCIA MATAS';
+const EMPRESA_RUBRO = 'Electricidad y Soluciones Integrales';
+
+/* =========================================================
+   PALETA NEUTRA
+========================================================= */
+
+const GRIS_MARCA = '#4B5563';
+const GRIS_OSCURO = '#2F3337';
+const GRIS_MEDIO = '#6B7280';
+const GRIS_SUAVE = '#E5E7EB';
+const GRIS_FONDO = '#F3F4F6';
+const GRIS_MUY_SUAVE = '#F9FAFB';
+const BLANCO = '#FFFFFF';
 const NEGRO = '#111111';
 
 /* =========================================================
@@ -166,10 +176,6 @@ export default function Ventas() {
 
       setSucursales(listaSucursales);
 
-      /*
-       * Si existe una sola sucursal, la seleccionamos
-       * automáticamente para facilitar el registro.
-       */
       if (
         listaSucursales.length === 1 &&
         !sucursalId
@@ -365,10 +371,6 @@ export default function Ventas() {
       setProductoId('');
       setCantidad('1');
 
-      /*
-       * Si hay una sola sucursal mantenemos esa selección.
-       * Si hay varias, limpiamos el selector.
-       */
       if (sucursales.length > 1) {
         setSucursalId('');
       }
@@ -505,8 +507,8 @@ export default function Ventas() {
           <div
             className="rounded-xl p-3"
             style={{
-              backgroundColor: VINO_SUAVE,
-              color: VINO,
+              backgroundColor: GRIS_SUAVE,
+              color: GRIS_MARCA,
             }}
           >
             <ShoppingCart size={24} />
@@ -526,11 +528,11 @@ export default function Ventas() {
             <p
               className="text-sm"
               style={{
-                color: GRIS,
+                color: GRIS_MEDIO,
               }}
             >
               Registro y administración de ventas
-              realizadas por la empresa.
+              realizadas por {EMPRESA_NOMBRE}.
             </p>
 
           </div>
@@ -549,7 +551,7 @@ export default function Ventas() {
             disabled={cargando}
             className="flex items-center gap-2 rounded-xl border bg-white px-4 py-3 text-sm font-medium transition hover:bg-gray-50 disabled:cursor-not-allowed disabled:opacity-60"
             style={{
-              borderColor: '#E5E5E3',
+              borderColor: GRIS_SUAVE,
               color: NEGRO,
             }}
           >
@@ -575,10 +577,6 @@ export default function Ventas() {
               setProductoId('');
               setCantidad('1');
 
-              /*
-               * Si hay una sola sucursal se conserva.
-               * Si hay varias, se obliga a elegir.
-               */
               if (sucursales.length !== 1) {
                 setSucursalId('');
               }
@@ -587,9 +585,9 @@ export default function Ventas() {
             }}
             className="flex items-center gap-2 rounded-xl px-4 py-3 text-sm font-medium text-white transition"
             style={{
-              backgroundColor: VINO,
+              backgroundColor: GRIS_OSCURO,
               boxShadow:
-                '0 8px 18px rgba(119,91,102,0.18)',
+                '0 8px 18px rgba(47,51,55,0.18)',
             }}
           >
 
@@ -604,6 +602,50 @@ export default function Ventas() {
       </div>
 
       {/* ===================================================
+          IDENTIDAD EMPRESARIAL
+      =================================================== */}
+
+      <div
+        className="rounded-2xl border bg-white px-5 py-4"
+        style={{
+          borderColor: GRIS_SUAVE,
+        }}
+      >
+        <div className="flex flex-col gap-1 sm:flex-row sm:items-center sm:justify-between">
+
+          <div>
+            <p
+              className="text-sm font-semibold"
+              style={{
+                color: NEGRO,
+              }}
+            >
+              {EMPRESA_NOMBRE}
+            </p>
+
+            <p
+              className="text-xs"
+              style={{
+                color: GRIS_MEDIO,
+              }}
+            >
+              {EMPRESA_RUBRO}
+            </p>
+          </div>
+
+          <p
+            className="text-xs"
+            style={{
+              color: GRIS_MEDIO,
+            }}
+          >
+            Gerente: {EMPRESA_GERENTE}
+          </p>
+
+        </div>
+      </div>
+
+      {/* ===================================================
           MENSAJE ÉXITO
       =================================================== */}
 
@@ -611,9 +653,9 @@ export default function Ventas() {
         <div
           className="flex items-center gap-3 rounded-xl border p-4 text-sm"
           style={{
-            borderColor: '#D8C5CC',
-            backgroundColor: '#F8E9EE',
-            color: VINO_OSCURO,
+            borderColor: GRIS_SUAVE,
+            backgroundColor: GRIS_MUY_SUAVE,
+            color: GRIS_OSCURO,
           }}
         >
 
@@ -645,7 +687,7 @@ export default function Ventas() {
         <div
           className="rounded-2xl border bg-white p-5 shadow-sm"
           style={{
-            borderColor: '#E5E5E3',
+            borderColor: GRIS_SUAVE,
           }}
         >
 
@@ -656,7 +698,7 @@ export default function Ventas() {
               <p
                 className="text-sm"
                 style={{
-                  color: GRIS,
+                  color: GRIS_MEDIO,
                 }}
               >
                 Ventas registradas
@@ -676,8 +718,8 @@ export default function Ventas() {
             <div
               className="rounded-xl p-3"
               style={{
-                backgroundColor: VINO_SUAVE,
-                color: VINO,
+                backgroundColor: GRIS_SUAVE,
+                color: GRIS_MARCA,
               }}
             >
               <Receipt size={21} />
@@ -688,7 +730,7 @@ export default function Ventas() {
           <p
             className="mt-3 text-xs"
             style={{
-              color: '#9CA3AF',
+              color: GRIS_MEDIO,
             }}
           >
             Operaciones registradas
@@ -701,7 +743,7 @@ export default function Ventas() {
         <div
           className="rounded-2xl border bg-white p-5 shadow-sm"
           style={{
-            borderColor: '#E5E5E3',
+            borderColor: GRIS_SUAVE,
           }}
         >
 
@@ -712,7 +754,7 @@ export default function Ventas() {
               <p
                 className="text-sm"
                 style={{
-                  color: GRIS,
+                  color: GRIS_MEDIO,
                 }}
               >
                 Ventas completadas
@@ -732,8 +774,8 @@ export default function Ventas() {
             <div
               className="rounded-xl p-3"
               style={{
-                backgroundColor: VINO_SUAVE,
-                color: VINO,
+                backgroundColor: GRIS_SUAVE,
+                color: GRIS_MARCA,
               }}
             >
               <CheckCircle2 size={21} />
@@ -744,7 +786,7 @@ export default function Ventas() {
           <p
             className="mt-3 text-xs"
             style={{
-              color: '#9CA3AF',
+              color: GRIS_MEDIO,
             }}
           >
             Operaciones finalizadas
@@ -757,7 +799,7 @@ export default function Ventas() {
         <div
           className="rounded-2xl border bg-white p-5 shadow-sm"
           style={{
-            borderColor: '#E5E5E3',
+            borderColor: GRIS_SUAVE,
           }}
         >
 
@@ -768,7 +810,7 @@ export default function Ventas() {
               <p
                 className="text-sm"
                 style={{
-                  color: GRIS,
+                  color: GRIS_MEDIO,
                 }}
               >
                 Importe acumulado
@@ -788,8 +830,8 @@ export default function Ventas() {
             <div
               className="rounded-xl p-3"
               style={{
-                backgroundColor: VINO_SUAVE,
-                color: VINO,
+                backgroundColor: GRIS_SUAVE,
+                color: GRIS_MARCA,
               }}
             >
               <ShoppingCart size={21} />
@@ -800,7 +842,7 @@ export default function Ventas() {
           <p
             className="mt-3 text-xs"
             style={{
-              color: '#9CA3AF',
+              color: GRIS_MEDIO,
             }}
           >
             Promedio: {formatoMoneda(promedioVenta)}
@@ -817,14 +859,14 @@ export default function Ventas() {
       <div
         className="rounded-2xl border bg-white shadow-sm"
         style={{
-          borderColor: '#E5E5E3',
+          borderColor: GRIS_SUAVE,
         }}
       >
 
         <div
           className="flex flex-col gap-4 border-b p-5 sm:flex-row sm:items-center sm:justify-between"
           style={{
-            borderColor: '#EEEEEC',
+            borderColor: GRIS_SUAVE,
           }}
         >
 
@@ -842,7 +884,7 @@ export default function Ventas() {
             <p
               className="mt-1 text-xs"
               style={{
-                color: GRIS,
+                color: GRIS_MEDIO,
               }}
             >
               Historial de operaciones comerciales.
@@ -856,7 +898,7 @@ export default function Ventas() {
               size={18}
               className="absolute left-3 top-1/2 -translate-y-1/2"
               style={{
-                color: '#9CA3AF',
+                color: GRIS_MEDIO,
               }}
             />
 
@@ -866,9 +908,9 @@ export default function Ventas() {
                 setBusqueda(e.target.value)
               }
               placeholder="Buscar venta..."
-              className="w-full rounded-xl border bg-[#F8F8F7] py-2.5 pl-10 pr-4 text-sm outline-none transition sm:w-72"
+              className="w-full rounded-xl border bg-[#F9FAFB] py-2.5 pl-10 pr-4 text-sm outline-none transition sm:w-72"
               style={{
-                borderColor: '#E5E5E3',
+                borderColor: GRIS_SUAVE,
                 color: NEGRO,
               }}
             />
@@ -884,8 +926,8 @@ export default function Ventas() {
             <div
               className="mx-auto flex h-16 w-16 items-center justify-center rounded-2xl"
               style={{
-                backgroundColor: VINO_SUAVE,
-                color: VINO,
+                backgroundColor: GRIS_SUAVE,
+                color: GRIS_MARCA,
               }}
             >
               <ShoppingCart size={28} />
@@ -903,7 +945,7 @@ export default function Ventas() {
             <p
               className="mt-1 text-sm"
               style={{
-                color: GRIS,
+                color: GRIS_MEDIO,
               }}
             >
               Registra una nueva venta para comenzar.
@@ -922,15 +964,15 @@ export default function Ventas() {
                 <tr
                   className="border-b"
                   style={{
-                    borderColor: '#EEEEEC',
-                    backgroundColor: '#FAFAF9',
+                    borderColor: GRIS_SUAVE,
+                    backgroundColor: GRIS_MUY_SUAVE,
                   }}
                 >
 
                   <th
                     className="px-5 py-4 text-xs font-semibold uppercase tracking-wide"
                     style={{
-                      color: GRIS,
+                      color: GRIS_MEDIO,
                     }}
                   >
                     ID
@@ -939,7 +981,7 @@ export default function Ventas() {
                   <th
                     className="px-5 py-4 text-xs font-semibold uppercase tracking-wide"
                     style={{
-                      color: GRIS,
+                      color: GRIS_MEDIO,
                     }}
                   >
                     Sucursal
@@ -948,7 +990,7 @@ export default function Ventas() {
                   <th
                     className="px-5 py-4 text-xs font-semibold uppercase tracking-wide"
                     style={{
-                      color: GRIS,
+                      color: GRIS_MEDIO,
                     }}
                   >
                     Total
@@ -957,7 +999,7 @@ export default function Ventas() {
                   <th
                     className="px-5 py-4 text-xs font-semibold uppercase tracking-wide"
                     style={{
-                      color: GRIS,
+                      color: GRIS_MEDIO,
                     }}
                   >
                     Estado
@@ -966,7 +1008,7 @@ export default function Ventas() {
                   <th
                     className="px-5 py-4 text-xs font-semibold uppercase tracking-wide"
                     style={{
-                      color: GRIS,
+                      color: GRIS_MEDIO,
                     }}
                   >
                     Fecha
@@ -982,9 +1024,9 @@ export default function Ventas() {
                   (venta) => (
                     <tr
                       key={venta.id}
-                      className="border-b last:border-0 transition hover:bg-[#FCFAFB]"
+                      className="border-b last:border-0 transition hover:bg-gray-50"
                       style={{
-                        borderColor: '#F0F0EE',
+                        borderColor: GRIS_SUAVE,
                       }}
                     >
 
@@ -1000,7 +1042,7 @@ export default function Ventas() {
                       <td
                         className="px-5 py-4 text-sm"
                         style={{
-                          color: GRIS,
+                          color: GRIS_MEDIO,
                         }}
                       >
                         Sucursal{' '}
@@ -1028,15 +1070,15 @@ export default function Ventas() {
                               .includes('complet')
                               ? {
                                   backgroundColor:
-                                    VINO_SUAVE,
+                                    GRIS_SUAVE,
                                   color:
-                                    VINO_OSCURO,
+                                    GRIS_OSCURO,
                                 }
                               : {
                                   backgroundColor:
                                     '#F3F4F6',
                                   color:
-                                    GRIS,
+                                    GRIS_MEDIO,
                                 }
                           }
                         >
@@ -1050,8 +1092,8 @@ export default function Ventas() {
                                   .includes(
                                     'complet'
                                   )
-                                  ? VINO
-                                  : GRIS,
+                                  ? GRIS_MARCA
+                                  : GRIS_MEDIO,
                             }}
                           />
 
@@ -1064,7 +1106,7 @@ export default function Ventas() {
                       <td
                         className="px-5 py-4 text-sm"
                         style={{
-                          color: GRIS,
+                          color: GRIS_MEDIO,
                         }}
                       >
                         {formatoFecha(
@@ -1104,7 +1146,7 @@ export default function Ventas() {
             <div
               className="flex items-center justify-between border-b p-5"
               style={{
-                borderColor: '#EEEEEC',
+                borderColor: GRIS_SUAVE,
               }}
             >
 
@@ -1114,8 +1156,8 @@ export default function Ventas() {
                   className="rounded-xl p-2.5"
                   style={{
                     backgroundColor:
-                      VINO_SUAVE,
-                    color: VINO,
+                      GRIS_SUAVE,
+                    color: GRIS_MARCA,
                   }}
                 >
                   <ShoppingCart size={20} />
@@ -1135,10 +1177,10 @@ export default function Ventas() {
                   <p
                     className="text-sm"
                     style={{
-                      color: GRIS,
+                      color: GRIS_MEDIO,
                     }}
                   >
-                    Selecciona sucursal, producto y cantidad.
+                    {EMPRESA_NOMBRE} · Selecciona sucursal, producto y cantidad.
                   </p>
 
                 </div>
@@ -1154,7 +1196,7 @@ export default function Ventas() {
                 }}
                 className="rounded-lg p-2 transition hover:bg-gray-100"
                 style={{
-                  color: GRIS,
+                  color: GRIS_MEDIO,
                 }}
               >
                 <X size={20} />
@@ -1194,7 +1236,7 @@ export default function Ventas() {
                     size={17}
                     className="absolute left-3 top-1/2 -translate-y-1/2"
                     style={{
-                      color: GRIS,
+                      color: GRIS_MEDIO,
                     }}
                   />
 
@@ -1208,7 +1250,7 @@ export default function Ventas() {
                     disabled={guardando}
                     className="w-full appearance-none rounded-xl border bg-white px-4 py-3 pl-10 text-sm outline-none transition disabled:opacity-60"
                     style={{
-                      borderColor: '#D9D9D6',
+                      borderColor: GRIS_SUAVE,
                       color: NEGRO,
                     }}
                   >
@@ -1259,7 +1301,7 @@ export default function Ventas() {
                     size={17}
                     className="absolute left-3 top-1/2 -translate-y-1/2"
                     style={{
-                      color: GRIS,
+                      color: GRIS_MEDIO,
                     }}
                   />
 
@@ -1273,7 +1315,7 @@ export default function Ventas() {
                     disabled={guardando}
                     className="w-full appearance-none rounded-xl border bg-white px-4 py-3 pl-10 text-sm outline-none transition disabled:opacity-60"
                     style={{
-                      borderColor: '#D9D9D6',
+                      borderColor: GRIS_SUAVE,
                       color: NEGRO,
                     }}
                   >
@@ -1328,7 +1370,7 @@ export default function Ventas() {
                   disabled={guardando}
                   className="w-full rounded-xl border bg-white px-4 py-3 text-sm outline-none transition disabled:opacity-60"
                   style={{
-                    borderColor: '#D9D9D6',
+                    borderColor: GRIS_SUAVE,
                     color: NEGRO,
                   }}
                 />
@@ -1338,10 +1380,12 @@ export default function Ventas() {
               {/* RESUMEN */}
 
               <div
-                className="rounded-2xl p-4"
+                className="rounded-2xl border p-4"
                 style={{
                   backgroundColor:
-                    VINO_SUAVE,
+                    GRIS_MUY_SUAVE,
+                  borderColor:
+                    GRIS_SUAVE,
                 }}
               >
 
@@ -1352,7 +1396,7 @@ export default function Ventas() {
                     <p
                       className="text-xs font-medium"
                       style={{
-                        color: VINO_OSCURO,
+                        color: GRIS_OSCURO,
                       }}
                     >
                       Resumen de venta
@@ -1361,7 +1405,7 @@ export default function Ventas() {
                     <p
                       className="mt-1 text-sm"
                       style={{
-                        color: GRIS,
+                        color: GRIS_MEDIO,
                       }}
                     >
                       {sucursalSeleccionada
@@ -1372,7 +1416,7 @@ export default function Ventas() {
                     <p
                       className="mt-1 text-sm"
                       style={{
-                        color: GRIS,
+                        color: GRIS_MEDIO,
                       }}
                     >
                       {productoSeleccionado
@@ -1387,7 +1431,7 @@ export default function Ventas() {
                     <p
                       className="text-xs"
                       style={{
-                        color: GRIS,
+                        color: GRIS_MEDIO,
                       }}
                     >
                       Total
@@ -1396,7 +1440,7 @@ export default function Ventas() {
                     <p
                       className="text-xl font-bold"
                       style={{
-                        color: VINO_OSCURO,
+                        color: NEGRO,
                       }}
                     >
                       {formatoMoneda(
@@ -1422,8 +1466,8 @@ export default function Ventas() {
                   disabled={guardando}
                   className="rounded-xl border px-5 py-3 text-sm font-medium transition hover:bg-gray-50 disabled:opacity-60"
                   style={{
-                    borderColor: '#D9D9D6',
-                    color: GRIS,
+                    borderColor: GRIS_SUAVE,
+                    color: GRIS_MEDIO,
                   }}
                 >
                   Cancelar
@@ -1438,7 +1482,7 @@ export default function Ventas() {
                   }
                   className="flex items-center gap-2 rounded-xl px-5 py-3 text-sm font-medium text-white transition disabled:cursor-not-allowed disabled:opacity-60"
                   style={{
-                    backgroundColor: VINO,
+                    backgroundColor: GRIS_OSCURO,
                   }}
                 >
 
