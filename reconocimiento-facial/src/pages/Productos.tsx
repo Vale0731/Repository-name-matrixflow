@@ -11,12 +11,18 @@ interface Producto {
   estado: string;
 }
 
-const VINO = '#775b66';
-const VINO_OSCURO = '#6B4652';
-const VINO_SUAVE = '#F8E9EE';
-const GRIS_FONDO = '#F3F3F1';
-const GRIS = '#6B7280';
+const EMPRESA_NOMBRE = 'MATAS PERU EIRL';
+const EMPRESA_GERENTE = 'GERARDO GARCIA MATAS';
+const EMPRESA_RUBRO = 'Electricidad y Soluciones Integrales';
+
+const GRIS_MARCA = '#4B5563';
+const GRIS_OSCURO = '#2F3337';
+const GRIS_MEDIO = '#6B7280';
+const GRIS_SUAVE = '#E5E7EB';
+const GRIS_FONDO = '#F3F4F6';
+const GRIS_MUY_SUAVE = '#F9FAFB';
 const NEGRO = '#111111';
+const BLANCO = '#FFFFFF';
 
 export default function Productos() {
   const [productos, setProductos] = useState<Producto[]>([]);
@@ -228,8 +234,8 @@ export default function Productos() {
             <div
               className="flex h-12 w-12 items-center justify-center rounded-xl"
               style={{
-                backgroundColor: VINO_SUAVE,
-                color: VINO_OSCURO,
+                backgroundColor: GRIS_SUAVE,
+                color: GRIS_OSCURO,
               }}
             >
               <Package size={24} />
@@ -245,9 +251,16 @@ export default function Productos() {
 
               <p
                 className="mt-1 text-sm"
-                style={{ color: GRIS }}
+                style={{ color: GRIS_MEDIO }}
               >
-                Gestión de productos de MatrixFlow Enterprise
+                Gestión de productos de {EMPRESA_NOMBRE}
+              </p>
+
+              <p
+                className="text-xs"
+                style={{ color: GRIS_MARCA }}
+              >
+                {EMPRESA_RUBRO} · Gerente: {EMPRESA_GERENTE}
               </p>
             </div>
           </div>
@@ -260,7 +273,7 @@ export default function Productos() {
               disabled={cargando}
               className="flex items-center gap-2 rounded-xl border bg-white px-4 py-2.5 text-sm font-medium shadow-sm transition hover:bg-gray-50 disabled:cursor-not-allowed disabled:opacity-50"
               style={{
-                borderColor: '#E5E7EB',
+                borderColor: GRIS_SUAVE,
                 color: NEGRO,
               }}
             >
@@ -283,7 +296,7 @@ export default function Productos() {
               }}
               className="flex items-center gap-2 rounded-xl px-4 py-2.5 text-sm font-medium text-white shadow-sm transition hover:opacity-90"
               style={{
-                backgroundColor: VINO_OSCURO,
+                backgroundColor: GRIS_OSCURO,
               }}
             >
               <Plus size={18} />
@@ -322,7 +335,7 @@ export default function Productos() {
             <Search
               size={18}
               className="absolute left-3 top-1/2 -translate-y-1/2"
-              style={{ color: GRIS }}
+              style={{ color: GRIS_MEDIO }}
             />
 
             <input
@@ -339,9 +352,9 @@ export default function Productos() {
               }}
               onFocus={(e) => {
                 e.currentTarget.style.borderColor =
-                  VINO;
+                  GRIS_MARCA;
                 e.currentTarget.style.boxShadow =
-                  `0 0 0 3px ${VINO_SUAVE}`;
+                  `0 0 0 3px ${GRIS_SUAVE}`;
               }}
               onBlur={(e) => {
                 e.currentTarget.style.borderColor =
@@ -368,7 +381,7 @@ export default function Productos() {
 
               <p
                 className="mt-1 text-xs"
-                style={{ color: GRIS }}
+                style={{ color: GRIS_MEDIO }}
               >
                 {productosFiltrados.length} producto
                 {productosFiltrados.length !== 1
@@ -380,8 +393,8 @@ export default function Productos() {
             <div
               className="hidden rounded-lg px-3 py-1.5 text-xs font-medium sm:block"
               style={{
-                backgroundColor: VINO_SUAVE,
-                color: VINO_OSCURO,
+                backgroundColor: GRIS_SUAVE,
+                color: GRIS_OSCURO,
               }}
             >
               {productos.filter(
@@ -396,13 +409,13 @@ export default function Productos() {
           {cargando ? (
             <div
               className="p-12 text-center text-sm"
-              style={{ color: GRIS }}
+              style={{ color: GRIS_MEDIO }}
             >
               <div className="mb-3 flex justify-center">
                 <RefreshCw
                   size={24}
                   className="animate-spin"
-                  style={{ color: VINO }}
+                  style={{ color: GRIS_MARCA }}
                 />
               </div>
 
@@ -416,8 +429,8 @@ export default function Productos() {
               <div
                 className="mx-auto mb-4 flex h-14 w-14 items-center justify-center rounded-full"
                 style={{
-                  backgroundColor: VINO_SUAVE,
-                  color: VINO_OSCURO,
+                  backgroundColor: GRIS_SUAVE,
+                  color: GRIS_OSCURO,
                 }}
               >
                 <Package size={25} />
@@ -435,7 +448,7 @@ export default function Productos() {
               {!busqueda && (
                 <p
                   className="mt-1 text-xs"
-                  style={{ color: GRIS }}
+                  style={{ color: GRIS_MEDIO }}
                 >
                   Agrega tu primer producto usando el
                   botón "Nuevo producto".
@@ -451,8 +464,8 @@ export default function Productos() {
 
                 <thead
                   style={{
-                    backgroundColor: '#FAFAF9',
-                    color: GRIS,
+                    backgroundColor: GRIS_MUY_SUAVE,
+                    color: GRIS_MEDIO,
                   }}
                 >
                   <tr>
@@ -499,7 +512,7 @@ export default function Productos() {
                           {/* ID */}
                           <td
                             className="px-6 py-4 font-medium"
-                            style={{ color: GRIS }}
+                            style={{ color: GRIS_MEDIO }}
                           >
                             #{producto.id}
                           </td>
@@ -511,9 +524,9 @@ export default function Productos() {
                                 className="flex h-9 w-9 items-center justify-center rounded-lg"
                                 style={{
                                   backgroundColor:
-                                    VINO_SUAVE,
+                                    GRIS_SUAVE,
                                   color:
-                                    VINO_OSCURO,
+                                    GRIS_OSCURO,
                                 }}
                               >
                                 <Package size={17} />
@@ -544,7 +557,7 @@ export default function Productos() {
                           {/* CATEGORÍA */}
                           <td
                             className="px-6 py-4"
-                            style={{ color: GRIS }}
+                            style={{ color: GRIS_MEDIO }}
                           >
                             {categoriaProducto}
                           </td>
@@ -558,14 +571,15 @@ export default function Productos() {
                                 'Activo'
                                   ? {
                                       backgroundColor:
-                                        VINO_SUAVE,
+                                        GRIS_SUAVE,
                                       color:
-                                        VINO_OSCURO,
+                                        GRIS_OSCURO,
                                     }
                                   : {
                                       backgroundColor:
                                         '#F3F4F6',
-                                      color: GRIS,
+                                      color:
+                                        GRIS_MEDIO,
                                     }
                               }
                             >
@@ -622,10 +636,9 @@ export default function Productos() {
 
                 <p
                   className="mt-1 text-xs"
-                  style={{ color: GRIS }}
+                  style={{ color: GRIS_MEDIO }}
                 >
-                  Registra un nuevo producto en el
-                  sistema.
+                  Registra un nuevo producto para {EMPRESA_NOMBRE}.
                 </p>
               </div>
 
@@ -636,7 +649,7 @@ export default function Productos() {
                   setError('');
                 }}
                 className="rounded-lg p-2 transition hover:bg-gray-100"
-                style={{ color: GRIS }}
+                style={{ color: GRIS_MEDIO }}
               >
                 <X size={20} />
               </button>
@@ -670,9 +683,9 @@ export default function Productos() {
                   }}
                   onFocus={(e) => {
                     e.currentTarget.style.borderColor =
-                      VINO;
+                      GRIS_MARCA;
                     e.currentTarget.style.boxShadow =
-                      `0 0 0 3px ${VINO_SUAVE}`;
+                      `0 0 0 3px ${GRIS_SUAVE}`;
                   }}
                   onBlur={(e) => {
                     e.currentTarget.style.borderColor =
@@ -709,9 +722,9 @@ export default function Productos() {
                   }}
                   onFocus={(e) => {
                     e.currentTarget.style.borderColor =
-                      VINO;
+                      GRIS_MARCA;
                     e.currentTarget.style.boxShadow =
-                      `0 0 0 3px ${VINO_SUAVE}`;
+                      `0 0 0 3px ${GRIS_SUAVE}`;
                   }}
                   onBlur={(e) => {
                     e.currentTarget.style.borderColor =
@@ -747,9 +760,9 @@ export default function Productos() {
                   }}
                   onFocus={(e) => {
                     e.currentTarget.style.borderColor =
-                      VINO;
+                      GRIS_MARCA;
                     e.currentTarget.style.boxShadow =
-                      `0 0 0 3px ${VINO_SUAVE}`;
+                      `0 0 0 3px ${GRIS_SUAVE}`;
                   }}
                   onBlur={(e) => {
                     e.currentTarget.style.borderColor =
@@ -763,7 +776,7 @@ export default function Productos() {
 
                 <p
                   className="mt-1.5 text-xs"
-                  style={{ color: GRIS }}
+                  style={{ color: GRIS_MEDIO }}
                 >
                   Ingresa el ID de una categoría
                   existente.
@@ -792,7 +805,7 @@ export default function Productos() {
                   type="submit"
                   className="rounded-xl px-5 py-2.5 text-sm font-medium text-white shadow-sm transition hover:opacity-90"
                   style={{
-                    backgroundColor: VINO_OSCURO,
+                    backgroundColor: GRIS_OSCURO,
                   }}
                 >
                   Guardar producto
@@ -805,3 +818,4 @@ export default function Productos() {
     </div>
   );
 }
+
