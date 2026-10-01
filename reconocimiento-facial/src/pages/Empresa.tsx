@@ -17,6 +17,21 @@ interface Empresa {
   estado: string;
 }
 
+/* =========================================================
+   IDENTIDAD MATAS PERU EIRL
+========================================================= */
+
+const EMPRESA_NOMBRE = 'MATAS PERU EIRL';
+const EMPRESA_GERENTE = 'GERARDO GARCIA MATAS';
+const EMPRESA_RUBRO =
+  'Electricidad y Soluciones Integrales';
+
+/* =========================================================
+   PALETA ACTUAL
+   Se mantiene por ahora.
+   El cambio a plomo/blanco/negro será en el siguiente paso.
+========================================================= */
+
 const VINO = '#775b66';
 const VINO_OSCURO = '#6B4652';
 const VINO_SUAVE = '#F8E9EE';
@@ -29,20 +44,32 @@ export default function Empresa() {
   const [cargando, setCargando] = useState(false);
   const [modalAbierto, setModalAbierto] = useState(false);
 
-  const [nombre, setNombre] = useState('');
+  const [nombre, setNombre] =
+    useState(EMPRESA_NOMBRE);
+
   const [ruc, setRuc] = useState('');
   const [direccion, setDireccion] = useState('');
-  const [estado, setEstado] = useState('Activo');
+  const [estado, setEstado] =
+    useState('Activo');
 
-  const [mensaje, setMensaje] = useState('');
-  const [error, setError] = useState('');
+  const [mensaje, setMensaje] =
+    useState('');
+
+  const [error, setError] =
+    useState('');
+
+  /* =======================================================
+     CARGAR EMPRESAS
+  ======================================================= */
 
   const cargarEmpresas = async () => {
     setCargando(true);
     setError('');
 
     try {
-      const respuesta = await fetch(`${API}/empresas`);
+      const respuesta = await fetch(
+        `${API}/empresas`
+      );
 
       if (!respuesta.ok) {
         throw new Error(
@@ -50,18 +77,24 @@ export default function Empresa() {
         );
       }
 
-      const datos = await respuesta.json();
+      const datos =
+        await respuesta.json();
 
       setEmpresas(
         Array.isArray(datos)
           ? datos
-          : Array.isArray(datos.empresas)
+          : Array.isArray(
+                datos.empresas
+              )
             ? datos.empresas
             : []
       );
     } catch (err) {
       console.error(err);
-      setError('No se pudo conectar con el backend.');
+
+      setError(
+        'No se pudo conectar con el backend.'
+      );
     } finally {
       setCargando(false);
     }
@@ -71,12 +104,20 @@ export default function Empresa() {
     cargarEmpresas();
   }, []);
 
+  /* =======================================================
+     LIMPIAR FORMULARIO
+  ======================================================= */
+
   const limpiarFormulario = () => {
-    setNombre('');
+    setNombre(EMPRESA_NOMBRE);
     setRuc('');
     setDireccion('');
     setEstado('Activo');
   };
+
+  /* =======================================================
+     ABRIR MODAL
+  ======================================================= */
 
   const abrirModal = () => {
     limpiarFormulario();
@@ -85,10 +126,18 @@ export default function Empresa() {
     setModalAbierto(true);
   };
 
+  /* =======================================================
+     CERRAR MODAL
+  ======================================================= */
+
   const cerrarModal = () => {
     setModalAbierto(false);
     limpiarFormulario();
   };
+
+  /* =======================================================
+     GUARDAR EMPRESA
+  ======================================================= */
 
   const guardarEmpresa = async (
     e: React.FormEvent
@@ -99,12 +148,16 @@ export default function Empresa() {
     setError('');
 
     if (!nombre.trim()) {
-      setError('Ingresa el nombre de la empresa.');
+      setError(
+        'Ingresa el nombre de la empresa.'
+      );
       return;
     }
 
     if (!ruc.trim()) {
-      setError('Ingresa el RUC de la empresa.');
+      setError(
+        'Ingresa el RUC de la empresa.'
+      );
       return;
     }
 
@@ -116,26 +169,35 @@ export default function Empresa() {
     }
 
     try {
-      const respuesta = await fetch(`${API}/empresas`, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          nombre: nombre.trim(),
-          ruc: ruc.trim(),
-          direccion: direccion.trim(),
-          estado,
-        }),
-      });
+      const respuesta = await fetch(
+        `${API}/empresas`,
+        {
+          method: 'POST',
+          headers: {
+            'Content-Type':
+              'application/json',
+          },
+          body: JSON.stringify({
+            nombre: nombre.trim(),
+            ruc: ruc.trim(),
+            direccion:
+              direccion.trim(),
+            estado,
+          }),
+        }
+      );
 
-      const datos = await respuesta.json();
+      const datos =
+        await respuesta.json();
 
       if (!respuesta.ok) {
         const detalle =
-          typeof datos.detail === 'string'
+          typeof datos.detail ===
+          'string'
             ? datos.detail
-            : JSON.stringify(datos.detail);
+            : JSON.stringify(
+                datos.detail
+              );
 
         throw new Error(
           detalle ||
@@ -144,10 +206,11 @@ export default function Empresa() {
       }
 
       setMensaje(
-        'Empresa registrada correctamente.'
+        `${EMPRESA_NOMBRE} registrada correctamente.`
       );
 
       cerrarModal();
+
       await cargarEmpresas();
     } catch (err) {
       console.error(err);
@@ -160,26 +223,45 @@ export default function Empresa() {
     }
   };
 
-  const empresasActivas = empresas.filter(
-    (empresa) =>
-      empresa.estado?.toLowerCase() === 'activo'
-  ).length;
+  /* =======================================================
+     ESTADÍSTICAS
+  ======================================================= */
 
-  const empresasInactivas = empresas.filter(
-    (empresa) =>
-      empresa.estado?.toLowerCase() !== 'activo'
-  ).length;
+  const empresasActivas =
+    empresas.filter(
+      (empresa) =>
+        empresa.estado
+          ?.toLowerCase() ===
+        'activo'
+    ).length;
+
+  const empresasInactivas =
+    empresas.filter(
+      (empresa) =>
+        empresa.estado
+          ?.toLowerCase() !==
+        'activo'
+    ).length;
+
+  /* =======================================================
+     RENDER
+  ======================================================= */
 
   return (
     <div
       className="min-h-full"
       style={{
-        backgroundColor: GRIS_FONDO,
+        backgroundColor:
+          GRIS_FONDO,
       }}
     >
+
       <div className="mx-auto max-w-[1500px] space-y-6 p-5 lg:p-7">
 
-        {/* ENCABEZADO */}
+        {/* =================================================
+            ENCABEZADO
+        ================================================= */}
+
         <div className="flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
 
           <div className="flex items-center gap-3">
@@ -187,142 +269,211 @@ export default function Empresa() {
             <div
               className="flex h-12 w-12 items-center justify-center rounded-xl"
               style={{
-                backgroundColor: VINO_SUAVE,
-                color: VINO_OSCURO,
+                backgroundColor:
+                  VINO_SUAVE,
+                color:
+                  VINO_OSCURO,
               }}
             >
               <Building2 size={24} />
             </div>
 
             <div>
+
               <p
                 className="text-[11px] font-semibold uppercase tracking-[0.18em]"
-                style={{ color: VINO }}
+                style={{
+                  color: VINO,
+                }}
               >
-                Gestión empresarial
+                {EMPRESA_RUBRO}
               </p>
 
               <h1
                 className="mt-1 text-2xl font-bold tracking-tight"
-                style={{ color: NEGRO }}
+                style={{
+                  color: NEGRO,
+                }}
               >
-                Empresa
+                {EMPRESA_NOMBRE}
               </h1>
 
               <p
                 className="mt-1 text-sm"
-                style={{ color: GRIS }}
+                style={{
+                  color: GRIS,
+                }}
               >
                 Gestión de la información empresarial
               </p>
+
+              <p
+                className="mt-1 text-xs font-medium"
+                style={{
+                  color: GRIS,
+                }}
+              >
+                Gerente: {EMPRESA_GERENTE}
+              </p>
+
             </div>
 
           </div>
 
           <div className="flex flex-wrap gap-2">
 
+            {/* ACTUALIZAR */}
+
             <button
               type="button"
-              onClick={cargarEmpresas}
+              onClick={
+                cargarEmpresas
+              }
               disabled={cargando}
               className="inline-flex items-center gap-2 rounded-xl border bg-white px-4 py-2.5 text-sm font-medium shadow-sm transition hover:bg-gray-50 disabled:cursor-not-allowed disabled:opacity-50"
               style={{
-                borderColor: '#E5E7EB',
+                borderColor:
+                  '#E5E7EB',
                 color: NEGRO,
               }}
             >
+
               <RefreshCw
                 className={
-                  cargando ? 'h-4 w-4 animate-spin' : 'h-4 w-4'
+                  cargando
+                    ? 'h-4 w-4 animate-spin'
+                    : 'h-4 w-4'
                 }
               />
 
               Actualizar
+
             </button>
+
+            {/* NUEVA EMPRESA */}
 
             <button
               type="button"
-              onClick={abrirModal}
+              onClick={
+                abrirModal
+              }
               className="inline-flex items-center gap-2 rounded-xl px-4 py-2.5 text-sm font-semibold text-white shadow-sm transition hover:opacity-90"
               style={{
-                backgroundColor: VINO_OSCURO,
+                backgroundColor:
+                  VINO_OSCURO,
               }}
             >
+
               <Plus className="h-4 w-4" />
 
               Nueva empresa
+
             </button>
 
           </div>
+
         </div>
 
-        {/* MENSAJE */}
+        {/* =================================================
+            MENSAJE
+        ================================================= */}
+
         {mensaje && (
           <div
             className="flex items-center gap-3 rounded-xl border px-4 py-3 text-sm"
             style={{
-              borderColor: '#D8C3CB',
-              backgroundColor: VINO_SUAVE,
-              color: VINO_OSCURO,
+              borderColor:
+                '#D8C3CB',
+              backgroundColor:
+                VINO_SUAVE,
+              color:
+                VINO_OSCURO,
             }}
           >
+
             <CheckCircle2 className="h-5 w-5 shrink-0" />
 
             {mensaje}
+
           </div>
         )}
 
-        {/* ERROR */}
-        {error && !modalAbierto && (
-          <div
-            className="flex items-center justify-between gap-4 rounded-xl border px-4 py-3 text-sm"
-            style={{
-              borderColor: '#FECACA',
-              backgroundColor: '#FEF2F2',
-              color: '#B91C1C',
-            }}
-          >
-            <span>{error}</span>
+        {/* =================================================
+            ERROR
+        ================================================= */}
 
-            <button
-              type="button"
-              onClick={() => setError('')}
-              className="transition hover:opacity-70"
+        {error &&
+          !modalAbierto && (
+            <div
+              className="flex items-center justify-between gap-4 rounded-xl border px-4 py-3 text-sm"
+              style={{
+                borderColor:
+                  '#FECACA',
+                backgroundColor:
+                  '#FEF2F2',
+                color:
+                  '#B91C1C',
+              }}
             >
-              <X size={18} />
-            </button>
-          </div>
-        )}
 
-        {/* KPI */}
+              <span>
+                {error}
+              </span>
+
+              <button
+                type="button"
+                onClick={() =>
+                  setError('')
+                }
+                className="transition hover:opacity-70"
+              >
+                <X size={18} />
+              </button>
+
+            </div>
+          )}
+
+        {/* =================================================
+            KPI
+        ================================================= */}
+
         <div className="grid grid-cols-1 gap-4 md:grid-cols-3">
 
           {/* REGISTRADAS */}
+
           <div className="rounded-2xl border border-gray-200 bg-white p-5 shadow-sm transition hover:shadow-md">
 
             <div className="flex items-start justify-between">
 
               <div>
+
                 <p
                   className="text-xs font-medium uppercase tracking-wide"
-                  style={{ color: GRIS }}
+                  style={{
+                    color: GRIS,
+                  }}
                 >
                   Empresas registradas
                 </p>
 
                 <p
                   className="mt-3 text-3xl font-bold"
-                  style={{ color: NEGRO }}
+                  style={{
+                    color: NEGRO,
+                  }}
                 >
                   {empresas.length}
                 </p>
+
               </div>
 
               <div
                 className="rounded-xl p-2.5"
                 style={{
-                  backgroundColor: VINO_SUAVE,
-                  color: VINO_OSCURO,
+                  backgroundColor:
+                    VINO_SUAVE,
+                  color:
+                    VINO_OSCURO,
                 }}
               >
                 <Building2 className="h-5 w-5" />
@@ -332,7 +483,9 @@ export default function Empresa() {
 
             <p
               className="mt-3 text-xs"
-              style={{ color: GRIS }}
+              style={{
+                color: GRIS,
+              }}
             >
               Total de empresas en el sistema
             </p>
@@ -340,31 +493,41 @@ export default function Empresa() {
           </div>
 
           {/* ACTIVAS */}
+
           <div className="rounded-2xl border border-gray-200 bg-white p-5 shadow-sm transition hover:shadow-md">
 
             <div className="flex items-start justify-between">
 
               <div>
+
                 <p
                   className="text-xs font-medium uppercase tracking-wide"
-                  style={{ color: GRIS }}
+                  style={{
+                    color: GRIS,
+                  }}
                 >
                   Empresas activas
                 </p>
 
                 <p
                   className="mt-3 text-3xl font-bold"
-                  style={{ color: VINO_OSCURO }}
+                  style={{
+                    color:
+                      VINO_OSCURO,
+                  }}
                 >
                   {empresasActivas}
                 </p>
+
               </div>
 
               <div
                 className="rounded-xl p-2.5"
                 style={{
-                  backgroundColor: VINO_SUAVE,
-                  color: VINO_OSCURO,
+                  backgroundColor:
+                    VINO_SUAVE,
+                  color:
+                    VINO_OSCURO,
                 }}
               >
                 <CheckCircle2 className="h-5 w-5" />
@@ -374,7 +537,9 @@ export default function Empresa() {
 
             <p
               className="mt-3 text-xs"
-              style={{ color: GRIS }}
+              style={{
+                color: GRIS,
+              }}
             >
               Empresas actualmente activas
             </p>
@@ -382,30 +547,38 @@ export default function Empresa() {
           </div>
 
           {/* INACTIVAS */}
+
           <div className="rounded-2xl border border-gray-200 bg-white p-5 shadow-sm transition hover:shadow-md">
 
             <div className="flex items-start justify-between">
 
               <div>
+
                 <p
                   className="text-xs font-medium uppercase tracking-wide"
-                  style={{ color: GRIS }}
+                  style={{
+                    color: GRIS,
+                  }}
                 >
                   Empresas inactivas
                 </p>
 
                 <p
                   className="mt-3 text-3xl font-bold"
-                  style={{ color: GRIS }}
+                  style={{
+                    color: GRIS,
+                  }}
                 >
                   {empresasInactivas}
                 </p>
+
               </div>
 
               <div
                 className="rounded-xl p-2.5"
                 style={{
-                  backgroundColor: '#F3F4F6',
+                  backgroundColor:
+                    '#F3F4F6',
                   color: GRIS,
                 }}
               >
@@ -416,7 +589,9 @@ export default function Empresa() {
 
             <p
               className="mt-3 text-xs"
-              style={{ color: GRIS }}
+              style={{
+                color: GRIS,
+              }}
             >
               Empresas desactivadas
             </p>
@@ -425,33 +600,44 @@ export default function Empresa() {
 
         </div>
 
-        {/* TABLA */}
+        {/* =================================================
+            TABLA
+        ================================================= */}
+
         <div className="overflow-hidden rounded-2xl border border-gray-200 bg-white shadow-sm">
 
           <div className="flex items-center justify-between border-b border-gray-200 px-6 py-5">
 
             <div>
+
               <h3
                 className="font-semibold"
-                style={{ color: NEGRO }}
+                style={{
+                  color: NEGRO,
+                }}
               >
                 Empresas registradas
               </h3>
 
               <p
                 className="mt-1 text-xs"
-                style={{ color: GRIS }}
+                style={{
+                  color: GRIS,
+                }}
               >
                 Información empresarial registrada
-                en MatrixFlow
+                en {EMPRESA_NOMBRE}
               </p>
+
             </div>
 
             <div
               className="rounded-lg px-3 py-1.5 text-xs font-semibold"
               style={{
-                backgroundColor: VINO_SUAVE,
-                color: VINO_OSCURO,
+                backgroundColor:
+                  VINO_SUAVE,
+                color:
+                  VINO_OSCURO,
               }}
             >
               {empresas.length} registros
@@ -459,15 +645,18 @@ export default function Empresa() {
 
           </div>
 
-          {empresas.length === 0 ? (
+          {empresas.length ===
+          0 ? (
 
             <div className="px-6 py-16 text-center">
 
               <div
                 className="mx-auto flex h-14 w-14 items-center justify-center rounded-2xl"
                 style={{
-                  backgroundColor: VINO_SUAVE,
-                  color: VINO_OSCURO,
+                  backgroundColor:
+                    VINO_SUAVE,
+                  color:
+                    VINO_OSCURO,
                 }}
               >
                 <Building2 className="h-7 w-7" />
@@ -475,24 +664,31 @@ export default function Empresa() {
 
               <p
                 className="mt-4 font-medium"
-                style={{ color: NEGRO }}
+                style={{
+                  color: NEGRO,
+                }}
               >
                 No hay empresas registradas.
               </p>
 
               <p
                 className="mt-1 text-sm"
-                style={{ color: GRIS }}
+                style={{
+                  color: GRIS,
+                }}
               >
-                Registra la primera empresa para comenzar.
+                Registra la empresa para comenzar.
               </p>
 
               <button
                 type="button"
-                onClick={abrirModal}
+                onClick={
+                  abrirModal
+                }
                 className="mt-5 rounded-xl px-4 py-2.5 text-sm font-semibold text-white shadow-sm transition hover:opacity-90"
                 style={{
-                  backgroundColor: VINO_OSCURO,
+                  backgroundColor:
+                    VINO_OSCURO,
                 }}
               >
                 Registrar empresa
@@ -508,10 +704,12 @@ export default function Empresa() {
 
                 <thead
                   style={{
-                    backgroundColor: '#FAFAF9',
+                    backgroundColor:
+                      '#FAFAF9',
                     color: GRIS,
                   }}
                 >
+
                   <tr>
 
                     <th className="px-6 py-4 text-xs font-semibold uppercase tracking-wide">
@@ -535,115 +733,145 @@ export default function Empresa() {
                     </th>
 
                   </tr>
+
                 </thead>
 
                 <tbody>
 
-                  {empresas.map((empresa) => (
+                  {empresas.map(
+                    (empresa) => (
 
-                    <tr
-                      key={empresa.id}
-                      className="border-t border-gray-100 transition hover:bg-gray-50"
-                    >
-
-                      <td
-                        className="px-6 py-4 text-sm"
-                        style={{ color: GRIS }}
+                      <tr
+                        key={
+                          empresa.id
+                        }
+                        className="border-t border-gray-100 transition hover:bg-gray-50"
                       >
-                        #{empresa.id}
-                      </td>
 
-                      <td className="px-6 py-4">
+                        <td
+                          className="px-6 py-4 text-sm"
+                          style={{
+                            color: GRIS,
+                          }}
+                        >
+                          #{empresa.id}
+                        </td>
 
-                        <div className="flex items-center gap-3">
+                        <td className="px-6 py-4">
 
-                          <div
-                            className="flex h-9 w-9 items-center justify-center rounded-lg"
-                            style={{
-                              backgroundColor: VINO_SUAVE,
-                              color: VINO_OSCURO,
-                            }}
-                          >
-                            <Building2 className="h-4 w-4" />
-                          </div>
+                          <div className="flex items-center gap-3">
 
-                          <div>
-                            <p
-                              className="font-semibold"
+                            <div
+                              className="flex h-9 w-9 items-center justify-center rounded-lg"
                               style={{
-                                color: NEGRO,
+                                backgroundColor:
+                                  VINO_SUAVE,
+                                color:
+                                  VINO_OSCURO,
                               }}
                             >
-                              {empresa.nombre}
-                            </p>
+                              <Building2 className="h-4 w-4" />
+                            </div>
 
-                            <p
-                              className="mt-0.5 text-xs"
-                              style={{ color: GRIS }}
-                            >
-                              Empresa registrada
-                            </p>
+                            <div>
+
+                              <p
+                                className="font-semibold"
+                                style={{
+                                  color:
+                                    NEGRO,
+                                }}
+                              >
+                                {
+                                  empresa.nombre
+                                }
+                              </p>
+
+                              <p
+                                className="mt-0.5 text-xs"
+                                style={{
+                                  color:
+                                    GRIS,
+                                }}
+                              >
+                                Empresa de electricidad y soluciones integrales
+                              </p>
+
+                            </div>
+
                           </div>
 
-                        </div>
+                        </td>
 
-                      </td>
-
-                      <td
-                        className="px-6 py-4 text-sm"
-                        style={{ color: GRIS }}
-                      >
-                        {empresa.ruc}
-                      </td>
-
-                      <td
-                        className="px-6 py-4 text-sm"
-                        style={{ color: GRIS }}
-                      >
-                        {empresa.direccion}
-                      </td>
-
-                      <td className="px-6 py-4">
-
-                        <span
-                          className="inline-flex items-center gap-1.5 rounded-full px-3 py-1 text-xs font-semibold"
-                          style={
-                            empresa.estado?.toLowerCase() ===
-                            'activo'
-                              ? {
-                                  backgroundColor:
-                                    VINO_SUAVE,
-                                  color:
-                                    VINO_OSCURO,
-                                }
-                              : {
-                                  backgroundColor:
-                                    '#F3F4F6',
-                                  color: GRIS,
-                                }
-                          }
+                        <td
+                          className="px-6 py-4 text-sm"
+                          style={{
+                            color: GRIS,
+                          }}
                         >
+                          {
+                            empresa.ruc
+                          }
+                        </td>
+
+                        <td
+                          className="px-6 py-4 text-sm"
+                          style={{
+                            color: GRIS,
+                          }}
+                        >
+                          {
+                            empresa.direccion
+                          }
+                        </td>
+
+                        <td className="px-6 py-4">
 
                           <span
-                            className="h-1.5 w-1.5 rounded-full"
-                            style={{
-                              backgroundColor:
-                                empresa.estado?.toLowerCase() ===
-                                'activo'
-                                  ? VINO
-                                  : GRIS,
-                            }}
-                          />
+                            className="inline-flex items-center gap-1.5 rounded-full px-3 py-1 text-xs font-semibold"
+                            style={
+                              empresa.estado
+                                ?.toLowerCase() ===
+                              'activo'
+                                ? {
+                                    backgroundColor:
+                                      VINO_SUAVE,
+                                    color:
+                                      VINO_OSCURO,
+                                  }
+                                : {
+                                    backgroundColor:
+                                      '#F3F4F6',
+                                    color:
+                                      GRIS,
+                                  }
+                            }
+                          >
 
-                          {empresa.estado}
+                            <span
+                              className="h-1.5 w-1.5 rounded-full"
+                              style={{
+                                backgroundColor:
+                                  empresa.estado
+                                    ?.toLowerCase() ===
+                                  'activo'
+                                    ? VINO
+                                    : GRIS,
+                              }}
+                            />
 
-                        </span>
+                            {
+                              empresa.estado
+                            }
 
-                      </td>
+                          </span>
 
-                    </tr>
+                        </td>
 
-                  ))}
+                      </tr>
+
+                    )
+                  )}
 
                 </tbody>
 
@@ -657,7 +885,10 @@ export default function Empresa() {
 
       </div>
 
-      {/* MODAL */}
+      {/* =================================================
+          MODAL
+      ================================================= */}
+
       {modalAbierto && (
 
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/40 p-4 backdrop-blur-[2px]">
@@ -671,8 +902,10 @@ export default function Empresa() {
                 <div
                   className="flex h-10 w-10 items-center justify-center rounded-xl"
                   style={{
-                    backgroundColor: VINO_SUAVE,
-                    color: VINO_OSCURO,
+                    backgroundColor:
+                      VINO_SUAVE,
+                    color:
+                      VINO_OSCURO,
                   }}
                 >
                   <Building2 className="h-5 w-5" />
@@ -682,16 +915,20 @@ export default function Empresa() {
 
                   <h3
                     className="text-lg font-semibold"
-                    style={{ color: NEGRO }}
+                    style={{
+                      color: NEGRO,
+                    }}
                   >
                     Registrar empresa
                   </h3>
 
                   <p
                     className="text-sm"
-                    style={{ color: GRIS }}
+                    style={{
+                      color: GRIS,
+                    }}
                   >
-                    Completa la información empresarial
+                    {EMPRESA_NOMBRE}
                   </p>
 
                 </div>
@@ -700,9 +937,13 @@ export default function Empresa() {
 
               <button
                 type="button"
-                onClick={cerrarModal}
+                onClick={
+                  cerrarModal
+                }
                 className="rounded-xl p-2 transition hover:bg-gray-100"
-                style={{ color: GRIS }}
+                style={{
+                  color: GRIS,
+                }}
               >
                 <X className="h-5 w-5" />
               </button>
@@ -710,15 +951,21 @@ export default function Empresa() {
             </div>
 
             <form
-              onSubmit={guardarEmpresa}
+              onSubmit={
+                guardarEmpresa
+              }
               className="space-y-5 p-6"
             >
+
+              {/* NOMBRE */}
 
               <div>
 
                 <label
                   className="mb-2 block text-sm font-medium"
-                  style={{ color: NEGRO }}
+                  style={{
+                    color: NEGRO,
+                  }}
                 >
                   Nombre de la empresa
                 </label>
@@ -727,23 +974,28 @@ export default function Empresa() {
                   type="text"
                   value={nombre}
                   onChange={(e) =>
-                    setNombre(e.target.value)
+                    setNombre(
+                      e.target.value
+                    )
                   }
-                  placeholder="Ej. MatrixFlow Enterprise"
+                  placeholder={EMPRESA_NOMBRE}
                   className="w-full rounded-xl border bg-white px-4 py-3 text-sm outline-none transition placeholder:text-gray-400"
                   style={{
-                    borderColor: '#D1D5DB',
+                    borderColor:
+                      '#D1D5DB',
                     color: NEGRO,
                   }}
                   onFocus={(e) => {
                     e.currentTarget.style.borderColor =
                       VINO;
+
                     e.currentTarget.style.boxShadow =
                       `0 0 0 3px ${VINO_SUAVE}`;
                   }}
                   onBlur={(e) => {
                     e.currentTarget.style.borderColor =
                       '#D1D5DB';
+
                     e.currentTarget.style.boxShadow =
                       'none';
                   }}
@@ -752,11 +1004,15 @@ export default function Empresa() {
 
               </div>
 
+              {/* RUC */}
+
               <div>
 
                 <label
                   className="mb-2 block text-sm font-medium"
-                  style={{ color: NEGRO }}
+                  style={{
+                    color: NEGRO,
+                  }}
                 >
                   RUC
                 </label>
@@ -765,23 +1021,28 @@ export default function Empresa() {
                   type="text"
                   value={ruc}
                   onChange={(e) =>
-                    setRuc(e.target.value)
+                    setRuc(
+                      e.target.value
+                    )
                   }
-                  placeholder="Ej. 20123456789"
+                  placeholder="Ingresa el RUC de MATAS PERU EIRL"
                   className="w-full rounded-xl border bg-white px-4 py-3 text-sm outline-none transition placeholder:text-gray-400"
                   style={{
-                    borderColor: '#D1D5DB',
+                    borderColor:
+                      '#D1D5DB',
                     color: NEGRO,
                   }}
                   onFocus={(e) => {
                     e.currentTarget.style.borderColor =
                       VINO;
+
                     e.currentTarget.style.boxShadow =
                       `0 0 0 3px ${VINO_SUAVE}`;
                   }}
                   onBlur={(e) => {
                     e.currentTarget.style.borderColor =
                       '#D1D5DB';
+
                     e.currentTarget.style.boxShadow =
                       'none';
                   }}
@@ -790,11 +1051,15 @@ export default function Empresa() {
 
               </div>
 
+              {/* DIRECCIÓN */}
+
               <div>
 
                 <label
                   className="mb-2 block text-sm font-medium"
-                  style={{ color: NEGRO }}
+                  style={{
+                    color: NEGRO,
+                  }}
                 >
                   Dirección
                 </label>
@@ -803,23 +1068,28 @@ export default function Empresa() {
                   type="text"
                   value={direccion}
                   onChange={(e) =>
-                    setDireccion(e.target.value)
+                    setDireccion(
+                      e.target.value
+                    )
                   }
-                  placeholder="Dirección de la empresa"
+                  placeholder="Dirección de MATAS PERU EIRL"
                   className="w-full rounded-xl border bg-white px-4 py-3 text-sm outline-none transition placeholder:text-gray-400"
                   style={{
-                    borderColor: '#D1D5DB',
+                    borderColor:
+                      '#D1D5DB',
                     color: NEGRO,
                   }}
                   onFocus={(e) => {
                     e.currentTarget.style.borderColor =
                       VINO;
+
                     e.currentTarget.style.boxShadow =
                       `0 0 0 3px ${VINO_SUAVE}`;
                   }}
                   onBlur={(e) => {
                     e.currentTarget.style.borderColor =
                       '#D1D5DB';
+
                     e.currentTarget.style.boxShadow =
                       'none';
                   }}
@@ -828,11 +1098,15 @@ export default function Empresa() {
 
               </div>
 
+              {/* ESTADO */}
+
               <div>
 
                 <label
                   className="mb-2 block text-sm font-medium"
-                  style={{ color: NEGRO }}
+                  style={{
+                    color: NEGRO,
+                  }}
                 >
                   Estado
                 </label>
@@ -840,26 +1114,32 @@ export default function Empresa() {
                 <select
                   value={estado}
                   onChange={(e) =>
-                    setEstado(e.target.value)
+                    setEstado(
+                      e.target.value
+                    )
                   }
                   className="w-full rounded-xl border bg-white px-4 py-3 text-sm outline-none transition"
                   style={{
-                    borderColor: '#D1D5DB',
+                    borderColor:
+                      '#D1D5DB',
                     color: NEGRO,
                   }}
                   onFocus={(e) => {
                     e.currentTarget.style.borderColor =
                       VINO;
+
                     e.currentTarget.style.boxShadow =
                       `0 0 0 3px ${VINO_SUAVE}`;
                   }}
                   onBlur={(e) => {
                     e.currentTarget.style.borderColor =
                       '#D1D5DB';
+
                     e.currentTarget.style.boxShadow =
                       'none';
                   }}
                 >
+
                   <option value="Activo">
                     Activo
                   </option>
@@ -867,18 +1147,65 @@ export default function Empresa() {
                   <option value="Inactivo">
                     Inactivo
                   </option>
+
                 </select>
 
               </div>
+
+              {/* INFORMACIÓN DEL GERENTE */}
+
+              <div
+                className="rounded-xl border px-4 py-3"
+                style={{
+                  borderColor:
+                    '#E5E7EB',
+                  backgroundColor:
+                    '#F9FAFB',
+                }}
+              >
+
+                <p
+                  className="text-xs font-semibold uppercase tracking-wide"
+                  style={{
+                    color: GRIS,
+                  }}
+                >
+                  Información empresarial
+                </p>
+
+                <p
+                  className="mt-2 text-sm font-semibold"
+                  style={{
+                    color: NEGRO,
+                  }}
+                >
+                  Gerente: {EMPRESA_GERENTE}
+                </p>
+
+                <p
+                  className="mt-1 text-xs"
+                  style={{
+                    color: GRIS,
+                  }}
+                >
+                  {EMPRESA_RUBRO}
+                </p>
+
+              </div>
+
+              {/* ERROR */}
 
               {error && (
 
                 <div
                   className="rounded-xl border px-4 py-3 text-sm"
                   style={{
-                    borderColor: '#FECACA',
-                    backgroundColor: '#FEF2F2',
-                    color: '#B91C1C',
+                    borderColor:
+                      '#FECACA',
+                    backgroundColor:
+                      '#FEF2F2',
+                    color:
+                      '#B91C1C',
                   }}
                 >
                   {error}
@@ -886,14 +1213,19 @@ export default function Empresa() {
 
               )}
 
+              {/* BOTONES */}
+
               <div className="flex justify-end gap-3 border-t border-gray-200 pt-5">
 
                 <button
                   type="button"
-                  onClick={cerrarModal}
+                  onClick={
+                    cerrarModal
+                  }
                   className="rounded-xl border bg-white px-5 py-2.5 text-sm font-medium transition hover:bg-gray-50"
                   style={{
-                    borderColor: '#D1D5DB',
+                    borderColor:
+                      '#D1D5DB',
                     color: NEGRO,
                   }}
                 >
@@ -904,7 +1236,8 @@ export default function Empresa() {
                   type="submit"
                   className="rounded-xl px-5 py-2.5 text-sm font-semibold text-white shadow-sm transition hover:opacity-90"
                   style={{
-                    backgroundColor: VINO_OSCURO,
+                    backgroundColor:
+                      VINO_OSCURO,
                   }}
                 >
                   Guardar empresa
@@ -923,3 +1256,5 @@ export default function Empresa() {
     </div>
   );
 }
+
+
