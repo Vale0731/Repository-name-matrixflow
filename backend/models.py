@@ -221,3 +221,30 @@ class Auditoria(Base):
     ip = Column(String, nullable=True)
     estado = Column(String, nullable=False)
     resultado = Column(String, nullable=True)
+
+# =========================
+# BIOMETRÍA FACIAL
+# =========================
+
+class BiometriaFacial(Base):
+    __tablename__ = "biometria_facial"
+
+    id = Column(Integer, primary_key=True, index=True)
+
+    usuario_id = Column(
+        Integer,
+        ForeignKey("usuarios.id"),
+        nullable=False,
+        unique=True
+    )
+
+    descriptor = Column(
+        String(5000),
+        nullable=False
+    )
+
+    fecha_registro = Column(
+        DateTime,
+        default=datetime.utcnow,
+        nullable=False
+    )
