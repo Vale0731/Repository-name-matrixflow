@@ -9,11 +9,17 @@ import {
   TrendingUp,
 } from 'lucide-react';
 
-const VINO = '#775b66';
-const VINO_OSCURO = '#6B4652';
-const VINO_SUAVE = '#F8E9EE';
-const GRIS_FONDO = '#F3F3F1';
-const GRIS = '#6B7280';
+const EMPRESA_NOMBRE = 'MATAS PERU EIRL';
+const EMPRESA_GERENTE = 'GERARDO GARCIA MATAS';
+const EMPRESA_RUBRO = 'Electricidad y Soluciones Integrales';
+
+const GRIS_MARCA = '#4B5563';
+const GRIS_OSCURO = '#2F3337';
+const GRIS_MEDIO = '#6B7280';
+const GRIS_SUAVE = '#E5E7EB';
+const GRIS_FONDO = '#F3F4F6';
+const GRIS_MUY_SUAVE = '#F9FAFB';
+const BLANCO = '#FFFFFF';
 const NEGRO = '#111111';
 
 interface Venta {
@@ -130,8 +136,8 @@ export default function Reportes() {
           <div
             className="rounded-2xl p-3 shadow-sm"
             style={{
-              backgroundColor: VINO_SUAVE,
-              color: VINO,
+              backgroundColor: GRIS_SUAVE,
+              color: GRIS_OSCURO,
             }}
           >
             <BarChart3 size={25} />
@@ -147,9 +153,16 @@ export default function Reportes() {
 
             <p
               className="mt-1 text-sm"
-              style={{ color: GRIS }}
+              style={{ color: GRIS_MEDIO }}
             >
-              Resumen general de MatrixFlow Enterprise
+              Resumen general de {EMPRESA_NOMBRE}
+            </p>
+
+            <p
+              className="mt-1 text-xs"
+              style={{ color: GRIS_MARCA }}
+            >
+              {EMPRESA_RUBRO} · Gerente: {EMPRESA_GERENTE}
             </p>
           </div>
         </div>
@@ -160,20 +173,20 @@ export default function Reportes() {
           disabled={cargando}
           className="flex items-center justify-center gap-2 rounded-xl border bg-white px-5 py-3 text-sm font-semibold transition disabled:cursor-not-allowed disabled:opacity-50"
           style={{
-            borderColor: '#D8D8D8',
+            borderColor: '#D1D5DB',
             color: NEGRO,
           }}
           onMouseEnter={(e) => {
             if (!cargando) {
-              e.currentTarget.style.backgroundColor = VINO_SUAVE;
-              e.currentTarget.style.borderColor = VINO;
-              e.currentTarget.style.color = VINO_OSCURO;
+              e.currentTarget.style.backgroundColor = GRIS_SUAVE;
+              e.currentTarget.style.borderColor = GRIS_MARCA;
+              e.currentTarget.style.color = GRIS_OSCURO;
             }
           }}
           onMouseLeave={(e) => {
             if (!cargando) {
-              e.currentTarget.style.backgroundColor = '#FFFFFF';
-              e.currentTarget.style.borderColor = '#D8D8D8';
+              e.currentTarget.style.backgroundColor = BLANCO;
+              e.currentTarget.style.borderColor = '#D1D5DB';
               e.currentTarget.style.color = NEGRO;
             }
           }}
@@ -193,9 +206,9 @@ export default function Reportes() {
         <div
           className="rounded-xl border p-4 text-sm"
           style={{
-            borderColor: '#E8C9D1',
-            backgroundColor: '#FDF3F5',
-            color: '#8A3D4F',
+            borderColor: '#9CA3AF',
+            backgroundColor: '#E5E7EB',
+            color: '#374151',
           }}
         >
           {error}
@@ -209,12 +222,12 @@ export default function Reportes() {
 
         <div
           className="rounded-2xl border bg-white p-5 shadow-sm"
-          style={{ borderColor: '#E5E5E5' }}
+          style={{ borderColor: '#E5E7EB' }}
         >
           <div className="flex items-center justify-between">
             <p
               className="text-sm"
-              style={{ color: GRIS }}
+              style={{ color: GRIS_MEDIO }}
             >
               Ventas registradas
             </p>
@@ -222,8 +235,8 @@ export default function Reportes() {
             <div
               className="flex h-9 w-9 items-center justify-center rounded-xl"
               style={{
-                backgroundColor: VINO_SUAVE,
-                color: VINO,
+                backgroundColor: GRIS_SUAVE,
+                color: GRIS_OSCURO,
               }}
             >
               <ShoppingCart size={19} />
@@ -239,7 +252,7 @@ export default function Reportes() {
 
           <p
             className="mt-1 text-xs"
-            style={{ color: GRIS }}
+            style={{ color: GRIS_MEDIO }}
           >
             Registros de ventas
           </p>
@@ -249,12 +262,12 @@ export default function Reportes() {
 
         <div
           className="rounded-2xl border bg-white p-5 shadow-sm"
-          style={{ borderColor: '#E5E5E5' }}
+          style={{ borderColor: '#E5E7EB' }}
         >
           <div className="flex items-center justify-between">
             <p
               className="text-sm"
-              style={{ color: GRIS }}
+              style={{ color: GRIS_MEDIO }}
             >
               Total vendido
             </p>
@@ -262,8 +275,8 @@ export default function Reportes() {
             <div
               className="flex h-9 w-9 items-center justify-center rounded-xl"
               style={{
-                backgroundColor: VINO_SUAVE,
-                color: VINO_OSCURO,
+                backgroundColor: GRIS_SUAVE,
+                color: GRIS_OSCURO,
               }}
             >
               <TrendingUp size={19} />
@@ -272,14 +285,14 @@ export default function Reportes() {
 
           <p
             className="mt-3 text-3xl font-bold"
-            style={{ color: VINO_OSCURO }}
+            style={{ color: GRIS_OSCURO }}
           >
             S/ {totalVentas.toFixed(2)}
           </p>
 
           <p
             className="mt-1 text-xs"
-            style={{ color: GRIS }}
+            style={{ color: GRIS_MEDIO }}
           >
             Suma de ventas registradas
           </p>
@@ -289,12 +302,12 @@ export default function Reportes() {
 
         <div
           className="rounded-2xl border bg-white p-5 shadow-sm"
-          style={{ borderColor: '#E5E5E5' }}
+          style={{ borderColor: '#E5E7EB' }}
         >
           <div className="flex items-center justify-between">
             <p
               className="text-sm"
-              style={{ color: GRIS }}
+              style={{ color: GRIS_MEDIO }}
             >
               Unidades en inventario
             </p>
@@ -302,8 +315,8 @@ export default function Reportes() {
             <div
               className="flex h-9 w-9 items-center justify-center rounded-xl"
               style={{
-                backgroundColor: VINO_SUAVE,
-                color: VINO,
+                backgroundColor: GRIS_SUAVE,
+                color: GRIS_OSCURO,
               }}
             >
               <Boxes size={19} />
@@ -319,7 +332,7 @@ export default function Reportes() {
 
           <p
             className="mt-1 text-xs"
-            style={{ color: GRIS }}
+            style={{ color: GRIS_MEDIO }}
           >
             Stock registrado
           </p>
@@ -329,12 +342,12 @@ export default function Reportes() {
 
         <div
           className="rounded-2xl border bg-white p-5 shadow-sm"
-          style={{ borderColor: '#E5E5E5' }}
+          style={{ borderColor: '#E5E7EB' }}
         >
           <div className="flex items-center justify-between">
             <p
               className="text-sm"
-              style={{ color: GRIS }}
+              style={{ color: GRIS_MEDIO }}
             >
               Operaciones matemáticas
             </p>
@@ -342,8 +355,8 @@ export default function Reportes() {
             <div
               className="flex h-9 w-9 items-center justify-center rounded-xl"
               style={{
-                backgroundColor: VINO_SUAVE,
-                color: VINO,
+                backgroundColor: GRIS_SUAVE,
+                color: GRIS_OSCURO,
               }}
             >
               <Calculator size={19} />
@@ -352,14 +365,14 @@ export default function Reportes() {
 
           <p
             className="mt-3 text-3xl font-bold"
-            style={{ color: VINO }}
+            style={{ color: GRIS_OSCURO }}
           >
             {operaciones.length}
           </p>
 
           <p
             className="mt-1 text-xs"
-            style={{ color: GRIS }}
+            style={{ color: GRIS_MEDIO }}
           >
             Operaciones registradas
           </p>
@@ -373,7 +386,7 @@ export default function Reportes() {
 
         <div
           className="rounded-2xl border bg-white p-6 shadow-sm"
-          style={{ borderColor: '#E5E5E5' }}
+          style={{ borderColor: '#E5E7EB' }}
         >
           <div className="mb-5">
             <h3
@@ -385,7 +398,7 @@ export default function Reportes() {
 
             <p
               className="mt-1 text-xs"
-              style={{ color: GRIS }}
+              style={{ color: GRIS_MEDIO }}
             >
               Información general de las ventas registradas.
             </p>
@@ -395,13 +408,13 @@ export default function Reportes() {
             <div
               className="flex items-center justify-between rounded-xl border p-4"
               style={{
-                borderColor: '#E9E3E6',
-                backgroundColor: '#FCFAFB',
+                borderColor: '#E5E7EB',
+                backgroundColor: GRIS_MUY_SUAVE,
               }}
             >
               <span
                 className="text-sm"
-                style={{ color: GRIS }}
+                style={{ color: GRIS_MEDIO }}
               >
                 Ventas totales
               </span>
@@ -417,13 +430,13 @@ export default function Reportes() {
             <div
               className="flex items-center justify-between rounded-xl border p-4"
               style={{
-                borderColor: '#E9E3E6',
-                backgroundColor: '#FCFAFB',
+                borderColor: '#E5E7EB',
+                backgroundColor: GRIS_MUY_SUAVE,
               }}
             >
               <span
                 className="text-sm"
-                style={{ color: GRIS }}
+                style={{ color: GRIS_MEDIO }}
               >
                 Ventas completadas
               </span>
@@ -431,8 +444,8 @@ export default function Reportes() {
               <span
                 className="rounded-full px-3 py-1 text-sm font-semibold"
                 style={{
-                  backgroundColor: VINO_SUAVE,
-                  color: VINO_OSCURO,
+                  backgroundColor: GRIS_SUAVE,
+                  color: GRIS_OSCURO,
                 }}
               >
                 {ventasCompletadas}
@@ -442,20 +455,20 @@ export default function Reportes() {
             <div
               className="flex items-center justify-between rounded-xl border p-4"
               style={{
-                borderColor: '#E9E3E6',
-                backgroundColor: '#FCFAFB',
+                borderColor: '#E5E7EB',
+                backgroundColor: GRIS_MUY_SUAVE,
               }}
             >
               <span
                 className="text-sm"
-                style={{ color: GRIS }}
+                style={{ color: GRIS_MEDIO }}
               >
                 Importe acumulado
               </span>
 
               <span
                 className="font-semibold"
-                style={{ color: VINO_OSCURO }}
+                style={{ color: GRIS_OSCURO }}
               >
                 S/ {totalVentas.toFixed(2)}
               </span>
@@ -467,7 +480,7 @@ export default function Reportes() {
 
         <div
           className="rounded-2xl border bg-white p-6 shadow-sm"
-          style={{ borderColor: '#E5E5E5' }}
+          style={{ borderColor: '#E5E7EB' }}
         >
           <div className="mb-5">
             <h3
@@ -479,7 +492,7 @@ export default function Reportes() {
 
             <p
               className="mt-1 text-xs"
-              style={{ color: GRIS }}
+              style={{ color: GRIS_MEDIO }}
             >
               Información general del stock registrado.
             </p>
@@ -489,13 +502,13 @@ export default function Reportes() {
             <div
               className="flex items-center justify-between rounded-xl border p-4"
               style={{
-                borderColor: '#E9E3E6',
-                backgroundColor: '#FCFAFB',
+                borderColor: '#E5E7EB',
+                backgroundColor: GRIS_MUY_SUAVE,
               }}
             >
               <span
                 className="text-sm"
-                style={{ color: GRIS }}
+                style={{ color: GRIS_MEDIO }}
               >
                 Registros de inventario
               </span>
@@ -511,13 +524,13 @@ export default function Reportes() {
             <div
               className="flex items-center justify-between rounded-xl border p-4"
               style={{
-                borderColor: '#E9E3E6',
-                backgroundColor: '#FCFAFB',
+                borderColor: '#E5E7EB',
+                backgroundColor: GRIS_MUY_SUAVE,
               }}
             >
               <span
                 className="text-sm"
-                style={{ color: GRIS }}
+                style={{ color: GRIS_MEDIO }}
               >
                 Unidades disponibles
               </span>
@@ -525,8 +538,8 @@ export default function Reportes() {
               <span
                 className="rounded-full px-3 py-1 text-sm font-semibold"
                 style={{
-                  backgroundColor: VINO_SUAVE,
-                  color: VINO,
+                  backgroundColor: GRIS_SUAVE,
+                  color: GRIS_OSCURO,
                 }}
               >
                 {unidadesInventario}
@@ -536,20 +549,20 @@ export default function Reportes() {
             <div
               className="flex items-center justify-between rounded-xl border p-4"
               style={{
-                borderColor: '#E9E3E6',
-                backgroundColor: '#FCFAFB',
+                borderColor: '#E5E7EB',
+                backgroundColor: GRIS_MUY_SUAVE,
               }}
             >
               <span
                 className="text-sm"
-                style={{ color: GRIS }}
+                style={{ color: GRIS_MEDIO }}
               >
                 Operaciones registradas
               </span>
 
               <span
                 className="font-semibold"
-                style={{ color: VINO }}
+                style={{ color: GRIS_OSCURO }}
               >
                 {operaciones.length}
               </span>
@@ -562,18 +575,18 @@ export default function Reportes() {
 
       <div
         className="overflow-hidden rounded-2xl border bg-white shadow-sm"
-        style={{ borderColor: '#E5E5E5' }}
+        style={{ borderColor: '#E5E7EB' }}
       >
         <div
           className="border-b p-5"
-          style={{ borderColor: '#E5E5E5' }}
+          style={{ borderColor: '#E5E7EB' }}
         >
           <div className="flex items-center gap-3">
             <div
               className="flex h-9 w-9 items-center justify-center rounded-xl"
               style={{
-                backgroundColor: VINO_SUAVE,
-                color: VINO,
+                backgroundColor: GRIS_SUAVE,
+                color: GRIS_OSCURO,
               }}
             >
               <ShoppingCart size={18} />
@@ -589,7 +602,7 @@ export default function Reportes() {
 
               <p
                 className="mt-1 text-xs"
-                style={{ color: GRIS }}
+                style={{ color: GRIS_MEDIO }}
               >
                 Registro de las ventas realizadas.
               </p>
@@ -602,8 +615,8 @@ export default function Reportes() {
             <div
               className="mx-auto flex h-14 w-14 items-center justify-center rounded-2xl"
               style={{
-                backgroundColor: VINO_SUAVE,
-                color: VINO,
+                backgroundColor: GRIS_SUAVE,
+                color: GRIS_OSCURO,
               }}
             >
               <ShoppingCart size={28} />
@@ -618,7 +631,7 @@ export default function Reportes() {
 
             <p
               className="mt-1 text-xs"
-              style={{ color: GRIS }}
+              style={{ color: GRIS_MEDIO }}
             >
               Las ventas realizadas aparecerán aquí.
             </p>
@@ -630,27 +643,27 @@ export default function Reportes() {
                 <tr
                   className="border-b"
                   style={{
-                    borderColor: '#E5E5E5',
+                    borderColor: '#E5E7EB',
                     backgroundColor: '#FAFAFA',
                   }}
                 >
                   <th
                     className="px-5 py-4 text-xs font-semibold uppercase tracking-wide"
-                    style={{ color: GRIS }}
+                    style={{ color: GRIS_MEDIO }}
                   >
                     ID
                   </th>
 
                   <th
                     className="px-5 py-4 text-xs font-semibold uppercase tracking-wide"
-                    style={{ color: GRIS }}
+                    style={{ color: GRIS_MEDIO }}
                   >
                     Total
                   </th>
 
                   <th
                     className="px-5 py-4 text-xs font-semibold uppercase tracking-wide"
-                    style={{ color: GRIS }}
+                    style={{ color: GRIS_MEDIO }}
                   >
                     Estado
                   </th>
@@ -665,16 +678,16 @@ export default function Reportes() {
                     style={{ borderColor: '#F0F0F0' }}
                     onMouseEnter={(e) => {
                       e.currentTarget.style.backgroundColor =
-                        '#FCF8FA';
+                        GRIS_MUY_SUAVE;
                     }}
                     onMouseLeave={(e) => {
                       e.currentTarget.style.backgroundColor =
-                        '#FFFFFF';
+                        BLANCO;
                     }}
                   >
                     <td
                       className="px-5 py-4 text-sm font-medium"
-                      style={{ color: GRIS }}
+                      style={{ color: GRIS_MEDIO }}
                     >
                       #{venta.id}
                     </td>
@@ -690,8 +703,8 @@ export default function Reportes() {
                       <span
                         className="inline-flex rounded-full px-3 py-1 text-xs font-semibold"
                         style={{
-                          backgroundColor: VINO_SUAVE,
-                          color: VINO_OSCURO,
+                          backgroundColor: GRIS_SUAVE,
+                          color: GRIS_OSCURO,
                         }}
                       >
                         {venta.estado ?? 'Registrada'}
