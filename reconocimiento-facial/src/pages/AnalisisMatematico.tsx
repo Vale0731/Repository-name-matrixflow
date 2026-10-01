@@ -12,20 +12,19 @@ import {
   RefreshCw,
 } from 'lucide-react';
 
-const VINO = '#775b66';
-const VINO_OSCURO = '#6B4652';
-const VINO_SUAVE = '#F8E9EE';
-const GRIS_FONDO = '#F3F3F1';
-const GRIS = '#6B7280';
+const EMPRESA_NOMBRE = 'MATAS PERU EIRL';
+const EMPRESA_GERENTE = 'GERARDO GARCIA MATAS';
+const EMPRESA_RUBRO = 'Electricidad y Soluciones Integrales';
+
+const GRIS_MARCA = '#4B5563';
+const GRIS_OSCURO = '#2F3337';
+const GRIS_MEDIO = '#6B7280';
+const GRIS_SUAVE = '#E5E7EB';
+const GRIS_FONDO = '#F3F4F6';
+const GRIS_MUY_SUAVE = '#F9FAFB';
+const BLANCO = '#FFFFFF';
 const NEGRO = '#111111';
 
-/*
-  IMPORTANTE:
-  Los valores se manejan como string en el frontend.
-
-  Esto evita que JavaScript convierta números grandes
-  a Number y pierda precisión.
-*/
 type ValorNumerico = string;
 
 type Resultado =
@@ -85,17 +84,6 @@ export default function AnalisisMatematico() {
       return false;
     }
 
-    /*
-      Acepta:
-
-      123
-      -123
-      +123
-      999999999999999999999999999
-      12.50
-      -0.25
-    */
-
     return /^[+-]?(?:\d+\.?\d*|\.\d+)$/.test(
       texto
     );
@@ -135,15 +123,6 @@ export default function AnalisisMatematico() {
           : [];
 
       setVentas(listaVentas);
-
-      /*
-        IMPORTANTE:
-
-        NO usamos Number() aquí.
-
-        Guardamos el total como texto para
-        evitar perder precisión en números grandes.
-      */
 
       const valoresVentas =
         listaVentas
@@ -218,14 +197,6 @@ export default function AnalisisMatematico() {
       texto
         .split(',')
         .map((x) => x.trim());
-
-    /*
-      NO usamos filter().
-
-      Antes filter() eliminaba valores inválidos
-      y podía provocar que A y B terminaran
-      con cantidades diferentes.
-    */
 
     const valores: string[] = [];
 
@@ -400,10 +371,6 @@ export default function AnalisisMatematico() {
         unknown
       > = {};
 
-      // --------------------------------------------------------
-      // SUMA / RESTA / PUNTO / ESCALAR / COMBINACIÓN
-      // --------------------------------------------------------
-
       const a =
         parseVector(
           vectorA,
@@ -419,10 +386,6 @@ export default function AnalisisMatematico() {
             'Vector B'
           );
       }
-
-      // --------------------------------------------------------
-      // MATRICES
-      // --------------------------------------------------------
 
       const A =
         necesitaMatriz
@@ -442,10 +405,6 @@ export default function AnalisisMatematico() {
           : [];
 
       switch (operacion) {
-        // ======================================================
-        // SUMA
-        // ======================================================
-
         case 'suma':
           validarVector(
             a,
@@ -475,10 +434,6 @@ export default function AnalisisMatematico() {
           };
 
           break;
-
-        // ======================================================
-        // RESTA
-        // ======================================================
 
         case 'resta':
           validarVector(
@@ -510,10 +465,6 @@ export default function AnalisisMatematico() {
 
           break;
 
-        // ======================================================
-        // PRODUCTO PUNTO
-        // ======================================================
-
         case 'punto':
           validarVector(
             a,
@@ -544,10 +495,6 @@ export default function AnalisisMatematico() {
 
           break;
 
-        // ======================================================
-        // MULTIPLICACIÓN POR ESCALAR
-        // ======================================================
-
         case 'escalar':
           validarVector(
             a,
@@ -575,10 +522,6 @@ export default function AnalisisMatematico() {
 
           break;
 
-        // ======================================================
-        // MATRIZ TRANSPUESTA
-        // ======================================================
-
         case 'transpuesta':
           validarMatriz(
             A,
@@ -593,10 +536,6 @@ export default function AnalisisMatematico() {
           };
 
           break;
-
-        // ======================================================
-        // MULTIPLICACIÓN DE MATRICES
-        // ======================================================
 
         case 'matrices':
           validarMatriz(
@@ -627,10 +566,6 @@ export default function AnalisisMatematico() {
           };
 
           break;
-
-        // ======================================================
-        // COMBINACIÓN LINEAL
-        // ======================================================
 
         case 'combinacion': {
           validarVector(
@@ -703,10 +638,6 @@ export default function AnalisisMatematico() {
           );
       }
 
-      // ========================================================
-      // LLAMAR AL BACKEND
-      // ========================================================
-
       const respuesta =
         await fetch(
           `${API}${endpoint}`,
@@ -772,12 +703,6 @@ export default function AnalisisMatematico() {
         datos?.resultado ??
         datos?.result ??
         datos;
-
-      /*
-        Convertimos la respuesta a string
-        para mostrar correctamente números
-        grandes que puedan venir como texto.
-      */
 
       setResultado(
         normalizarResultado(
@@ -1050,13 +975,6 @@ export default function AnalisisMatematico() {
   // TOTAL DE VENTAS
   // ============================================================
 
-  /*
-    Para el total visual usamos Number solamente
-    si el valor cabe correctamente.
-
-    El cálculo matemático NO depende de este total.
-  */
-
   const totalVentas =
     ventas.reduce(
       (
@@ -1101,8 +1019,8 @@ export default function AnalisisMatematico() {
             className="rounded-2xl p-3 shadow-sm"
             style={{
               backgroundColor:
-                VINO_SUAVE,
-              color: VINO,
+                GRIS_SUAVE,
+              color: GRIS_MARCA,
             }}
           >
             <Calculator
@@ -1123,11 +1041,29 @@ export default function AnalisisMatematico() {
             <p
               className="mt-1 text-sm"
               style={{
-                color: GRIS,
+                color: GRIS_MEDIO,
               }}
             >
               Análisis y cálculo a partir
               de los datos reales de ventas
+            </p>
+
+            <p
+              className="mt-1 text-xs font-medium"
+              style={{
+                color: GRIS_MARCA,
+              }}
+            >
+              {EMPRESA_NOMBRE} · {EMPRESA_RUBRO}
+            </p>
+
+            <p
+              className="text-xs"
+              style={{
+                color: GRIS_MEDIO,
+              }}
+            >
+              Gerente: {EMPRESA_GERENTE}
             </p>
           </div>
         </div>
@@ -1137,16 +1073,18 @@ export default function AnalisisMatematico() {
 
       <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
         <div
-          className="rounded-2xl border bg-white p-5 shadow-sm"
+          className="rounded-2xl border p-5 shadow-sm"
           style={{
             borderColor:
-              '#E5E5E5',
+              GRIS_SUAVE,
+            backgroundColor:
+              BLANCO,
           }}
         >
           <p
             className="text-xs font-medium"
             style={{
-              color: GRIS,
+              color: GRIS_MEDIO,
             }}
           >
             Ventas registradas
@@ -1156,7 +1094,7 @@ export default function AnalisisMatematico() {
             className="mt-2 text-2xl font-bold"
             style={{
               color:
-                VINO_OSCURO,
+                GRIS_OSCURO,
             }}
           >
             {ventas.length}
@@ -1164,16 +1102,18 @@ export default function AnalisisMatematico() {
         </div>
 
         <div
-          className="rounded-2xl border bg-white p-5 shadow-sm"
+          className="rounded-2xl border p-5 shadow-sm"
           style={{
             borderColor:
-              '#E5E5E5',
+              GRIS_SUAVE,
+            backgroundColor:
+              BLANCO,
           }}
         >
           <p
             className="text-xs font-medium"
             style={{
-              color: GRIS,
+              color: GRIS_MEDIO,
             }}
           >
             Total vendido
@@ -1183,7 +1123,7 @@ export default function AnalisisMatematico() {
             className="mt-2 text-2xl font-bold"
             style={{
               color:
-                VINO_OSCURO,
+                GRIS_OSCURO,
             }}
           >
             S/{' '}
@@ -1194,16 +1134,18 @@ export default function AnalisisMatematico() {
         </div>
 
         <div
-          className="rounded-2xl border bg-white p-5 shadow-sm"
+          className="rounded-2xl border p-5 shadow-sm"
           style={{
             borderColor:
-              '#E5E5E5',
+              GRIS_SUAVE,
+            backgroundColor:
+              BLANCO,
           }}
         >
           <p
             className="text-xs font-medium"
             style={{
-              color: GRIS,
+              color: GRIS_MEDIO,
             }}
           >
             Vector de ventas
@@ -1212,7 +1154,7 @@ export default function AnalisisMatematico() {
           <p
             className="mt-2 truncate font-mono text-sm font-semibold"
             style={{
-              color: VINO,
+              color: GRIS_MARCA,
             }}
           >
             {vectorA
@@ -1227,10 +1169,12 @@ export default function AnalisisMatematico() {
         {/* MENÚ */}
 
         <div
-          className="rounded-2xl border bg-white p-5 shadow-sm"
+          className="rounded-2xl border p-5 shadow-sm"
           style={{
             borderColor:
-              '#E5E5E5',
+              GRIS_SUAVE,
+            backgroundColor:
+              BLANCO,
           }}
         >
           <div className="mb-5">
@@ -1246,7 +1190,7 @@ export default function AnalisisMatematico() {
             <p
               className="mt-1 text-xs"
               style={{
-                color: GRIS,
+                color: GRIS_MEDIO,
               }}
             >
               Selecciona el cálculo que deseas realizar
@@ -1271,13 +1215,13 @@ export default function AnalisisMatematico() {
                     item.id
                       ? {
                           backgroundColor:
-                            VINO_OSCURO,
+                            GRIS_OSCURO,
                           color:
-                            '#FFFFFF',
+                            BLANCO,
                         }
                       : {
                           backgroundColor:
-                            '#FAFAFA',
+                            GRIS_MUY_SUAVE,
                           color:
                             NEGRO,
                         }
@@ -1290,12 +1234,12 @@ export default function AnalisisMatematico() {
                         operacion ===
                         item.id
                           ? 'rgba(255,255,255,0.14)'
-                          : VINO_SUAVE,
+                          : GRIS_SUAVE,
                       color:
                         operacion ===
                         item.id
-                          ? '#FFFFFF'
-                          : VINO,
+                          ? BLANCO
+                          : GRIS_MARCA,
                     }}
                   >
                     {item.icono}
@@ -1311,10 +1255,12 @@ export default function AnalisisMatematico() {
         {/* DATOS */}
 
         <div
-          className="rounded-2xl border bg-white p-6 shadow-sm lg:col-span-2"
+          className="rounded-2xl border p-6 shadow-sm lg:col-span-2"
           style={{
             borderColor:
-              '#E5E5E5',
+              GRIS_SUAVE,
+            backgroundColor:
+              BLANCO,
           }}
         >
 
@@ -1324,9 +1270,9 @@ export default function AnalisisMatematico() {
             className="mb-6 rounded-2xl border p-5"
             style={{
               borderColor:
-                '#DCC8CF',
+                GRIS_SUAVE,
               backgroundColor:
-                VINO_SUAVE,
+                GRIS_MUY_SUAVE,
             }}
           >
             <div className="flex items-center justify-between gap-3">
@@ -1335,7 +1281,7 @@ export default function AnalisisMatematico() {
                   className="text-base font-semibold"
                   style={{
                     color:
-                      VINO_OSCURO,
+                      GRIS_OSCURO,
                   }}
                 >
                   Datos reales de ventas
@@ -1344,7 +1290,7 @@ export default function AnalisisMatematico() {
                 <p
                   className="mt-1 text-xs"
                   style={{
-                    color: GRIS,
+                    color: GRIS_MEDIO,
                   }}
                 >
                   Los valores se obtienen
@@ -1364,7 +1310,7 @@ export default function AnalisisMatematico() {
                 className="flex items-center gap-2 rounded-lg px-3 py-2 text-xs font-semibold text-white disabled:opacity-50"
                 style={{
                   backgroundColor:
-                    VINO_OSCURO,
+                    GRIS_OSCURO,
                 }}
               >
                 <RefreshCw
@@ -1381,7 +1327,7 @@ export default function AnalisisMatematico() {
               <p
                 className="mt-4 text-sm"
                 style={{
-                  color: GRIS,
+                  color: GRIS_MEDIO,
                 }}
               >
                 Cargando ventas...
@@ -1391,7 +1337,7 @@ export default function AnalisisMatematico() {
               <p
                 className="mt-4 text-sm"
                 style={{
-                  color: GRIS,
+                  color: GRIS_MEDIO,
                 }}
               >
                 No hay ventas registradas
@@ -1410,17 +1356,19 @@ export default function AnalisisMatematico() {
                           venta.id ??
                           index
                         }
-                        className="rounded-xl border bg-white p-3"
+                        className="rounded-xl border p-3"
                         style={{
                           borderColor:
-                            '#E5DDE0',
+                            GRIS_SUAVE,
+                          backgroundColor:
+                            BLANCO,
                         }}
                       >
                         <div
                           className="text-xs"
                           style={{
                             color:
-                              GRIS,
+                              GRIS_MEDIO,
                           }}
                         >
                           Venta #
@@ -1433,7 +1381,7 @@ export default function AnalisisMatematico() {
                           className="mt-1 text-lg font-bold"
                           style={{
                             color:
-                              VINO_OSCURO,
+                              GRIS_OSCURO,
                           }}
                         >
                           S/{' '}
@@ -1448,16 +1396,18 @@ export default function AnalisisMatematico() {
                 </div>
 
                 <div
-                  className="mt-4 rounded-xl border bg-white p-4"
+                  className="mt-4 rounded-xl border p-4"
                   style={{
                     borderColor:
-                      '#E5DDE0',
+                      GRIS_SUAVE,
+                    backgroundColor:
+                      BLANCO,
                   }}
                 >
                   <div
                     className="text-xs font-medium"
                     style={{
-                      color: GRIS,
+                      color: GRIS_MEDIO,
                     }}
                   >
                     Vector generado
@@ -1506,7 +1456,7 @@ export default function AnalisisMatematico() {
             <p
               className="mt-1 text-sm"
               style={{
-                color: GRIS,
+                color: GRIS_MEDIO,
               }}
             >
               Escribe los valores separados
@@ -1542,7 +1492,7 @@ export default function AnalisisMatematico() {
                   className="w-full rounded-xl border bg-white px-4 py-3 text-sm outline-none"
                   style={{
                     borderColor:
-                      '#D8D8D8',
+                      '#D1D5DB',
                     color: NEGRO,
                   }}
                 />
@@ -1550,7 +1500,7 @@ export default function AnalisisMatematico() {
                 <p
                   className="mt-1.5 text-xs"
                   style={{
-                    color: GRIS,
+                    color: GRIS_MEDIO,
                   }}
                 >
                   Se carga automáticamente
@@ -1582,7 +1532,7 @@ export default function AnalisisMatematico() {
                     className="w-full rounded-xl border bg-white px-4 py-3 text-sm outline-none"
                     style={{
                       borderColor:
-                        '#D8D8D8',
+                        '#D1D5DB',
                       color: NEGRO,
                     }}
                   />
@@ -1590,7 +1540,7 @@ export default function AnalisisMatematico() {
                   <p
                     className="mt-1.5 text-xs"
                     style={{
-                      color: GRIS,
+                      color: GRIS_MEDIO,
                     }}
                   >
                     Para suma, resta y
@@ -1628,7 +1578,7 @@ export default function AnalisisMatematico() {
                     className="w-full rounded-xl border bg-white px-4 py-3 text-sm outline-none"
                     style={{
                       borderColor:
-                        '#D8D8D8',
+                        '#D1D5DB',
                       color: NEGRO,
                     }}
                   />
@@ -1661,7 +1611,7 @@ export default function AnalisisMatematico() {
                     className="w-full rounded-xl border bg-white px-4 py-3 text-sm outline-none"
                     style={{
                       borderColor:
-                        '#D8D8D8',
+                        '#D1D5DB',
                       color: NEGRO,
                     }}
                   />
@@ -1697,7 +1647,7 @@ export default function AnalisisMatematico() {
                   className="w-full resize-none rounded-xl border bg-white px-4 py-3 font-mono text-sm outline-none"
                   style={{
                     borderColor:
-                      '#D8D8D8',
+                      '#D1D5DB',
                     color: NEGRO,
                   }}
                 />
@@ -1705,7 +1655,7 @@ export default function AnalisisMatematico() {
                 <p
                   className="mt-1.5 text-xs"
                   style={{
-                    color: GRIS,
+                    color: GRIS_MEDIO,
                   }}
                 >
                   Una fila por línea y valores
@@ -1741,7 +1691,7 @@ export default function AnalisisMatematico() {
                     className="w-full resize-none rounded-xl border bg-white px-4 py-3 font-mono text-sm outline-none"
                     style={{
                       borderColor:
-                        '#D8D8D8',
+                        '#D1D5DB',
                       color: NEGRO,
                     }}
                   />
@@ -1749,7 +1699,7 @@ export default function AnalisisMatematico() {
                   <p
                     className="mt-1.5 text-xs"
                     style={{
-                      color: GRIS,
+                      color: GRIS_MEDIO,
                     }}
                   >
                     Una fila por línea y valores
@@ -1774,7 +1724,7 @@ export default function AnalisisMatematico() {
               className="rounded-xl px-6 py-3 text-sm font-semibold text-white transition disabled:cursor-not-allowed disabled:opacity-50"
               style={{
                 backgroundColor:
-                  VINO_OSCURO,
+                  GRIS_OSCURO,
               }}
             >
               {cargando
@@ -1790,7 +1740,7 @@ export default function AnalisisMatematico() {
               className="rounded-xl border bg-white px-6 py-3 text-sm font-semibold"
               style={{
                 borderColor:
-                  '#D8D8D8',
+                  '#D1D5DB',
                 color: NEGRO,
               }}
             >
@@ -1805,11 +1755,11 @@ export default function AnalisisMatematico() {
               className="mt-6 rounded-xl border p-4 text-sm"
               style={{
                 borderColor:
-                  '#E8C9D1',
+                  '#D1D5DB',
                 backgroundColor:
-                  '#FDF3F5',
+                  GRIS_MUY_SUAVE,
                 color:
-                  '#8A3D4F',
+                  GRIS_OSCURO,
               }}
             >
               <div className="font-semibold">
@@ -1829,9 +1779,9 @@ export default function AnalisisMatematico() {
               className="mt-6 rounded-2xl border p-5"
               style={{
                 borderColor:
-                  '#DCC8CF',
+                  GRIS_SUAVE,
                 backgroundColor:
-                  VINO_SUAVE,
+                  GRIS_MUY_SUAVE,
               }}
             >
               <div className="mb-3 flex items-center gap-2">
@@ -1839,9 +1789,9 @@ export default function AnalisisMatematico() {
                   className="flex h-8 w-8 items-center justify-center rounded-lg"
                   style={{
                     backgroundColor:
-                      VINO,
+                      GRIS_MARCA,
                     color:
-                      '#FFFFFF',
+                      BLANCO,
                   }}
                 >
                   <Calculator
@@ -1853,7 +1803,7 @@ export default function AnalisisMatematico() {
                   className="font-semibold"
                   style={{
                     color:
-                      VINO_OSCURO,
+                      GRIS_OSCURO,
                   }}
                 >
                   Resultado
@@ -1864,7 +1814,7 @@ export default function AnalisisMatematico() {
                 className="overflow-auto rounded-xl border bg-white p-4 font-mono text-sm"
                 style={{
                   borderColor:
-                    '#E5DDE0',
+                    GRIS_SUAVE,
                   color: NEGRO,
                 }}
               >
@@ -1879,7 +1829,7 @@ export default function AnalisisMatematico() {
                 className="mt-3 text-xs font-medium"
                 style={{
                   color:
-                    VINO_OSCURO,
+                    GRIS_MARCA,
                 }}
               >
                 ✓ Operación realizada
@@ -1887,8 +1837,39 @@ export default function AnalisisMatematico() {
               </p>
             </div>
           )}
+
+          {/* IDENTIDAD EMPRESARIAL */}
+
+          <div
+            className="mt-6 rounded-xl border px-4 py-3"
+            style={{
+              borderColor:
+                GRIS_SUAVE,
+              backgroundColor:
+                GRIS_MUY_SUAVE,
+            }}
+          >
+            <p
+              className="text-xs font-semibold"
+              style={{
+                color: GRIS_OSCURO,
+              }}
+            >
+              {EMPRESA_NOMBRE}
+            </p>
+
+            <p
+              className="mt-1 text-xs"
+              style={{
+                color: GRIS_MEDIO,
+              }}
+            >
+              {EMPRESA_RUBRO} · Gerente: {EMPRESA_GERENTE}
+            </p>
+          </div>
         </div>
       </div>
     </div>
   );
 }
+
