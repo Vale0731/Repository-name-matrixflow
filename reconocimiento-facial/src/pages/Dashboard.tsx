@@ -422,6 +422,7 @@ export default function Dashboard() {
         }}
       >
         <div className="flex items-center gap-3 rounded-2xl border border-gray-200 bg-white px-6 py-4 shadow-sm">
+
           <RefreshCw
             className="h-5 w-5 animate-spin"
             style={{
@@ -437,6 +438,7 @@ export default function Dashboard() {
           >
             Cargando dashboard de {EMPRESA}...
           </span>
+
         </div>
       </div>
     );
@@ -455,12 +457,12 @@ export default function Dashboard() {
     >
       <div className="mx-auto max-w-[1500px] space-y-6 p-5 lg:p-7">
 
-        {/* =================================================
-            ENCABEZADO
-        ================================================= */}
+        {/* ENCABEZADO */}
 
         <div className="flex flex-col justify-between gap-4 md:flex-row md:items-end">
+
           <div>
+
             <div
               className="mb-1 flex items-center gap-2 text-sm font-semibold"
               style={{
@@ -508,6 +510,7 @@ export default function Dashboard() {
             >
               Gerente: {GERENTE}
             </p>
+
           </div>
 
           <button
@@ -523,11 +526,10 @@ export default function Dashboard() {
 
             Actualizar
           </button>
+
         </div>
 
-        {/* =================================================
-            ERROR
-        ================================================= */}
+        {/* ERROR */}
 
         {error && (
           <div
@@ -544,9 +546,7 @@ export default function Dashboard() {
           </div>
         )}
 
-        {/* =================================================
-            KPIs
-        ================================================= */}
+        {/* KPIs */}
 
         <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 xl:grid-cols-4">
 
@@ -608,11 +608,10 @@ export default function Dashboard() {
             }
             positive={cumplimientoMeta !== null}
           />
+
         </div>
 
-        {/* =================================================
-            BLOQUE PRINCIPAL
-        ================================================= */}
+        {/* BLOQUE PRINCIPAL */}
 
         <div className="grid grid-cols-1 gap-5 xl:grid-cols-[1.8fr_1fr]">
 
@@ -621,7 +620,9 @@ export default function Dashboard() {
           <section className="rounded-2xl border border-gray-200 bg-white p-5 shadow-sm">
 
             <div className="mb-6 flex items-start justify-between">
+
               <div>
+
                 <h2
                   className="text-base font-bold"
                   style={{
@@ -639,6 +640,7 @@ export default function Dashboard() {
                 >
                   Importe acumulado por sede de {EMPRESA}
                 </p>
+
               </div>
 
               <div
@@ -650,19 +652,23 @@ export default function Dashboard() {
               >
                 <TrendingUp className="h-5 w-5" />
               </div>
+
             </div>
 
             {ventasPorSucursal.length === 0 ? (
               <EmptyState message="Todavía no hay sucursales registradas." />
             ) : (
               <div className="space-y-5">
+
                 {ventasPorSucursal
                   .slice(0, 6)
                   .map((sucursal) => (
                     <div key={sucursal.id}>
 
                       <div className="mb-2 flex items-center justify-between gap-3">
+
                         <div className="min-w-0">
+
                           <p
                             className="truncate text-sm font-semibold"
                             style={{
@@ -680,6 +686,7 @@ export default function Dashboard() {
                           >
                             {sucursal.ciudad}
                           </p>
+
                         </div>
 
                         <span
@@ -690,9 +697,11 @@ export default function Dashboard() {
                         >
                           {formatMoney(sucursal.total)}
                         </span>
+
                       </div>
 
                       <div className="h-3 overflow-hidden rounded-full bg-gray-100">
+
                         <div
                           className="h-full rounded-full transition-all duration-700"
                           style={{
@@ -707,11 +716,15 @@ export default function Dashboard() {
                             backgroundColor: GRIS_MARCA,
                           }}
                         />
+
                       </div>
+
                     </div>
                   ))}
+
               </div>
             )}
+
           </section>
 
           {/* INVENTARIO */}
@@ -719,7 +732,9 @@ export default function Dashboard() {
           <section className="rounded-2xl border border-gray-200 bg-white p-5 shadow-sm">
 
             <div className="mb-6 flex items-start justify-between">
+
               <div>
+
                 <h2
                   className="text-base font-bold"
                   style={{
@@ -737,6 +752,7 @@ export default function Dashboard() {
                 >
                   Distribución del inventario registrado
                 </p>
+
               </div>
 
               <div
@@ -748,18 +764,21 @@ export default function Dashboard() {
               >
                 <Package className="h-5 w-5" />
               </div>
+
             </div>
 
             {unidadesPorProducto.length === 0 ? (
               <EmptyState message="Todavía no hay unidades de productos." />
             ) : (
               <div className="space-y-5">
+
                 {unidadesPorProducto
                   .slice(0, 6)
                   .map((producto) => (
                     <div key={producto.id}>
 
                       <div className="mb-2 flex items-center justify-between gap-3">
+
                         <p
                           className="truncate text-sm font-semibold"
                           style={{
@@ -777,9 +796,11 @@ export default function Dashboard() {
                         >
                           {formatNumber(producto.unidades)} und.
                         </span>
+
                       </div>
 
                       <div className="h-3 overflow-hidden rounded-full bg-gray-100">
+
                         <div
                           className="h-full rounded-full transition-all duration-700"
                           style={{
@@ -792,17 +813,20 @@ export default function Dashboard() {
                             backgroundColor: GRIS_OSCURO,
                           }}
                         />
+
                       </div>
+
                     </div>
                   ))}
+
               </div>
             )}
+
           </section>
+
         </div>
 
-        {/* =================================================
-            PARTE INFERIOR
-        ================================================= */}
+        {/* PARTE INFERIOR */}
 
         <div className="grid grid-cols-1 gap-5 xl:grid-cols-[1.5fr_1fr]">
 
@@ -811,7 +835,9 @@ export default function Dashboard() {
           <section className="rounded-2xl border border-gray-200 bg-white p-5 shadow-sm">
 
             <div className="mb-5 flex items-start justify-between">
+
               <div>
+
                 <h2
                   className="text-base font-bold"
                   style={{
@@ -829,6 +855,7 @@ export default function Dashboard() {
                 >
                   Últimas operaciones registradas
                 </p>
+
               </div>
 
               <div
@@ -840,17 +867,20 @@ export default function Dashboard() {
               >
                 <Calculator className="h-5 w-5" />
               </div>
+
             </div>
 
             {operacionesRecientes.length === 0 ? (
               <EmptyState message="Todavía no hay operaciones registradas." />
             ) : (
               <div className="divide-y divide-gray-100">
+
                 {operacionesRecientes.map((operacion) => (
                   <div
                     key={operacion.id}
                     className="flex items-center justify-between gap-4 py-3 first:pt-0 last:pb-0"
                   >
+
                     <div className="flex min-w-0 items-center gap-3">
 
                       <div
@@ -864,6 +894,7 @@ export default function Dashboard() {
                       </div>
 
                       <div className="min-w-0">
+
                         <p
                           className="truncate text-sm font-semibold"
                           style={{
@@ -883,7 +914,9 @@ export default function Dashboard() {
                         >
                           Operación #{operacion.id}
                         </p>
+
                       </div>
+
                     </div>
 
                     <span
@@ -895,10 +928,13 @@ export default function Dashboard() {
                     >
                       {operacion.estado || 'Completada'}
                     </span>
+
                   </div>
                 ))}
+
               </div>
             )}
+
           </section>
 
           {/* ESTADO OPERATIVO */}
@@ -909,9 +945,11 @@ export default function Dashboard() {
               backgroundColor: NEGRO,
             }}
           >
+
             <div className="mb-6 flex items-start justify-between">
 
               <div>
+
                 <p
                   className="text-sm font-semibold"
                   style={{
@@ -928,6 +966,7 @@ export default function Dashboard() {
                 <p className="mt-1 text-xs text-gray-400">
                   {ACTIVIDAD}
                 </p>
+
               </div>
 
               <div
@@ -938,6 +977,7 @@ export default function Dashboard() {
               >
                 <Bell className="h-5 w-5 text-white" />
               </div>
+
             </div>
 
             <div className="space-y-4">
@@ -970,6 +1010,7 @@ export default function Dashboard() {
                 )}
                 danger={inventarioAlertas > 0}
               />
+
             </div>
 
             <div
@@ -981,6 +1022,7 @@ export default function Dashboard() {
                   'rgba(255,255,255,0.04)',
               }}
             >
+
               <div className="flex items-center gap-3">
 
                 {inventarioAlertas > 0 ? (
@@ -1000,6 +1042,7 @@ export default function Dashboard() {
                 )}
 
                 <div>
+
                   <p className="text-sm font-semibold">
                     {inventarioAlertas > 0
                       ? 'Revisar inventario'
@@ -1011,15 +1054,18 @@ export default function Dashboard() {
                       ? 'Hay productos con stock bajo.'
                       : 'No se detectaron alertas de stock.'}
                   </p>
+
                 </div>
+
               </div>
+
             </div>
+
           </section>
+
         </div>
 
-        {/* =================================================
-            MINI ESTADÍSTICAS
-        ================================================= */}
+        {/* MINI ESTADÍSTICAS */}
 
         <div className="grid grid-cols-2 gap-4 lg:grid-cols-4">
 
@@ -1064,11 +1110,10 @@ export default function Dashboard() {
               ).length
             )}
           />
+
         </div>
 
-        {/* =================================================
-            IDENTIDAD EMPRESARIAL
-        ================================================= */}
+        {/* IDENTIDAD EMPRESARIAL */}
 
         <div
           className="rounded-2xl border bg-white px-5 py-4 shadow-sm"
@@ -1076,8 +1121,11 @@ export default function Dashboard() {
             borderColor: GRIS_SUAVE,
           }}
         >
+
           <div className="flex flex-col justify-between gap-2 md:flex-row md:items-center">
+
             <div>
+
               <p
                 className="text-sm font-bold"
                 style={{
@@ -1095,6 +1143,7 @@ export default function Dashboard() {
               >
                 {ACTIVIDAD}
               </p>
+
             </div>
 
             <p
@@ -1105,8 +1154,11 @@ export default function Dashboard() {
             >
               Gerente: {GERENTE}
             </p>
+
           </div>
+
         </div>
+
       </div>
     </div>
   );
@@ -1156,6 +1208,7 @@ function KpiCard({
                 : '#9CA3AF',
           }}
         >
+
           {warning ? (
             <AlertTriangle className="h-3.5 w-3.5" />
           ) : positive ? (
@@ -1167,7 +1220,9 @@ function KpiCard({
             : warning
               ? 'Atención'
               : 'Información'}
+
         </div>
+
       </div>
 
       <p
@@ -1196,6 +1251,7 @@ function KpiCard({
       >
         {trend}
       </p>
+
     </div>
   );
 }
@@ -1230,6 +1286,7 @@ function SummaryRow({
       >
         {value}
       </span>
+
     </div>
   );
 }
@@ -1279,7 +1336,9 @@ function MiniStat({
         >
           {value}
         </p>
+
       </div>
+
     </div>
   );
 }
@@ -1299,3 +1358,4 @@ function EmptyState({
     </div>
   );
 }
+
