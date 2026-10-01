@@ -8,6 +8,7 @@ import {
   Receipt,
   Package,
   CheckCircle2,
+  Building2,
 } from 'lucide-react';
 
 import API from '../services/api';
@@ -44,6 +45,13 @@ interface Producto {
   estado?: string;
 }
 
+interface Sucursal {
+  id: number;
+  nombre: string;
+  direccion?: string;
+  estado?: string;
+}
+
 /* =========================================================
    COMPONENTE
 ========================================================= */
@@ -51,10 +59,12 @@ interface Producto {
 export default function Ventas() {
   const [ventas, setVentas] = useState<Venta[]>([]);
   const [productos, setProductos] = useState<Producto[]>([]);
+  const [sucursales, setSucursales] = useState<Sucursal[]>([]);
 
   const [modal, setModal] = useState(false);
 
   const [productoId, setProductoId] = useState('');
+  const [sucursalId, setSucursalId] = useState('');
   const [cantidad, setCantidad] = useState('1');
 
   const [busqueda, setBusqueda] = useState('');
@@ -133,12 +143,58 @@ export default function Ventas() {
   };
 
   /* =======================================================
+     CARGAR SUCURSALES
+  ======================================================= */
+
+  const cargarSucursales = async () => {
+    try {
+      const respuesta = await fetch(`${API}/sucursales`);
+      const datos = await respuesta.json();
+
+      if (!respuesta.ok) {
+        throw new Error(
+          typeof datos.detail === 'string'
+            ? datos.detail
+            : 'No se pudieron cargar las sucursales'
+        );
+      }
+
+      const listaSucursales: Sucursal[] =
+        Array.isArray(datos)
+          ? datos
+          : datos.sucursales ?? [];
+
+      setSucursales(listaSucursales);
+
+      /*
+       * Si existe una sola sucursal, la seleccionamos
+       * automáticamente para facilitar el registro.
+       */
+      if (
+        listaSucursales.length === 1 &&
+        !sucursalId
+      ) {
+        setSucursalId(
+          String(listaSucursales[0].id)
+        );
+      }
+    } catch (err) {
+      setError(
+        err instanceof Error
+          ? err.message
+          : 'No se pudieron cargar las sucursales'
+      );
+    }
+  };
+
+  /* =======================================================
      CARGA INICIAL
   ======================================================= */
 
   useEffect(() => {
     cargarVentas();
     cargarProductos();
+    cargarSucursales();
   }, []);
 
   /* =======================================================
@@ -151,6 +207,17 @@ export default function Ventas() {
         producto.id === Number(productoId)
     );
   }, [productos, productoId]);
+
+  /* =======================================================
+     SUCURSAL SELECCIONADA
+  ======================================================= */
+
+  const sucursalSeleccionada = useMemo(() => {
+    return sucursales.find(
+      (sucursal) =>
+        sucursal.id === Number(sucursalId)
+    );
+  }, [sucursales, sucursalId]);
 
   /* =======================================================
      TOTAL DE LA NUEVA VENTA
@@ -177,6 +244,16 @@ export default function Ventas() {
 
     setError('');
     setMensaje('');
+
+    if (!sucursalId) {
+      setError('Selecciona una sucursal');
+      return;
+    }
+
+    if (!sucursalSeleccionada) {
+      setError('La sucursal seleccionada no es válida');
+      return;
+    }
 
     if (!productoId) {
       setError('Selecciona un producto');
@@ -211,7 +288,7 @@ export default function Ventas() {
             'Content-Type': 'application/json',
           },
           body: JSON.stringify({
-            sucursal_id: 1,
+            sucursal_id: Number(sucursalId),
             total: subtotalNuevo,
             estado: 'Completada',
           }),
@@ -282,11 +359,20 @@ export default function Ventas() {
       =================================================== */
 
       setMensaje(
-        'Venta registrada correctamente'
+        `Venta registrada correctamente en ${sucursalSeleccionada.nombre}`
       );
 
       setProductoId('');
       setCantidad('1');
+
+      /*
+       * Si hay una sola sucursal mantenemos esa selección.
+       * Si hay varias, limpiamos el selector.
+       */
+      if (sucursales.length > 1) {
+        setSucursalId('');
+      }
+
       setModal(false);
 
       await cargarVentas();
@@ -458,6 +544,7 @@ export default function Ventas() {
             onClick={() => {
               cargarVentas();
               cargarProductos();
+              cargarSucursales();
             }}
             disabled={cargando}
             className="flex items-center gap-2 rounded-xl border bg-white px-4 py-3 text-sm font-medium transition hover:bg-gray-50 disabled:cursor-not-allowed disabled:opacity-60"
@@ -487,6 +574,15 @@ export default function Ventas() {
               setMensaje('');
               setProductoId('');
               setCantidad('1');
+
+              /*
+               * Si hay una sola sucursal se conserva.
+               * Si hay varias, se obliga a elegir.
+               */
+              if (sucursales.length !== 1) {
+                setSucursalId('');
+              }
+
               setModal(true);
             }}
             className="flex items-center gap-2 rounded-xl px-4 py-3 text-sm font-medium text-white transition"
@@ -546,7 +642,8 @@ export default function Ventas() {
 
         {/* TOTAL VENTAS */}
 
-        <div className="rounded-2xl border bg-white p-5 shadow-sm"
+        <div
+          className="rounded-2xl border bg-white p-5 shadow-sm"
           style={{
             borderColor: '#E5E5E3',
           }}
@@ -601,7 +698,8 @@ export default function Ventas() {
 
         {/* COMPLETADAS */}
 
-        <div className="rounded-2xl border bg-white p-5 shadow-sm"
+        <div
+          className="rounded-2xl border bg-white p-5 shadow-sm"
           style={{
             borderColor: '#E5E5E3',
           }}
@@ -656,7 +754,8 @@ export default function Ventas() {
 
         {/* TOTAL */}
 
-        <div className="rounded-2xl border bg-white p-5 shadow-sm"
+        <div
+          className="rounded-2xl border bg-white p-5 shadow-sm"
           style={{
             borderColor: '#E5E5E3',
           }}
@@ -722,9 +821,8 @@ export default function Ventas() {
         }}
       >
 
-        {/* CABECERA TABLA */}
-
-        <div className="flex flex-col gap-4 border-b p-5 sm:flex-row sm:items-center sm:justify-between"
+        <div
+          className="flex flex-col gap-4 border-b p-5 sm:flex-row sm:items-center sm:justify-between"
           style={{
             borderColor: '#EEEEEC',
           }}
@@ -778,8 +876,6 @@ export default function Ventas() {
           </div>
 
         </div>
-
-        {/* CONTENIDO */}
 
         {ventasFiltradas.length === 0 ? (
 
@@ -908,7 +1004,7 @@ export default function Ventas() {
                         }}
                       >
                         Sucursal{' '}
-                        {venta.sucursal_id ?? 1}
+                        {venta.sucursal_id ?? '—'}
                       </td>
 
                       <td
@@ -1042,7 +1138,7 @@ export default function Ventas() {
                       color: GRIS,
                     }}
                   >
-                    Selecciona el producto y la cantidad.
+                    Selecciona sucursal, producto y cantidad.
                   </p>
 
                 </div>
@@ -1078,6 +1174,71 @@ export default function Ventas() {
                   {error}
                 </div>
               )}
+
+              {/* SUCURSAL */}
+
+              <div>
+
+                <label
+                  className="mb-2 block text-sm font-medium"
+                  style={{
+                    color: NEGRO,
+                  }}
+                >
+                  Sucursal
+                </label>
+
+                <div className="relative">
+
+                  <Building2
+                    size={17}
+                    className="absolute left-3 top-1/2 -translate-y-1/2"
+                    style={{
+                      color: GRIS,
+                    }}
+                  />
+
+                  <select
+                    value={sucursalId}
+                    onChange={(e) =>
+                      setSucursalId(
+                        e.target.value
+                      )
+                    }
+                    disabled={guardando}
+                    className="w-full appearance-none rounded-xl border bg-white px-4 py-3 pl-10 text-sm outline-none transition disabled:opacity-60"
+                    style={{
+                      borderColor: '#D9D9D6',
+                      color: NEGRO,
+                    }}
+                  >
+
+                    <option value="">
+                      Selecciona una sucursal
+                    </option>
+
+                    {sucursales.map(
+                      (sucursal) => (
+                        <option
+                          key={sucursal.id}
+                          value={sucursal.id}
+                        >
+                          {sucursal.nombre}
+                        </option>
+                      )
+                    )}
+
+                  </select>
+
+                </div>
+
+                {sucursales.length === 0 && (
+                  <p className="mt-2 text-xs text-red-600">
+                    No hay sucursales disponibles. Verifica el módulo de sucursales.
+                  </p>
+                )}
+
+              </div>
 
               {/* PRODUCTO */}
 
@@ -1203,6 +1364,17 @@ export default function Ventas() {
                         color: GRIS,
                       }}
                     >
+                      {sucursalSeleccionada
+                        ? sucursalSeleccionada.nombre
+                        : 'Selecciona una sucursal'}
+                    </p>
+
+                    <p
+                      className="mt-1 text-sm"
+                      style={{
+                        color: GRIS,
+                      }}
+                    >
                       {productoSeleccionado
                         ? `${productoSeleccionado.nombre} × ${cantidadNumero}`
                         : 'Selecciona un producto'}
@@ -1261,7 +1433,8 @@ export default function Ventas() {
                   type="submit"
                   disabled={
                     guardando ||
-                    !productoId
+                    !productoId ||
+                    !sucursalId
                   }
                   className="flex items-center gap-2 rounded-xl px-5 py-3 text-sm font-medium text-white transition disabled:cursor-not-allowed disabled:opacity-60"
                   style={{
@@ -1301,3 +1474,4 @@ export default function Ventas() {
     </div>
   );
 }
+
