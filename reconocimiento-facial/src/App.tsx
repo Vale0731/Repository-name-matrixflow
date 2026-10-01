@@ -79,7 +79,16 @@ type MenuSection = {
 };
 
 /* =========================================================
-   PALETA EXACTA DEL DISEÑO
+   IDENTIDAD MATAS PERU EIRL
+========================================================= */
+
+const EMPRESA_NOMBRE = 'MATAS PERU EIRL';
+const EMPRESA_GERENTE = 'GERARDO GARCIA MATAS';
+const EMPRESA_RUBRO =
+  'Electricidad y Soluciones Integrales';
+
+/* =========================================================
+   PALETA ACTUAL
 ========================================================= */
 
 const VINO = '#7c636c';
@@ -277,7 +286,7 @@ function obtenerIniciales(
   nombre: string,
 ): string {
   if (!nombre) {
-    return 'MF';
+    return 'MP';
   }
 
   const partes = nombre
@@ -468,7 +477,7 @@ export default function App() {
     >
 
       {/* ===================================================
-          SIDEBAR CLARO
+          SIDEBAR
       =================================================== */}
 
       <aside
@@ -480,9 +489,7 @@ export default function App() {
         }}
       >
 
-        {/* =================================================
-            LOGO
-        ================================================= */}
+        {/* LOGO */}
 
         <div
           className="flex h-[94px] items-center px-5"
@@ -494,14 +501,12 @@ export default function App() {
 
           <div className="flex items-center gap-3">
 
-            {/* LOGO VINO */}
-
             <div
               className="flex h-11 w-11 items-center justify-center rounded-xl text-white"
               style={{
                 backgroundColor: VINO,
                 boxShadow:
-                  '0 5px 12px rgba(157,11,63,0.20)',
+                  '0 5px 12px rgba(80,80,80,0.20)',
               }}
             >
               <Activity
@@ -509,8 +514,6 @@ export default function App() {
                 strokeWidth={2.3}
               />
             </div>
-
-            {/* TEXTO */}
 
             <div>
 
@@ -520,16 +523,16 @@ export default function App() {
                   color: VINO,
                 }}
               >
-                MATRIXFLOW
+                {EMPRESA_NOMBRE}
               </h1>
 
               <p
-                className="text-[8px] font-semibold uppercase tracking-[0.23em]"
+                className="text-[8px] font-semibold uppercase tracking-[0.16em]"
                 style={{
                   color: GRIS,
                 }}
               >
-                Enterprise
+                {EMPRESA_RUBRO}
               </p>
 
             </div>
@@ -538,9 +541,7 @@ export default function App() {
 
         </div>
 
-        {/* =================================================
-            NAVEGACIÓN
-        ================================================= */}
+        {/* NAVEGACIÓN */}
 
         <div className="flex-1 overflow-y-auto px-3 py-5">
 
@@ -552,8 +553,6 @@ export default function App() {
                 }
                 className="mb-6"
               >
-
-                {/* TÍTULO DE SECCIÓN */}
 
                 <p
                   className="mb-2 px-3 text-[9px] font-bold tracking-[0.16em]"
@@ -593,7 +592,7 @@ export default function App() {
                                   color:
                                     '#FFFFFF',
                                   boxShadow:
-                                    '0 5px 12px rgba(157,11,63,0.20)',
+                                    '0 5px 12px rgba(80,80,80,0.20)',
                                 }
                               : {
                                   color:
@@ -631,9 +630,7 @@ export default function App() {
 
         </div>
 
-        {/* =================================================
-            USUARIO INFERIOR
-        ================================================= */}
+        {/* USUARIO INFERIOR */}
 
         <div
           className="p-3"
@@ -642,8 +639,6 @@ export default function App() {
               `1px solid ${SIDEBAR_BORDE}`,
           }}
         >
-
-          {/* TARJETA USUARIO */}
 
           <div
             className="mb-2 flex items-center gap-3 rounded-xl p-3"
@@ -694,8 +689,6 @@ export default function App() {
 
           </div>
 
-          {/* CERRAR SESIÓN */}
-
           <button
             type="button"
             onClick={
@@ -724,9 +717,7 @@ export default function App() {
 
       </aside>
 
-      {/* ===================================================
-          CONTENIDO
-      =================================================== */}
+      {/* CONTENIDO */}
 
       <main
         className="ml-[230px] min-h-screen"
@@ -736,9 +727,7 @@ export default function App() {
         }}
       >
 
-        {/* =================================================
-            HEADER
-        ================================================= */}
+        {/* HEADER */}
 
         <header
           className="sticky top-0 z-30 flex h-[74px] items-center justify-between px-6"
@@ -790,8 +779,6 @@ export default function App() {
 
             </div>
 
-            {/* RESULTADOS */}
-
             {busqueda &&
               resultadosBusqueda.length >
                 0 && (
@@ -819,7 +806,7 @@ export default function App() {
                               item.id,
                             )
                           }
-                          className="flex w-full items-center gap-3 rounded-lg px-3 py-2.5 text-left text-sm hover:bg-[#F8E9EE]"
+                          className="flex w-full items-center gap-3 rounded-lg px-3 py-2.5 text-left text-sm hover:bg-[#EEEEEE]"
                           style={{
                             color:
                               TEXTO,
@@ -845,8 +832,6 @@ export default function App() {
 
                 </div>
               )}
-
-            {/* SIN RESULTADOS */}
 
             {busqueda &&
               resultadosBusqueda.length ===
@@ -978,7 +963,7 @@ export default function App() {
                               '#9CA3AF',
                           }}
                         >
-                          MatrixFlow está funcionando correctamente.
+                          {EMPRESA_NOMBRE} está funcionando correctamente.
                         </p>
 
                       </div>
@@ -1065,8 +1050,6 @@ export default function App() {
 
               </button>
 
-              {/* DROPDOWN */}
-
               {perfilAbierto && (
                 <div
                   className="absolute right-0 top-12 z-50 w-56 rounded-xl border bg-white p-2 shadow-xl"
@@ -1126,7 +1109,7 @@ export default function App() {
                     onClick={
                       cerrarSesion
                     }
-                    className="mt-1 flex w-full items-center gap-2 rounded-lg px-3 py-2.5 text-left text-sm hover:bg-[#F8E9EE]"
+                    className="mt-1 flex w-full items-center gap-2 rounded-lg px-3 py-2.5 text-left text-sm hover:bg-[#EEEEEE]"
                     style={{
                       color:
                         TEXTO,
@@ -1154,9 +1137,7 @@ export default function App() {
 
         </header>
 
-        {/* =================================================
-            PÁGINAS
-        ================================================= */}
+        {/* PÁGINAS */}
 
         <div
           className="min-h-[calc(100vh-74px)]"
