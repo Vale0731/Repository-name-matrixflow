@@ -12,15 +12,25 @@ import {
 import API from '../services/api';
 
 /* =========================================================
-   PALETA MATRIXFLOW
+   IDENTIDAD MATAS PERU EIRL
 ========================================================= */
 
-const VINO = '#775b66';
-const VINO_OSCURO = '#6B4652';
-const VINO_SUAVE = '#F8E9EE';
-const GRIS_FONDO = '#F3F3F1';
-const GRIS = '#6B7280';
+const EMPRESA_NOMBRE = 'MATAS PERU EIRL';
+const EMPRESA_GERENTE = 'GERARDO GARCIA MATAS';
+const EMPRESA_RUBRO = 'Electricidad y Soluciones Integrales';
+
+/* =========================================================
+   PALETA MATAS PERU EIRL
+========================================================= */
+
+const GRIS_MARCA = '#4B5563';
+const GRIS_OSCURO = '#2F3337';
+const GRIS_MEDIO = '#6B7280';
+const GRIS_SUAVE = '#E5E7EB';
+const GRIS_FONDO = '#F3F4F6';
+const GRIS_MUY_SUAVE = '#F9FAFB';
 const NEGRO = '#111111';
+const BLANCO = '#FFFFFF';
 
 /* =========================================================
    TIPOS
@@ -91,8 +101,8 @@ export default function Sucursales() {
         Array.isArray(datos)
           ? datos
           : Array.isArray(datos?.sucursales)
-          ? datos.sucursales
-          : []
+            ? datos.sucursales
+            : []
       );
     } catch (err) {
       console.error(err);
@@ -269,15 +279,16 @@ export default function Sucursales() {
         <div className="flex flex-col justify-between gap-4 md:flex-row md:items-end">
 
           <div>
+
             <div
               className="mb-1 flex items-center gap-2 text-sm font-semibold"
               style={{
-                color: VINO,
+                color: GRIS_MARCA,
               }}
             >
               <Building2 className="h-4 w-4" />
 
-              EMPRESA
+              {EMPRESA_NOMBRE}
             </div>
 
             <h1
@@ -289,9 +300,24 @@ export default function Sucursales() {
               Sucursales
             </h1>
 
-            <p className="mt-1 text-sm text-gray-500">
-              Gestión de las sedes de la empresa.
+            <p
+              className="mt-1 text-sm"
+              style={{
+                color: GRIS_MEDIO,
+              }}
+            >
+              Gestión de las sedes de {EMPRESA_NOMBRE}.
             </p>
+
+            <p
+              className="mt-1 text-xs font-medium"
+              style={{
+                color: GRIS_MEDIO,
+              }}
+            >
+              {EMPRESA_RUBRO} · Gerente: {EMPRESA_GERENTE}
+            </p>
+
           </div>
 
           <div className="flex flex-wrap gap-2">
@@ -305,7 +331,7 @@ export default function Sucursales() {
               className="inline-flex items-center justify-center gap-2 rounded-xl border bg-white px-4 py-2.5 text-sm font-semibold shadow-sm transition hover:shadow-md disabled:cursor-not-allowed disabled:opacity-50"
               style={{
                 borderColor:
-                  '#E5E5E5',
+                  GRIS_SUAVE,
                 color: NEGRO,
               }}
             >
@@ -328,7 +354,7 @@ export default function Sucursales() {
               className="inline-flex items-center justify-center gap-2 rounded-xl px-4 py-2.5 text-sm font-semibold text-white shadow-sm transition hover:opacity-90"
               style={{
                 backgroundColor:
-                  VINO_OSCURO,
+                  GRIS_OSCURO,
               }}
             >
               <Plus className="h-4 w-4" />
@@ -348,11 +374,11 @@ export default function Sucursales() {
             className="flex items-center gap-3 rounded-xl border px-4 py-3 text-sm"
             style={{
               borderColor:
-                '#E7D3D9',
+                '#D1D5DB',
               backgroundColor:
-                VINO_SUAVE,
+                GRIS_SUAVE,
               color:
-                VINO_OSCURO,
+                GRIS_OSCURO,
             }}
           >
             <CheckCircle2
@@ -369,11 +395,11 @@ export default function Sucursales() {
               className="rounded-xl border px-4 py-3 text-sm"
               style={{
                 borderColor:
-                  '#E7D3D9',
+                  '#D1D5DB',
                 backgroundColor:
-                  VINO_SUAVE,
+                  GRIS_SUAVE,
                 color:
-                  VINO_OSCURO,
+                  GRIS_OSCURO,
               }}
             >
               {error}
@@ -413,8 +439,8 @@ export default function Sucursales() {
                 className="rounded-xl p-3"
                 style={{
                   backgroundColor:
-                    VINO_SUAVE,
-                  color: VINO,
+                    GRIS_SUAVE,
+                  color: GRIS_OSCURO,
                 }}
               >
                 <Store size={19} />
@@ -457,8 +483,8 @@ export default function Sucursales() {
                 className="rounded-xl p-3"
                 style={{
                   backgroundColor:
-                    VINO_SUAVE,
-                  color: VINO,
+                    GRIS_SUAVE,
+                  color: GRIS_OSCURO,
                 }}
               >
                 <CheckCircle2 size={19} />
@@ -501,8 +527,8 @@ export default function Sucursales() {
                 className="rounded-xl p-3"
                 style={{
                   backgroundColor:
-                    VINO_SUAVE,
-                  color: VINO,
+                    GRIS_SUAVE,
+                  color: GRIS_OSCURO,
                 }}
               >
                 <MapPin size={19} />
@@ -541,8 +567,13 @@ export default function Sucursales() {
                 Sucursales registradas
               </h3>
 
-              <p className="mt-1 text-xs text-gray-500">
-                Listado de sedes disponibles en el sistema.
+              <p
+                className="mt-1 text-xs"
+                style={{
+                  color: GRIS_MEDIO,
+                }}
+              >
+                Listado de sedes disponibles en {EMPRESA_NOMBRE}.
               </p>
 
             </div>
@@ -551,9 +582,9 @@ export default function Sucursales() {
               className="w-fit rounded-lg px-3 py-1.5 text-xs font-semibold"
               style={{
                 backgroundColor:
-                  VINO_SUAVE,
+                  GRIS_SUAVE,
                 color:
-                  VINO_OSCURO,
+                  GRIS_OSCURO,
               }}
             >
               {sucursales.length} registros
@@ -569,7 +600,7 @@ export default function Sucursales() {
               <RefreshCw
                 className="mb-3 animate-spin"
                 style={{
-                  color: VINO,
+                  color: GRIS_MARCA,
                 }}
                 size={28}
               />
@@ -590,8 +621,9 @@ export default function Sucursales() {
                 className="mx-auto flex h-14 w-14 items-center justify-center rounded-2xl"
                 style={{
                   backgroundColor:
-                    VINO_SUAVE,
-                  color: VINO,
+                    GRIS_SUAVE,
+                  color:
+                    GRIS_OSCURO,
                 }}
               >
                 <Building2 size={25} />
@@ -616,7 +648,7 @@ export default function Sucursales() {
                 className="mt-5 rounded-xl px-4 py-2.5 text-sm font-semibold text-white transition hover:opacity-90"
                 style={{
                   backgroundColor:
-                    VINO_OSCURO,
+                    GRIS_OSCURO,
                 }}
               >
                 Registrar sucursal
@@ -636,7 +668,7 @@ export default function Sucursales() {
                   className="border-b border-gray-200"
                   style={{
                     backgroundColor:
-                      '#FAFAF9',
+                      GRIS_MUY_SUAVE,
                   }}
                 >
 
@@ -681,7 +713,7 @@ export default function Sucursales() {
                           key={
                             sucursal.id
                           }
-                          className="transition hover:bg-[#FAF7F8]"
+                          className="transition hover:bg-gray-50"
                         >
 
                           {/* ID */}
@@ -700,9 +732,9 @@ export default function Sucursales() {
                                 className="flex h-9 w-9 items-center justify-center rounded-lg"
                                 style={{
                                   backgroundColor:
-                                    VINO_SUAVE,
+                                    GRIS_SUAVE,
                                   color:
-                                    VINO,
+                                    GRIS_OSCURO,
                                 }}
                               >
                                 <Store size={16} />
@@ -722,8 +754,14 @@ export default function Sucursales() {
                                   }
                                 </p>
 
-                                <p className="mt-0.5 text-[11px] text-gray-400">
-                                  Sucursal empresarial
+                                <p
+                                  className="mt-0.5 text-[11px]"
+                                  style={{
+                                    color:
+                                      GRIS_MEDIO,
+                                  }}
+                                >
+                                  Sucursal de {EMPRESA_NOMBRE}
                                 </p>
 
                               </div>
@@ -736,13 +774,19 @@ export default function Sucursales() {
 
                           <td className="px-6 py-5">
 
-                            <div className="flex items-center gap-2 text-sm text-gray-600">
+                            <div
+                              className="flex items-center gap-2 text-sm"
+                              style={{
+                                color:
+                                  GRIS_MEDIO,
+                              }}
+                            >
 
                               <MapPin
                                 size={14}
                                 style={{
                                   color:
-                                    VINO,
+                                    GRIS_MARCA,
                                 }}
                               />
 
@@ -756,7 +800,13 @@ export default function Sucursales() {
 
                           {/* DIRECCIÓN */}
 
-                          <td className="px-6 py-5 text-sm text-gray-500">
+                          <td
+                            className="px-6 py-5 text-sm"
+                            style={{
+                              color:
+                                GRIS_MEDIO,
+                            }}
+                          >
                             {
                               sucursal.direccion
                             }
@@ -771,16 +821,16 @@ export default function Sucursales() {
                               style={{
                                 borderColor:
                                   activo
-                                    ? '#E7D3D9'
-                                    : '#E5E5E5',
+                                    ? '#D1D5DB'
+                                    : '#E5E7EB',
                                 backgroundColor:
                                   activo
-                                    ? VINO_SUAVE
-                                    : '#F5F5F5',
+                                    ? GRIS_SUAVE
+                                    : GRIS_FONDO,
                                 color:
                                   activo
-                                    ? VINO_OSCURO
-                                    : GRIS,
+                                    ? GRIS_OSCURO
+                                    : GRIS_MEDIO,
                               }}
                             >
 
@@ -789,8 +839,8 @@ export default function Sucursales() {
                                 style={{
                                   backgroundColor:
                                     activo
-                                      ? VINO
-                                      : GRIS,
+                                      ? GRIS_MARCA
+                                      : GRIS_MEDIO,
                                 }}
                               />
 
@@ -837,8 +887,9 @@ export default function Sucursales() {
                   className="flex h-10 w-10 items-center justify-center rounded-xl"
                   style={{
                     backgroundColor:
-                      VINO_SUAVE,
-                    color: VINO,
+                      GRIS_SUAVE,
+                    color:
+                      GRIS_OSCURO,
                   }}
                 >
                   <Building2 size={19} />
@@ -855,8 +906,13 @@ export default function Sucursales() {
                     Nueva sucursal
                   </h3>
 
-                  <p className="mt-1 text-xs text-gray-500">
-                    Registra una sede de la empresa.
+                  <p
+                    className="mt-1 text-xs"
+                    style={{
+                      color: GRIS_MEDIO,
+                    }}
+                  >
+                    Registra una sede de {EMPRESA_NOMBRE}.
                   </p>
 
                 </div>
@@ -887,7 +943,7 @@ export default function Sucursales() {
                 <label
                   className="mb-2 block text-xs font-semibold uppercase tracking-wide"
                   style={{
-                    color: GRIS,
+                    color: GRIS_MEDIO,
                   }}
                 >
                   Nombre de la sucursal
@@ -902,19 +958,21 @@ export default function Sucursales() {
                     )
                   }
                   placeholder="Ej. Sucursal Lima"
-                  className="w-full rounded-xl border border-gray-300 bg-white px-4 py-3 text-sm outline-none transition placeholder:text-gray-400 focus:ring-2"
+                  className="w-full rounded-xl border border-gray-300 bg-white px-4 py-3 text-sm outline-none transition placeholder:text-gray-400"
                   style={{
                     color: NEGRO,
                   }}
                   onFocus={(e) => {
                     e.currentTarget.style.borderColor =
-                      VINO;
+                      GRIS_MARCA;
+
                     e.currentTarget.style.boxShadow =
-                      `0 0 0 3px ${VINO_SUAVE}`;
+                      `0 0 0 3px ${GRIS_SUAVE}`;
                   }}
                   onBlur={(e) => {
                     e.currentTarget.style.borderColor =
                       '#D1D5DB';
+
                     e.currentTarget.style.boxShadow =
                       'none';
                   }}
@@ -929,7 +987,7 @@ export default function Sucursales() {
                 <label
                   className="mb-2 block text-xs font-semibold uppercase tracking-wide"
                   style={{
-                    color: GRIS,
+                    color: GRIS_MEDIO,
                   }}
                 >
                   Ciudad
@@ -950,13 +1008,15 @@ export default function Sucursales() {
                   }}
                   onFocus={(e) => {
                     e.currentTarget.style.borderColor =
-                      VINO;
+                      GRIS_MARCA;
+
                     e.currentTarget.style.boxShadow =
-                      `0 0 0 3px ${VINO_SUAVE}`;
+                      `0 0 0 3px ${GRIS_SUAVE}`;
                   }}
                   onBlur={(e) => {
                     e.currentTarget.style.borderColor =
                       '#D1D5DB';
+
                     e.currentTarget.style.boxShadow =
                       'none';
                   }}
@@ -971,7 +1031,7 @@ export default function Sucursales() {
                 <label
                   className="mb-2 block text-xs font-semibold uppercase tracking-wide"
                   style={{
-                    color: GRIS,
+                    color: GRIS_MEDIO,
                   }}
                 >
                   Dirección
@@ -992,13 +1052,15 @@ export default function Sucursales() {
                   }}
                   onFocus={(e) => {
                     e.currentTarget.style.borderColor =
-                      VINO;
+                      GRIS_MARCA;
+
                     e.currentTarget.style.boxShadow =
-                      `0 0 0 3px ${VINO_SUAVE}`;
+                      `0 0 0 3px ${GRIS_SUAVE}`;
                   }}
                   onBlur={(e) => {
                     e.currentTarget.style.borderColor =
                       '#D1D5DB';
+
                     e.currentTarget.style.boxShadow =
                       'none';
                   }}
@@ -1013,7 +1075,7 @@ export default function Sucursales() {
                 <label
                   className="mb-2 block text-xs font-semibold uppercase tracking-wide"
                   style={{
-                    color: GRIS,
+                    color: GRIS_MEDIO,
                   }}
                 >
                   Estado
@@ -1044,6 +1106,60 @@ export default function Sucursales() {
 
               </div>
 
+              {/* INFORMACIÓN EMPRESARIAL */}
+
+              <div
+                className="rounded-xl border px-4 py-3"
+                style={{
+                  borderColor:
+                    GRIS_SUAVE,
+                  backgroundColor:
+                    GRIS_MUY_SUAVE,
+                }}
+              >
+
+                <p
+                  className="text-xs font-semibold uppercase tracking-wide"
+                  style={{
+                    color:
+                      GRIS_MEDIO,
+                  }}
+                >
+                  Información empresarial
+                </p>
+
+                <p
+                  className="mt-2 text-sm font-semibold"
+                  style={{
+                    color:
+                      NEGRO,
+                  }}
+                >
+                  {EMPRESA_NOMBRE}
+                </p>
+
+                <p
+                  className="mt-1 text-xs"
+                  style={{
+                    color:
+                      GRIS_MEDIO,
+                  }}
+                >
+                  {EMPRESA_RUBRO}
+                </p>
+
+                <p
+                  className="mt-1 text-xs"
+                  style={{
+                    color:
+                      GRIS_MEDIO,
+                  }}
+                >
+                  Gerente: {EMPRESA_GERENTE}
+                </p>
+
+              </div>
+
               {/* ERROR */}
 
               {error && (
@@ -1051,11 +1167,11 @@ export default function Sucursales() {
                   className="rounded-xl border px-4 py-3 text-sm"
                   style={{
                     borderColor:
-                      '#E7D3D9',
+                      '#D1D5DB',
                     backgroundColor:
-                      VINO_SUAVE,
+                      GRIS_SUAVE,
                     color:
-                      VINO_OSCURO,
+                      GRIS_OSCURO,
                   }}
                 >
                   {error}
@@ -1079,7 +1195,7 @@ export default function Sucursales() {
                   className="rounded-xl px-5 py-2.5 text-sm font-semibold text-white shadow-sm transition hover:opacity-90"
                   style={{
                     backgroundColor:
-                      VINO_OSCURO,
+                      GRIS_OSCURO,
                   }}
                 >
                   Guardar sucursal
