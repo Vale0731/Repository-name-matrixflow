@@ -20,15 +20,24 @@ import {
 import API from '../services/api';
 
 /* =========================================================
-   PALETA MATRIXFLOW
+   PALETA MATAS PERU EIRL
 ========================================================= */
 
-const VINO = '#5c4a51';
-const VINO_OSCURO = '#756168';
-const VINO_SUAVE = '#F8E9EE';
-const GRIS_FONDO = '#F3F3F1';
+const GRIS_MARCA = '#4B5563';
+const GRIS_OSCURO = '#2F3337';
+const GRIS_SUAVE = '#E5E7EB';
+const GRIS_FONDO = '#F3F4F6';
 const GRIS = '#6B7280';
 const NEGRO = '#111111';
+const BLANCO = '#FFFFFF';
+
+/* =========================================================
+   IDENTIDAD DE LA EMPRESA
+========================================================= */
+
+const EMPRESA = 'MATAS PERU EIRL';
+const GERENTE = 'GERARDO GARCIA MATAS';
+const ACTIVIDAD = 'Electricidad y Soluciones Integrales';
 
 /* =========================================================
    TIPOS
@@ -120,7 +129,7 @@ function formatNumber(value: number) {
 }
 
 /* =========================================================
-   OPERACIONES
+   OPERACIONES MATEMÁTICAS
 ========================================================= */
 
 function getOperationLabel(tipo: string) {
@@ -142,7 +151,8 @@ function getOperationLabel(tipo: string) {
 ========================================================= */
 
 export default function Dashboard() {
-  const [data, setData] = useState<DashboardData>(emptyData);
+  const [data, setData] =
+    useState<DashboardData>(emptyData);
 
   const [loading, setLoading] = useState(true);
 
@@ -187,11 +197,19 @@ export default function Dashboard() {
 
       setData({
         ventas: Array.isArray(ventas) ? ventas : [],
-        inventario: Array.isArray(inventario) ? inventario : [],
-        productos: Array.isArray(productos) ? productos : [],
-        sucursales: Array.isArray(sucursales) ? sucursales : [],
+        inventario: Array.isArray(inventario)
+          ? inventario
+          : [],
+        productos: Array.isArray(productos)
+          ? productos
+          : [],
+        sucursales: Array.isArray(sucursales)
+          ? sucursales
+          : [],
         metas: Array.isArray(metas) ? metas : [],
-        operaciones: Array.isArray(operaciones) ? operaciones : [],
+        operaciones: Array.isArray(operaciones)
+          ? operaciones
+          : [],
       });
     } catch (err) {
       console.error(err);
@@ -216,8 +234,10 @@ export default function Dashboard() {
     () =>
       data.ventas.filter(
         (venta) =>
-          venta.estado?.toLowerCase() === 'completada' ||
-          venta.estado?.toLowerCase() === 'completado'
+          venta.estado?.toLowerCase() ===
+            'completada' ||
+          venta.estado?.toLowerCase() ===
+            'completado'
       ),
     [data.ventas]
   );
@@ -225,7 +245,8 @@ export default function Dashboard() {
   const ventasAcumuladas = useMemo(
     () =>
       ventasCompletadas.reduce(
-        (total, venta) => total + Number(venta.total || 0),
+        (total, venta) =>
+          total + Number(venta.total || 0),
         0
       ),
     [ventasCompletadas]
@@ -235,7 +256,8 @@ export default function Dashboard() {
     () =>
       data.productos.filter(
         (producto) =>
-          producto.estado?.toLowerCase() === 'activo'
+          producto.estado?.toLowerCase() ===
+          'activo'
       ).length,
     [data.productos]
   );
@@ -275,7 +297,10 @@ export default function Dashboard() {
         Number(metaVentas.valor_objetivo)) *
       100;
 
-    return Math.min(Math.max(porcentaje, 0), 100);
+    return Math.min(
+      Math.max(porcentaje, 0),
+      100
+    );
   }, [metaVentas, ventasAcumuladas]);
 
   /* =======================================================
@@ -400,7 +425,7 @@ export default function Dashboard() {
           <RefreshCw
             className="h-5 w-5 animate-spin"
             style={{
-              color: VINO,
+              color: GRIS_MARCA,
             }}
           />
 
@@ -410,7 +435,7 @@ export default function Dashboard() {
               color: GRIS,
             }}
           >
-            Cargando dashboard...
+            Cargando dashboard de {EMPRESA}...
           </span>
         </div>
       </div>
@@ -430,14 +455,16 @@ export default function Dashboard() {
     >
       <div className="mx-auto max-w-[1500px] space-y-6 p-5 lg:p-7">
 
-        {/* ENCABEZADO */}
+        {/* =================================================
+            ENCABEZADO
+        ================================================= */}
 
         <div className="flex flex-col justify-between gap-4 md:flex-row md:items-end">
           <div>
             <div
               className="mb-1 flex items-center gap-2 text-sm font-semibold"
               style={{
-                color: VINO,
+                color: GRIS_MARCA,
               }}
             >
               <BarChart3 className="h-4 w-4" />
@@ -451,8 +478,17 @@ export default function Dashboard() {
                 color: NEGRO,
               }}
             >
-              Dashboard
+              {EMPRESA}
             </h1>
+
+            <p
+              className="mt-1 text-sm font-medium"
+              style={{
+                color: GRIS_MARCA,
+              }}
+            >
+              {ACTIVIDAD}
+            </p>
 
             <p
               className="mt-1 text-sm"
@@ -460,8 +496,17 @@ export default function Dashboard() {
                 color: GRIS,
               }}
             >
-              Resumen de ventas, inventario y actividad
-              matemática de la empresa.
+              Resumen de operaciones, ventas,
+              inventario y actividad de la empresa.
+            </p>
+
+            <p
+              className="mt-1 text-xs font-medium"
+              style={{
+                color: GRIS,
+              }}
+            >
+              Gerente: {GERENTE}
             </p>
           </div>
 
@@ -470,7 +515,7 @@ export default function Dashboard() {
             onClick={cargarDashboard}
             className="inline-flex items-center justify-center gap-2 rounded-xl border bg-white px-4 py-2.5 text-sm font-semibold shadow-sm transition hover:shadow-md"
             style={{
-              borderColor: '#E5E5E5',
+              borderColor: GRIS_SUAVE,
               color: NEGRO,
             }}
           >
@@ -480,15 +525,17 @@ export default function Dashboard() {
           </button>
         </div>
 
-        {/* ERROR */}
+        {/* =================================================
+            ERROR
+        ================================================= */}
 
         {error && (
           <div
             className="flex items-center gap-3 rounded-2xl border px-4 py-3 text-sm"
             style={{
-              borderColor: '#E7C7D2',
-              backgroundColor: VINO_SUAVE,
-              color: VINO_OSCURO,
+              borderColor: '#D1D5DB',
+              backgroundColor: '#F3F4F6',
+              color: GRIS_OSCURO,
             }}
           >
             <AlertTriangle className="h-5 w-5 shrink-0" />
@@ -497,7 +544,9 @@ export default function Dashboard() {
           </div>
         )}
 
-        {/* KPIs */}
+        {/* =================================================
+            KPIs
+        ================================================= */}
 
         <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 xl:grid-cols-4">
 
@@ -561,7 +610,9 @@ export default function Dashboard() {
           />
         </div>
 
-        {/* BLOQUE PRINCIPAL */}
+        {/* =================================================
+            BLOQUE PRINCIPAL
+        ================================================= */}
 
         <div className="grid grid-cols-1 gap-5 xl:grid-cols-[1.8fr_1fr]">
 
@@ -586,15 +637,15 @@ export default function Dashboard() {
                     color: GRIS,
                   }}
                 >
-                  Importe acumulado por sede
+                  Importe acumulado por sede de {EMPRESA}
                 </p>
               </div>
 
               <div
                 className="rounded-xl p-2.5"
                 style={{
-                  backgroundColor: VINO_SUAVE,
-                  color: VINO,
+                  backgroundColor: GRIS_SUAVE,
+                  color: GRIS_OSCURO,
                 }}
               >
                 <TrendingUp className="h-5 w-5" />
@@ -653,7 +704,7 @@ export default function Dashboard() {
                                 ? 3
                                 : 0
                             )}%`,
-                            backgroundColor: VINO,
+                            backgroundColor: GRIS_MARCA,
                           }}
                         />
                       </div>
@@ -691,8 +742,8 @@ export default function Dashboard() {
               <div
                 className="rounded-xl p-2.5"
                 style={{
-                  backgroundColor: VINO_SUAVE,
-                  color: VINO,
+                  backgroundColor: GRIS_SUAVE,
+                  color: GRIS_OSCURO,
                 }}
               >
                 <Package className="h-5 w-5" />
@@ -738,7 +789,7 @@ export default function Dashboard() {
                                 100,
                               3
                             )}%`,
-                            backgroundColor: VINO_OSCURO,
+                            backgroundColor: GRIS_OSCURO,
                           }}
                         />
                       </div>
@@ -749,7 +800,9 @@ export default function Dashboard() {
           </section>
         </div>
 
-        {/* PARTE INFERIOR */}
+        {/* =================================================
+            PARTE INFERIOR
+        ================================================= */}
 
         <div className="grid grid-cols-1 gap-5 xl:grid-cols-[1.5fr_1fr]">
 
@@ -781,8 +834,8 @@ export default function Dashboard() {
               <div
                 className="rounded-xl p-2.5"
                 style={{
-                  backgroundColor: VINO_SUAVE,
-                  color: VINO,
+                  backgroundColor: GRIS_SUAVE,
+                  color: GRIS_OSCURO,
                 }}
               >
                 <Calculator className="h-5 w-5" />
@@ -803,8 +856,8 @@ export default function Dashboard() {
                       <div
                         className="rounded-xl p-2.5"
                         style={{
-                          backgroundColor: VINO_SUAVE,
-                          color: VINO,
+                          backgroundColor: GRIS_SUAVE,
+                          color: GRIS_OSCURO,
                         }}
                       >
                         <Activity className="h-4 w-4" />
@@ -817,7 +870,9 @@ export default function Dashboard() {
                             color: NEGRO,
                           }}
                         >
-                          {getOperationLabel(operacion.tipo)}
+                          {getOperationLabel(
+                            operacion.tipo
+                          )}
                         </p>
 
                         <p
@@ -835,7 +890,7 @@ export default function Dashboard() {
                       className="shrink-0 rounded-full px-3 py-1 text-xs font-semibold"
                       style={{
                         backgroundColor: '#F1F1F1',
-                        color: VINO_OSCURO,
+                        color: GRIS_OSCURO,
                       }}
                     >
                       {operacion.estado || 'Completada'}
@@ -860,21 +915,25 @@ export default function Dashboard() {
                 <p
                   className="text-sm font-semibold"
                   style={{
-                    color: '#D7A7B8',
+                    color: '#D1D5DB',
                   }}
                 >
-                  Indicador destacado
+                  {EMPRESA}
                 </p>
 
                 <h2 className="mt-1 text-xl font-bold">
                   Estado operativo
                 </h2>
+
+                <p className="mt-1 text-xs text-gray-400">
+                  {ACTIVIDAD}
+                </p>
               </div>
 
               <div
                 className="rounded-xl p-2.5"
                 style={{
-                  backgroundColor: VINO,
+                  backgroundColor: GRIS_MARCA,
                 }}
               >
                 <Bell className="h-5 w-5 text-white" />
@@ -885,22 +944,30 @@ export default function Dashboard() {
 
               <SummaryRow
                 label="Ventas registradas"
-                value={formatNumber(data.ventas.length)}
+                value={formatNumber(
+                  data.ventas.length
+                )}
               />
 
               <SummaryRow
                 label="Sucursales"
-                value={formatNumber(data.sucursales.length)}
+                value={formatNumber(
+                  data.sucursales.length
+                )}
               />
 
               <SummaryRow
                 label="Productos"
-                value={formatNumber(data.productos.length)}
+                value={formatNumber(
+                  data.productos.length
+                )}
               />
 
               <SummaryRow
                 label="Alertas de inventario"
-                value={formatNumber(inventarioAlertas)}
+                value={formatNumber(
+                  inventarioAlertas
+                )}
                 danger={inventarioAlertas > 0}
               />
             </div>
@@ -908,8 +975,10 @@ export default function Dashboard() {
             <div
               className="mt-6 rounded-xl border p-4"
               style={{
-                borderColor: 'rgba(255,255,255,0.10)',
-                backgroundColor: 'rgba(255,255,255,0.04)',
+                borderColor:
+                  'rgba(255,255,255,0.10)',
+                backgroundColor:
+                  'rgba(255,255,255,0.04)',
               }}
             >
               <div className="flex items-center gap-3">
@@ -918,14 +987,14 @@ export default function Dashboard() {
                   <ArrowDownRight
                     className="h-5 w-5"
                     style={{
-                      color: '#D7A7B8',
+                      color: '#D1D5DB',
                     }}
                   />
                 ) : (
                   <ArrowUpRight
                     className="h-5 w-5"
                     style={{
-                      color: '#D7A7B8',
+                      color: '#D1D5DB',
                     }}
                   />
                 )}
@@ -948,7 +1017,9 @@ export default function Dashboard() {
           </section>
         </div>
 
-        {/* MINI ESTADÍSTICAS */}
+        {/* =================================================
+            MINI ESTADÍSTICAS
+        ================================================= */}
 
         <div className="grid grid-cols-2 gap-4 lg:grid-cols-4">
 
@@ -965,7 +1036,9 @@ export default function Dashboard() {
               <Package className="h-4 w-4" />
             }
             label="Productos activos"
-            value={formatNumber(productosActivos)}
+            value={formatNumber(
+              productosActivos
+            )}
           />
 
           <MiniStat
@@ -973,7 +1046,9 @@ export default function Dashboard() {
               <Box className="h-4 w-4" />
             }
             label="Unidades"
-            value={formatNumber(unidadesInventario)}
+            value={formatNumber(
+              unidadesInventario
+            )}
           />
 
           <MiniStat
@@ -984,10 +1059,53 @@ export default function Dashboard() {
             value={formatNumber(
               data.metas.filter(
                 (meta) =>
-                  meta.estado?.toLowerCase() === 'activo'
+                  meta.estado?.toLowerCase() ===
+                  'activo'
               ).length
             )}
           />
+        </div>
+
+        {/* =================================================
+            IDENTIDAD EMPRESARIAL
+        ================================================= */}
+
+        <div
+          className="rounded-2xl border bg-white px-5 py-4 shadow-sm"
+          style={{
+            borderColor: GRIS_SUAVE,
+          }}
+        >
+          <div className="flex flex-col justify-between gap-2 md:flex-row md:items-center">
+            <div>
+              <p
+                className="text-sm font-bold"
+                style={{
+                  color: NEGRO,
+                }}
+              >
+                {EMPRESA}
+              </p>
+
+              <p
+                className="text-xs"
+                style={{
+                  color: GRIS,
+                }}
+              >
+                {ACTIVIDAD}
+              </p>
+            </div>
+
+            <p
+              className="text-xs font-medium"
+              style={{
+                color: GRIS_MARCA,
+              }}
+            >
+              Gerente: {GERENTE}
+            </p>
+          </div>
         </div>
       </div>
     </div>
@@ -1021,8 +1139,8 @@ function KpiCard({
         <div
           className="rounded-xl p-2.5"
           style={{
-            backgroundColor: VINO_SUAVE,
-            color: VINO,
+            backgroundColor: GRIS_SUAVE,
+            color: GRIS_OSCURO,
           }}
         >
           {icon}
@@ -1032,9 +1150,9 @@ function KpiCard({
           className="flex items-center gap-1 text-xs font-semibold"
           style={{
             color: warning
-              ? VINO_OSCURO
+              ? GRIS_OSCURO
               : positive
-                ? VINO
+                ? GRIS_MARCA
                 : '#9CA3AF',
           }}
         >
@@ -1106,8 +1224,8 @@ function SummaryRow({
         className="text-sm font-bold"
         style={{
           color: danger
-            ? '#D7A7B8'
-            : '#FFFFFF',
+            ? '#D1D5DB'
+            : BLANCO,
         }}
       >
         {value}
@@ -1135,8 +1253,8 @@ function MiniStat({
       <div
         className="rounded-xl p-2.5"
         style={{
-          backgroundColor: VINO_SUAVE,
-          color: VINO,
+          backgroundColor: GRIS_SUAVE,
+          color: GRIS_OSCURO,
         }}
       >
         {icon}
