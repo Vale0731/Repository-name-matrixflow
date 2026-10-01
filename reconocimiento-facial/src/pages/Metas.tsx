@@ -21,11 +21,21 @@ interface Meta {
   estado: string;
 }
 
-const VINO = '#775b66';
-const VINO_OSCURO = '#6B4652';
-const VINO_SUAVE = '#F8E9EE';
-const GRIS_FONDO = '#F3F3F1';
-const GRIS = '#6B7280';
+/* =========================================================
+   PALETA MATAS PERU EIRL
+========================================================= */
+
+const EMPRESA_NOMBRE = 'MATAS PERU EIRL';
+const EMPRESA_GERENTE = 'GERARDO GARCIA MATAS';
+const EMPRESA_RUBRO = 'Electricidad y Soluciones Integrales';
+
+const GRIS_MARCA = '#4B5563';
+const GRIS_OSCURO = '#2F3337';
+const GRIS_MEDIO = '#6B7280';
+const GRIS_SUAVE = '#E5E7EB';
+const GRIS_FONDO = '#F3F4F6';
+const GRIS_MUY_SUAVE = '#F9FAFB';
+const BLANCO = '#FFFFFF';
 const NEGRO = '#111111';
 
 export default function Metas() {
@@ -49,6 +59,7 @@ export default function Metas() {
   // =========================
   // CARGAR METAS
   // =========================
+
   const cargarMetas = async () => {
     try {
       setCargando(true);
@@ -102,6 +113,7 @@ export default function Metas() {
   // =========================
   // LIMPIAR FORMULARIO
   // =========================
+
   const limpiarFormulario = () => {
     setNombre('');
     setTipo('Ventas');
@@ -113,6 +125,7 @@ export default function Metas() {
   // =========================
   // ABRIR MODAL
   // =========================
+
   const abrirModal = () => {
     limpiarFormulario();
     setError('');
@@ -123,6 +136,7 @@ export default function Metas() {
   // =========================
   // CERRAR MODAL
   // =========================
+
   const cerrarModal = () => {
     if (guardando) return;
 
@@ -133,6 +147,7 @@ export default function Metas() {
   // =========================
   // GUARDAR META
   // =========================
+
   const guardarMeta = async (
     e: React.FormEvent
   ) => {
@@ -220,6 +235,7 @@ export default function Metas() {
   // =========================
   // INDICADORES
   // =========================
+
   const metasActivas = metas.filter(
     (meta) =>
       meta.estado?.toLowerCase() === 'activo'
@@ -236,6 +252,7 @@ export default function Metas() {
   // =========================
   // FORMATO OBJETIVO
   // =========================
+
   const formatearObjetivo = (
     meta: Meta
   ) => {
@@ -262,6 +279,7 @@ export default function Metas() {
         {/* =========================
             ENCABEZADO
         ========================= */}
+
         <div className="flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
 
           <div className="flex items-center gap-3">
@@ -269,8 +287,8 @@ export default function Metas() {
             <div
               className="flex h-12 w-12 items-center justify-center rounded-xl"
               style={{
-                backgroundColor: VINO_SUAVE,
-                color: VINO_OSCURO,
+                backgroundColor: GRIS_SUAVE,
+                color: GRIS_OSCURO,
               }}
             >
               <Target size={24} />
@@ -280,7 +298,7 @@ export default function Metas() {
 
               <p
                 className="text-[11px] font-semibold uppercase tracking-[0.18em]"
-                style={{ color: VINO }}
+                style={{ color: GRIS_MARCA }}
               >
                 Planificación comercial
               </p>
@@ -294,10 +312,17 @@ export default function Metas() {
 
               <p
                 className="mt-1 text-sm"
-                style={{ color: GRIS }}
+                style={{ color: GRIS_MEDIO }}
               >
-                Administra los objetivos comerciales
-                de la empresa
+                Administra los objetivos comerciales de{' '}
+                {EMPRESA_NOMBRE}
+              </p>
+
+              <p
+                className="mt-1 text-xs"
+                style={{ color: GRIS_MEDIO }}
+              >
+                {EMPRESA_RUBRO} · Gerente: {EMPRESA_GERENTE}
               </p>
 
             </div>
@@ -312,7 +337,7 @@ export default function Metas() {
               disabled={cargando}
               className="inline-flex items-center gap-2 rounded-xl border bg-white px-4 py-2.5 text-sm font-medium shadow-sm transition hover:bg-gray-50 disabled:cursor-not-allowed disabled:opacity-50"
               style={{
-                borderColor: '#E5E7EB',
+                borderColor: GRIS_SUAVE,
                 color: NEGRO,
               }}
             >
@@ -332,7 +357,7 @@ export default function Metas() {
               onClick={abrirModal}
               className="inline-flex items-center gap-2 rounded-xl px-4 py-2.5 text-sm font-semibold text-white shadow-sm transition hover:opacity-90"
               style={{
-                backgroundColor: VINO_OSCURO,
+                backgroundColor: GRIS_OSCURO,
               }}
             >
               <Plus className="h-4 w-4" />
@@ -346,13 +371,14 @@ export default function Metas() {
         {/* =========================
             MENSAJE
         ========================= */}
+
         {mensaje && (
           <div
             className="flex items-center gap-3 rounded-xl border px-4 py-3 text-sm"
             style={{
-              borderColor: '#D8C3CB',
-              backgroundColor: VINO_SUAVE,
-              color: VINO_OSCURO,
+              borderColor: GRIS_SUAVE,
+              backgroundColor: BLANCO,
+              color: GRIS_OSCURO,
             }}
           >
             <CheckCircle2 className="h-5 w-5 shrink-0" />
@@ -364,13 +390,14 @@ export default function Metas() {
         {/* =========================
             ERROR
         ========================= */}
+
         {error && !mostrarModal && (
           <div
             className="flex items-center justify-between gap-4 rounded-xl border px-4 py-3 text-sm"
             style={{
-              borderColor: '#FECACA',
-              backgroundColor: '#FEF2F2',
-              color: '#B91C1C',
+              borderColor: GRIS_SUAVE,
+              backgroundColor: BLANCO,
+              color: NEGRO,
             }}
           >
             <span>{error}</span>
@@ -379,6 +406,7 @@ export default function Metas() {
               type="button"
               onClick={() => setError('')}
               className="transition hover:opacity-70"
+              style={{ color: GRIS_MEDIO }}
             >
               <X size={18} />
             </button>
@@ -388,9 +416,11 @@ export default function Metas() {
         {/* =========================
             INDICADORES
         ========================= */}
+
         <div className="grid grid-cols-1 gap-4 md:grid-cols-3">
 
           {/* TOTAL */}
+
           <div className="rounded-2xl border border-gray-200 bg-white p-5 shadow-sm transition hover:shadow-md">
 
             <div className="flex items-start justify-between">
@@ -399,7 +429,7 @@ export default function Metas() {
 
                 <p
                   className="text-xs font-medium uppercase tracking-wide"
-                  style={{ color: GRIS }}
+                  style={{ color: GRIS_MEDIO }}
                 >
                   Metas registradas
                 </p>
@@ -416,8 +446,8 @@ export default function Metas() {
               <div
                 className="rounded-xl p-2.5"
                 style={{
-                  backgroundColor: VINO_SUAVE,
-                  color: VINO_OSCURO,
+                  backgroundColor: GRIS_SUAVE,
+                  color: GRIS_OSCURO,
                 }}
               >
                 <Target className="h-5 w-5" />
@@ -427,7 +457,7 @@ export default function Metas() {
 
             <p
               className="mt-3 text-xs"
-              style={{ color: GRIS }}
+              style={{ color: GRIS_MEDIO }}
             >
               Total de objetivos registrados
             </p>
@@ -435,6 +465,7 @@ export default function Metas() {
           </div>
 
           {/* ACTIVAS */}
+
           <div className="rounded-2xl border border-gray-200 bg-white p-5 shadow-sm transition hover:shadow-md">
 
             <div className="flex items-start justify-between">
@@ -443,14 +474,14 @@ export default function Metas() {
 
                 <p
                   className="text-xs font-medium uppercase tracking-wide"
-                  style={{ color: GRIS }}
+                  style={{ color: GRIS_MEDIO }}
                 >
                   Metas activas
                 </p>
 
                 <p
                   className="mt-3 text-3xl font-bold"
-                  style={{ color: VINO_OSCURO }}
+                  style={{ color: GRIS_OSCURO }}
                 >
                   {metasActivas}
                 </p>
@@ -460,8 +491,8 @@ export default function Metas() {
               <div
                 className="rounded-xl p-2.5"
                 style={{
-                  backgroundColor: VINO_SUAVE,
-                  color: VINO_OSCURO,
+                  backgroundColor: GRIS_SUAVE,
+                  color: GRIS_OSCURO,
                 }}
               >
                 <CheckCircle2 className="h-5 w-5" />
@@ -471,7 +502,7 @@ export default function Metas() {
 
             <p
               className="mt-3 text-xs"
-              style={{ color: GRIS }}
+              style={{ color: GRIS_MEDIO }}
             >
               Objetivos actualmente activos
             </p>
@@ -479,6 +510,7 @@ export default function Metas() {
           </div>
 
           {/* VENTAS */}
+
           <div className="rounded-2xl border border-gray-200 bg-white p-5 shadow-sm transition hover:shadow-md">
 
             <div className="flex items-start justify-between">
@@ -487,7 +519,7 @@ export default function Metas() {
 
                 <p
                   className="text-xs font-medium uppercase tracking-wide"
-                  style={{ color: GRIS }}
+                  style={{ color: GRIS_MEDIO }}
                 >
                   Metas de ventas
                 </p>
@@ -504,8 +536,8 @@ export default function Metas() {
               <div
                 className="rounded-xl p-2.5"
                 style={{
-                  backgroundColor: '#F3F4F6',
-                  color: GRIS,
+                  backgroundColor: GRIS_SUAVE,
+                  color: GRIS_MEDIO,
                 }}
               >
                 <TrendingUp className="h-5 w-5" />
@@ -515,7 +547,7 @@ export default function Metas() {
 
             <p
               className="mt-3 text-xs"
-              style={{ color: GRIS }}
+              style={{ color: GRIS_MEDIO }}
             >
               {metasUnidades} metas de unidades
             </p>
@@ -527,6 +559,7 @@ export default function Metas() {
         {/* =========================
             TABLA
         ========================= */}
+
         <div className="overflow-hidden rounded-2xl border border-gray-200 bg-white shadow-sm">
 
           <div className="flex items-center justify-between border-b border-gray-200 px-6 py-5">
@@ -542,10 +575,10 @@ export default function Metas() {
 
               <p
                 className="mt-1 text-xs"
-                style={{ color: GRIS }}
+                style={{ color: GRIS_MEDIO }}
               >
-                Metas comerciales configuradas
-                en MatrixFlow
+                Metas comerciales configuradas en{' '}
+                {EMPRESA_NOMBRE}
               </p>
 
             </div>
@@ -553,8 +586,8 @@ export default function Metas() {
             <div
               className="rounded-lg px-3 py-1.5 text-xs font-semibold"
               style={{
-                backgroundColor: VINO_SUAVE,
-                color: VINO_OSCURO,
+                backgroundColor: GRIS_SUAVE,
+                color: GRIS_OSCURO,
               }}
             >
               {metas.length} registros
@@ -568,12 +601,12 @@ export default function Metas() {
 
               <RefreshCw
                 className="mx-auto h-6 w-6 animate-spin"
-                style={{ color: VINO }}
+                style={{ color: GRIS_OSCURO }}
               />
 
               <p
                 className="mt-3 text-sm"
-                style={{ color: GRIS }}
+                style={{ color: GRIS_MEDIO }}
               >
                 Cargando metas...
               </p>
@@ -587,8 +620,8 @@ export default function Metas() {
               <div
                 className="mx-auto flex h-14 w-14 items-center justify-center rounded-2xl"
                 style={{
-                  backgroundColor: VINO_SUAVE,
-                  color: VINO_OSCURO,
+                  backgroundColor: GRIS_SUAVE,
+                  color: GRIS_OSCURO,
                 }}
               >
                 <Target className="h-7 w-7" />
@@ -603,10 +636,9 @@ export default function Metas() {
 
               <p
                 className="mt-1 text-sm"
-                style={{ color: GRIS }}
+                style={{ color: GRIS_MEDIO }}
               >
-                Registra una nueva meta para
-                comenzar.
+                Registra una nueva meta para comenzar.
               </p>
 
               <button
@@ -614,7 +646,7 @@ export default function Metas() {
                 onClick={abrirModal}
                 className="mt-5 rounded-xl px-4 py-2.5 text-sm font-semibold text-white shadow-sm transition hover:opacity-90"
                 style={{
-                  backgroundColor: VINO_OSCURO,
+                  backgroundColor: GRIS_OSCURO,
                 }}
               >
                 Registrar meta
@@ -630,8 +662,8 @@ export default function Metas() {
 
                 <thead
                   style={{
-                    backgroundColor: '#FAFAF9',
-                    color: GRIS,
+                    backgroundColor: GRIS_MUY_SUAVE,
+                    color: GRIS_MEDIO,
                   }}
                 >
                   <tr>
@@ -673,6 +705,7 @@ export default function Metas() {
                     >
 
                       {/* META */}
+
                       <td className="px-6 py-4">
 
                         <div className="flex items-center gap-3">
@@ -680,10 +713,8 @@ export default function Metas() {
                           <div
                             className="flex h-9 w-9 items-center justify-center rounded-lg"
                             style={{
-                              backgroundColor:
-                                VINO_SUAVE,
-                              color:
-                                VINO_OSCURO,
+                              backgroundColor: GRIS_SUAVE,
+                              color: GRIS_OSCURO,
                             }}
                           >
                             <Target className="h-4 w-4" />
@@ -703,7 +734,7 @@ export default function Metas() {
                             <p
                               className="mt-0.5 text-xs"
                               style={{
-                                color: GRIS,
+                                color: GRIS_MEDIO,
                               }}
                             >
                               Meta #{meta.id}
@@ -716,16 +747,16 @@ export default function Metas() {
                       </td>
 
                       {/* TIPO */}
+
                       <td
                         className="px-6 py-4 text-sm"
-                        style={{ color: GRIS }}
+                        style={{ color: GRIS_MEDIO }}
                       >
                         <span
                           className="inline-flex items-center rounded-full px-3 py-1 text-xs font-semibold"
                           style={{
-                            backgroundColor:
-                              '#F3F4F6',
-                            color: GRIS,
+                            backgroundColor: GRIS_SUAVE,
+                            color: GRIS_OSCURO,
                           }}
                         >
                           {meta.tipo}
@@ -733,6 +764,7 @@ export default function Metas() {
                       </td>
 
                       {/* OBJETIVO */}
+
                       <td
                         className="px-6 py-4 text-sm font-semibold"
                         style={{ color: NEGRO }}
@@ -741,6 +773,7 @@ export default function Metas() {
                       </td>
 
                       {/* PERIODO */}
+
                       <td className="px-6 py-4">
 
                         <div className="flex items-center gap-2">
@@ -748,14 +781,14 @@ export default function Metas() {
                           <CalendarDays
                             className="h-4 w-4"
                             style={{
-                              color: VINO,
+                              color: GRIS_OSCURO,
                             }}
                           />
 
                           <span
                             className="text-sm"
                             style={{
-                              color: GRIS,
+                              color: GRIS_MEDIO,
                             }}
                           >
                             {meta.periodo}
@@ -766,6 +799,7 @@ export default function Metas() {
                       </td>
 
                       {/* SUCURSAL */}
+
                       <td className="px-6 py-4">
 
                         <div className="flex items-center gap-2">
@@ -773,14 +807,14 @@ export default function Metas() {
                           <Building2
                             className="h-4 w-4"
                             style={{
-                              color: VINO,
+                              color: GRIS_OSCURO,
                             }}
                           />
 
                           <span
                             className="text-sm"
                             style={{
-                              color: GRIS,
+                              color: GRIS_MEDIO,
                             }}
                           >
                             {meta.sucursal_id
@@ -793,6 +827,7 @@ export default function Metas() {
                       </td>
 
                       {/* ESTADO */}
+
                       <td className="px-6 py-4">
 
                         <span
@@ -802,14 +837,14 @@ export default function Metas() {
                             'activo'
                               ? {
                                   backgroundColor:
-                                    VINO_SUAVE,
+                                    GRIS_SUAVE,
                                   color:
-                                    VINO_OSCURO,
+                                    GRIS_OSCURO,
                                 }
                               : {
                                   backgroundColor:
                                     '#F3F4F6',
-                                  color: GRIS,
+                                  color: GRIS_MEDIO,
                                 }
                           }
                         >
@@ -820,8 +855,8 @@ export default function Metas() {
                               backgroundColor:
                                 meta.estado?.toLowerCase() ===
                                 'activo'
-                                  ? VINO
-                                  : GRIS,
+                                  ? GRIS_OSCURO
+                                  : GRIS_MEDIO,
                             }}
                           />
 
@@ -850,6 +885,7 @@ export default function Metas() {
       {/* =========================
           MODAL
       ========================= */}
+
       {mostrarModal && (
 
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/40 p-4 backdrop-blur-[2px]">
@@ -857,6 +893,7 @@ export default function Metas() {
           <div className="w-full max-w-lg overflow-hidden rounded-2xl border border-gray-200 bg-white shadow-2xl">
 
             {/* CABECERA */}
+
             <div className="flex items-center justify-between border-b border-gray-200 px-6 py-5">
 
               <div className="flex items-center gap-3">
@@ -864,10 +901,8 @@ export default function Metas() {
                 <div
                   className="flex h-10 w-10 items-center justify-center rounded-xl"
                   style={{
-                    backgroundColor:
-                      VINO_SUAVE,
-                    color:
-                      VINO_OSCURO,
+                    backgroundColor: GRIS_SUAVE,
+                    color: GRIS_OSCURO,
                   }}
                 >
                   <Target className="h-5 w-5" />
@@ -884,10 +919,9 @@ export default function Metas() {
 
                   <p
                     className="mt-1 text-sm"
-                    style={{ color: GRIS }}
+                    style={{ color: GRIS_MEDIO }}
                   >
-                    Configura un nuevo objetivo
-                    comercial
+                    Configura un nuevo objetivo comercial
                   </p>
 
                 </div>
@@ -899,7 +933,7 @@ export default function Metas() {
                 onClick={cerrarModal}
                 disabled={guardando}
                 className="rounded-xl p-2 transition hover:bg-gray-100 disabled:opacity-50"
-                style={{ color: GRIS }}
+                style={{ color: GRIS_MEDIO }}
               >
                 <X className="h-5 w-5" />
               </button>
@@ -907,12 +941,14 @@ export default function Metas() {
             </div>
 
             {/* FORMULARIO */}
+
             <form
               onSubmit={guardarMeta}
               className="space-y-5 p-6"
             >
 
               {/* NOMBRE */}
+
               <div>
 
                 <label
@@ -937,9 +973,9 @@ export default function Metas() {
                   }}
                   onFocus={(e) => {
                     e.currentTarget.style.borderColor =
-                      VINO;
+                      GRIS_MARCA;
                     e.currentTarget.style.boxShadow =
-                      `0 0 0 3px ${VINO_SUAVE}`;
+                      `0 0 0 3px ${GRIS_SUAVE}`;
                   }}
                   onBlur={(e) => {
                     e.currentTarget.style.borderColor =
@@ -952,6 +988,7 @@ export default function Metas() {
               </div>
 
               {/* TIPO */}
+
               <div>
 
                 <label
@@ -974,9 +1011,9 @@ export default function Metas() {
                   }}
                   onFocus={(e) => {
                     e.currentTarget.style.borderColor =
-                      VINO;
+                      GRIS_MARCA;
                     e.currentTarget.style.boxShadow =
-                      `0 0 0 3px ${VINO_SUAVE}`;
+                      `0 0 0 3px ${GRIS_SUAVE}`;
                   }}
                   onBlur={(e) => {
                     e.currentTarget.style.borderColor =
@@ -1005,6 +1042,7 @@ export default function Metas() {
               </div>
 
               {/* VALOR */}
+
               <div>
 
                 <label
@@ -1033,9 +1071,9 @@ export default function Metas() {
                   }}
                   onFocus={(e) => {
                     e.currentTarget.style.borderColor =
-                      VINO;
+                      GRIS_MARCA;
                     e.currentTarget.style.boxShadow =
-                      `0 0 0 3px ${VINO_SUAVE}`;
+                      `0 0 0 3px ${GRIS_SUAVE}`;
                   }}
                   onBlur={(e) => {
                     e.currentTarget.style.borderColor =
@@ -1048,6 +1086,7 @@ export default function Metas() {
               </div>
 
               {/* PERIODO */}
+
               <div>
 
                 <label
@@ -1070,9 +1109,9 @@ export default function Metas() {
                   }}
                   onFocus={(e) => {
                     e.currentTarget.style.borderColor =
-                      VINO;
+                      GRIS_MARCA;
                     e.currentTarget.style.boxShadow =
-                      `0 0 0 3px ${VINO_SUAVE}`;
+                      `0 0 0 3px ${GRIS_SUAVE}`;
                   }}
                   onBlur={(e) => {
                     e.currentTarget.style.borderColor =
@@ -1101,6 +1140,7 @@ export default function Metas() {
               </div>
 
               {/* SUCURSAL */}
+
               <div>
 
                 <label
@@ -1125,9 +1165,9 @@ export default function Metas() {
                   }}
                   onFocus={(e) => {
                     e.currentTarget.style.borderColor =
-                      VINO;
+                      GRIS_MARCA;
                     e.currentTarget.style.boxShadow =
-                      `0 0 0 3px ${VINO_SUAVE}`;
+                      `0 0 0 3px ${GRIS_SUAVE}`;
                   }}
                   onBlur={(e) => {
                     e.currentTarget.style.borderColor =
@@ -1144,14 +1184,15 @@ export default function Metas() {
               </div>
 
               {/* ERROR DEL MODAL */}
+
               {error && (
 
                 <div
                   className="rounded-xl border px-4 py-3 text-sm"
                   style={{
-                    borderColor: '#FECACA',
-                    backgroundColor: '#FEF2F2',
-                    color: '#B91C1C',
+                    borderColor: GRIS_SUAVE,
+                    backgroundColor: GRIS_MUY_SUAVE,
+                    color: NEGRO,
                   }}
                 >
                   {error}
@@ -1160,6 +1201,7 @@ export default function Metas() {
               )}
 
               {/* BOTONES */}
+
               <div className="flex justify-end gap-3 border-t border-gray-200 pt-5">
 
                 <button
@@ -1180,7 +1222,7 @@ export default function Metas() {
                   disabled={guardando}
                   className="rounded-xl px-5 py-2.5 text-sm font-semibold text-white shadow-sm transition hover:opacity-90 disabled:cursor-not-allowed disabled:opacity-50"
                   style={{
-                    backgroundColor: VINO_OSCURO,
+                    backgroundColor: GRIS_OSCURO,
                   }}
                 >
                   {guardando
