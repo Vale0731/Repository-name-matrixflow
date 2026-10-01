@@ -19,7 +19,19 @@ const GRIS_FONDO = '#F3F3F1';
 const GRIS = '#6B7280';
 const NEGRO = '#111111';
 
-type Resultado = number[] | number[][] | number;
+/*
+  IMPORTANTE:
+  Los valores se manejan como string en el frontend.
+
+  Esto evita que JavaScript convierta números grandes
+  a Number y pierda precisión.
+*/
+type ValorNumerico = string;
+
+type Resultado =
+  | ValorNumerico
+  | ValorNumerico[]
+  | ValorNumerico[][];
 
 export default function AnalisisMatematico() {
   const [operacion, setOperacion] = useState('suma');
@@ -29,7 +41,8 @@ export default function AnalisisMatematico() {
   // ============================================================
 
   const [ventas, setVentas] = useState<any[]>([]);
-  const [cargandoVentas, setCargandoVentas] = useState(true);
+  const [cargandoVentas, setCargandoVentas] =
+    useState(true);
 
   // ============================================================
   // DATOS PARA LAS OPERACIONES
@@ -37,15 +50,56 @@ export default function AnalisisMatematico() {
 
   const [vectorA, setVectorA] = useState('');
   const [vectorB, setVectorB] = useState('');
-  const [escalar, setEscalar] = useState('2');
-  const [escalares, setEscalares] = useState('2,3');
 
-  const [matrizA, setMatrizA] = useState('1,2\n3,4');
-  const [matrizB, setMatrizB] = useState('5,6\n7,8');
+  const [escalar, setEscalar] =
+    useState('2');
 
-  const [resultado, setResultado] = useState<Resultado | null>(null);
-  const [error, setError] = useState('');
-  const [cargando, setCargando] = useState(false);
+  const [escalares, setEscalares] =
+    useState('2,3');
+
+  const [matrizA, setMatrizA] =
+    useState('1,2\n3,4');
+
+  const [matrizB, setMatrizB] =
+    useState('5,6\n7,8');
+
+  const [resultado, setResultado] =
+    useState<Resultado | null>(null);
+
+  const [error, setError] =
+    useState('');
+
+  const [cargando, setCargando] =
+    useState(false);
+
+  // ============================================================
+  // VALIDAR NÚMERO
+  // ============================================================
+
+  const esNumeroValido = (
+    valor: string
+  ): boolean => {
+    const texto = valor.trim();
+
+    if (!texto) {
+      return false;
+    }
+
+    /*
+      Acepta:
+
+      123
+      -123
+      +123
+      999999999999999999999999999
+      12.50
+      -0.25
+    */
+
+    return /^[+-]?(?:\d+\.?\d*|\.\d+)$/.test(
+      texto
+    );
+  };
 
   // ============================================================
   // CARGAR VENTAS REALES
@@ -60,38 +114,78 @@ export default function AnalisisMatematico() {
       setCargandoVentas(true);
       setError('');
 
-      const respuesta = await fetch(`${API}/ventas`);
+      const respuesta = await fetch(
+        `${API}/ventas`
+      );
 
       if (!respuesta.ok) {
-        throw new Error('No se pudieron cargar las ventas.');
+        throw new Error(
+          'No se pudieron cargar las ventas.'
+        );
       }
 
-      const datos = await respuesta.json();
+      const datos =
+        await respuesta.json();
 
-      const listaVentas = Array.isArray(datos)
-        ? datos
-        : Array.isArray(datos?.ventas)
-        ? datos.ventas
-        : [];
+      const listaVentas =
+        Array.isArray(datos)
+          ? datos
+          : Array.isArray(datos?.ventas)
+          ? datos.ventas
+          : [];
 
       setVentas(listaVentas);
 
-      // Tomamos los totales reales de las ventas
-      const valoresVentas = listaVentas
-        .map((venta: any) => Number(venta.total))
-        .filter(
-          (valor: number) =>
-            Number.isFinite(valor)
-        );
+      /*
+        IMPORTANTE:
 
-      // Los valores reales pasan automáticamente al Vector A
-      if (valoresVentas.length > 0) {
-        setVectorA(valoresVentas.join(','));
+        NO usamos Number() aquí.
+
+        Guardamos el total como texto para
+        evitar perder precisión en números grandes.
+      */
+
+      const valoresVentas =
+        listaVentas
+          .map((venta: any) => {
+            const valor =
+              venta?.total;
+
+            if (
+              valor === null ||
+              valor === undefined
+            ) {
+              return null;
+            }
+
+            const texto =
+              String(valor).trim();
+
+            return esNumeroValido(texto)
+              ? texto
+              : null;
+          })
+          .filter(
+            (
+              valor
+            ): valor is string =>
+              valor !== null
+          );
+
+      if (
+        valoresVentas.length > 0
+      ) {
+        setVectorA(
+          valoresVentas.join(',')
+        );
       } else {
         setVectorA('');
       }
     } catch (err) {
-      console.error('Error cargando ventas:', err);
+      console.error(
+        'Error cargando ventas:',
+        err
+      );
 
       setVentas([]);
       setVectorA('');
@@ -110,28 +204,132 @@ export default function AnalisisMatematico() {
   // PARSEAR VECTOR
   // ============================================================
 
-  const parseVector = (texto: string): number[] => {
-    return texto
-      .split(',')
-      .map((x) => Number(x.trim()))
-      .filter((x) => Number.isFinite(x));
+  const parseVector = (
+    texto: string,
+    nombre: string
+  ): string[] => {
+    if (!texto.trim()) {
+      throw new Error(
+        `${nombre} no contiene valores.`
+      );
+    }
+
+    const partes =
+      texto
+        .split(',')
+        .map((x) => x.trim());
+
+    /*
+      NO usamos filter().
+
+      Antes filter() eliminaba valores inválidos
+      y podía provocar que A y B terminaran
+      con cantidades diferentes.
+    */
+
+    const valores: string[] = [];
+
+    for (
+      let i = 0;
+      i < partes.length;
+      i++
+    ) {
+      const valor = partes[i];
+
+      if (!valor) {
+        throw new Error(
+          `${nombre}: hay un valor vacío en la posición ${
+            i + 1
+          }.`
+        );
+      }
+
+      if (
+        !esNumeroValido(valor)
+      ) {
+        throw new Error(
+          `${nombre}: "${valor}" no es un número válido.`
+        );
+      }
+
+      valores.push(valor);
+    }
+
+    return valores;
   };
 
   // ============================================================
   // PARSEAR MATRIZ
   // ============================================================
 
-  const parseMatriz = (texto: string): number[][] => {
-    return texto
-      .trim()
-      .split('\n')
-      .map((fila) =>
-        fila
+  const parseMatriz = (
+    texto: string,
+    nombre: string
+  ): string[][] => {
+    if (!texto.trim()) {
+      throw new Error(
+        `${nombre} no contiene valores.`
+      );
+    }
+
+    const filas =
+      texto
+        .trim()
+        .split(/\r?\n/);
+
+    const matriz: string[][] = [];
+
+    for (
+      let i = 0;
+      i < filas.length;
+      i++
+    ) {
+      const partes =
+        filas[i]
           .split(',')
-          .map((x) => Number(x.trim()))
-          .filter((x) => Number.isFinite(x))
-      )
-      .filter((fila) => fila.length > 0);
+          .map((x) => x.trim());
+
+      if (
+        partes.length === 0
+      ) {
+        continue;
+      }
+
+      const fila: string[] = [];
+
+      for (
+        let j = 0;
+        j < partes.length;
+        j++
+      ) {
+        const valor =
+          partes[j];
+
+        if (!valor) {
+          throw new Error(
+            `${nombre}: hay un valor vacío en la fila ${
+              i + 1
+            }.`
+          );
+        }
+
+        if (
+          !esNumeroValido(valor)
+        ) {
+          throw new Error(
+            `${nombre}: "${valor}" no es un número válido en la fila ${
+              i + 1
+            }.`
+          );
+        }
+
+        fila.push(valor);
+      }
+
+      matriz.push(fila);
+    }
+
+    return matriz;
   };
 
   // ============================================================
@@ -139,7 +337,7 @@ export default function AnalisisMatematico() {
   // ============================================================
 
   const validarVector = (
-    vector: number[],
+    vector: string[],
     nombre: string
   ) => {
     if (vector.length === 0) {
@@ -154,7 +352,7 @@ export default function AnalisisMatematico() {
   // ============================================================
 
   const validarMatriz = (
-    matriz: number[][],
+    matriz: string[][],
     nombre: string
   ) => {
     if (matriz.length === 0) {
@@ -163,7 +361,8 @@ export default function AnalisisMatematico() {
       );
     }
 
-    const columnas = matriz[0].length;
+    const columnas =
+      matriz[0].length;
 
     if (columnas === 0) {
       throw new Error(
@@ -171,9 +370,11 @@ export default function AnalisisMatematico() {
       );
     }
 
-    const esRectangular = matriz.every(
-      (fila) => fila.length === columnas
-    );
+    const esRectangular =
+      matriz.every(
+        (fila) =>
+          fila.length === columnas
+      );
 
     if (!esRectangular) {
       throw new Error(
@@ -193,12 +394,52 @@ export default function AnalisisMatematico() {
 
     try {
       let endpoint = '';
-      let body: Record<string, unknown> = {};
 
-      const a = parseVector(vectorA);
-      const b = parseVector(vectorB);
-      const A = parseMatriz(matrizA);
-      const B = parseMatriz(matrizB);
+      let body: Record<
+        string,
+        unknown
+      > = {};
+
+      // --------------------------------------------------------
+      // SUMA / RESTA / PUNTO / ESCALAR / COMBINACIÓN
+      // --------------------------------------------------------
+
+      const a =
+        parseVector(
+          vectorA,
+          'Vector A'
+        );
+
+      let b: string[] = [];
+
+      if (necesitaVectorB) {
+        b =
+          parseVector(
+            vectorB,
+            'Vector B'
+          );
+      }
+
+      // --------------------------------------------------------
+      // MATRICES
+      // --------------------------------------------------------
+
+      const A =
+        necesitaMatriz
+          ? parseMatriz(
+              matrizA,
+              'Matriz A'
+            )
+          : [];
+
+      const B =
+        operacion ===
+        'matrices'
+          ? parseMatriz(
+              matrizB,
+              'Matriz B'
+            )
+          : [];
 
       switch (operacion) {
         // ======================================================
@@ -206,12 +447,22 @@ export default function AnalisisMatematico() {
         // ======================================================
 
         case 'suma':
-          validarVector(a, 'Vector A');
-          validarVector(b, 'Vector B');
+          validarVector(
+            a,
+            'Vector A'
+          );
 
-          if (a.length !== b.length) {
+          validarVector(
+            b,
+            'Vector B'
+          );
+
+          if (
+            a.length !==
+            b.length
+          ) {
             throw new Error(
-              'Los vectores A y B deben tener la misma cantidad de elementos.'
+              `Los vectores A y B deben tener la misma cantidad de elementos. A tiene ${a.length} y B tiene ${b.length}.`
             );
           }
 
@@ -230,12 +481,22 @@ export default function AnalisisMatematico() {
         // ======================================================
 
         case 'resta':
-          validarVector(a, 'Vector A');
-          validarVector(b, 'Vector B');
+          validarVector(
+            a,
+            'Vector A'
+          );
 
-          if (a.length !== b.length) {
+          validarVector(
+            b,
+            'Vector B'
+          );
+
+          if (
+            a.length !==
+            b.length
+          ) {
             throw new Error(
-              'Los vectores A y B deben tener la misma cantidad de elementos.'
+              `Los vectores A y B deben tener la misma cantidad de elementos. A tiene ${a.length} y B tiene ${b.length}.`
             );
           }
 
@@ -254,12 +515,22 @@ export default function AnalisisMatematico() {
         // ======================================================
 
         case 'punto':
-          validarVector(a, 'Vector A');
-          validarVector(b, 'Vector B');
+          validarVector(
+            a,
+            'Vector A'
+          );
 
-          if (a.length !== b.length) {
+          validarVector(
+            b,
+            'Vector B'
+          );
+
+          if (
+            a.length !==
+            b.length
+          ) {
             throw new Error(
-              'Los vectores A y B deben tener la misma cantidad de elementos.'
+              `Los vectores A y B deben tener la misma cantidad de elementos. A tiene ${a.length} y B tiene ${b.length}.`
             );
           }
 
@@ -278,11 +549,14 @@ export default function AnalisisMatematico() {
         // ======================================================
 
         case 'escalar':
-          validarVector(a, 'Vector A');
+          validarVector(
+            a,
+            'Vector A'
+          );
 
           if (
-            !Number.isFinite(
-              Number(escalar)
+            !esNumeroValido(
+              escalar
             )
           ) {
             throw new Error(
@@ -295,7 +569,8 @@ export default function AnalisisMatematico() {
 
           body = {
             vector: a,
-            escalar: Number(escalar),
+            escalar:
+              escalar.trim(),
           };
 
           break;
@@ -305,7 +580,10 @@ export default function AnalisisMatematico() {
         // ======================================================
 
         case 'transpuesta':
-          validarMatriz(A, 'Matriz A');
+          validarMatriz(
+            A,
+            'Matriz A'
+          );
 
           endpoint =
             '/matematicas/transpuesta';
@@ -321,10 +599,20 @@ export default function AnalisisMatematico() {
         // ======================================================
 
         case 'matrices':
-          validarMatriz(A, 'Matriz A');
-          validarMatriz(B, 'Matriz B');
+          validarMatriz(
+            A,
+            'Matriz A'
+          );
 
-          if (A[0].length !== B.length) {
+          validarMatriz(
+            B,
+            'Matriz B'
+          );
+
+          if (
+            A[0].length !==
+            B.length
+          ) {
             throw new Error(
               `No se pueden multiplicar las matrices. La Matriz A tiene ${A[0].length} columnas y la Matriz B tiene ${B.length} filas.`
             );
@@ -345,30 +633,52 @@ export default function AnalisisMatematico() {
         // ======================================================
 
         case 'combinacion': {
-          validarVector(a, 'Vector A');
-          validarVector(b, 'Vector B');
+          validarVector(
+            a,
+            'Vector A'
+          );
+
+          validarVector(
+            b,
+            'Vector B'
+          );
 
           const valoresEscalares =
             escalares
               .split(',')
               .map((x) =>
-                Number(x.trim())
-              )
-              .filter((x) =>
-                Number.isFinite(x)
+                x.trim()
               );
 
           if (
-            valoresEscalares.length !== 2
+            valoresEscalares.length !==
+            2
           ) {
             throw new Error(
               'La combinación lineal necesita exactamente 2 escalares.'
             );
           }
 
-          if (a.length !== b.length) {
+          for (
+            const valor of valoresEscalares
+          ) {
+            if (
+              !esNumeroValido(
+                valor
+              )
+            ) {
+              throw new Error(
+                `El escalar "${valor}" no es válido.`
+              );
+            }
+          }
+
+          if (
+            a.length !==
+            b.length
+          ) {
             throw new Error(
-              'Los vectores A y B deben tener la misma cantidad de elementos.'
+              `Los vectores A y B deben tener la misma cantidad de elementos. A tiene ${a.length} y B tiene ${b.length}.`
             );
           }
 
@@ -376,8 +686,12 @@ export default function AnalisisMatematico() {
             '/matematicas/combinacion-lineal';
 
           body = {
-            vectores: [a, b],
-            escalares: valoresEscalares,
+            vectores: [
+              a,
+              b,
+            ],
+            escalares:
+              valoresEscalares,
           };
 
           break;
@@ -390,20 +704,25 @@ export default function AnalisisMatematico() {
       }
 
       // ========================================================
-      // LLAMAR AL BACKEND MATEMÁTICO
+      // LLAMAR AL BACKEND
       // ========================================================
 
-      const respuesta = await fetch(
-        `${API}${endpoint}`,
-        {
-          method: 'POST',
-          headers: {
-            'Content-Type':
-              'application/json',
-          },
-          body: JSON.stringify(body),
-        }
-      );
+      const respuesta =
+        await fetch(
+          `${API}${endpoint}`,
+          {
+            method: 'POST',
+
+            headers: {
+              'Content-Type':
+                'application/json',
+            },
+
+            body: JSON.stringify(
+              body
+            ),
+          }
+        );
 
       const datos =
         await respuesta
@@ -431,7 +750,9 @@ export default function AnalisisMatematico() {
                 .map(
                   (item: any) =>
                     item.msg ||
-                    JSON.stringify(item)
+                    JSON.stringify(
+                      item
+                    )
                 )
                 .join(', ');
           } else {
@@ -442,7 +763,9 @@ export default function AnalisisMatematico() {
           }
         }
 
-        throw new Error(detalle);
+        throw new Error(
+          detalle
+        );
       }
 
       const resultadoFinal =
@@ -450,8 +773,16 @@ export default function AnalisisMatematico() {
         datos?.result ??
         datos;
 
+      /*
+        Convertimos la respuesta a string
+        para mostrar correctamente números
+        grandes que puedan venir como texto.
+      */
+
       setResultado(
-        resultadoFinal
+        normalizarResultado(
+          resultadoFinal
+        )
       );
 
       // ========================================================
@@ -462,15 +793,24 @@ export default function AnalisisMatematico() {
         string,
         string
       > = {
-        suma: 'SUMA_VECTORES',
-        resta: 'RESTA_VECTORES',
-        punto: 'PRODUCTO_PUNTO',
+        suma:
+          'SUMA_VECTORES',
+
+        resta:
+          'RESTA_VECTORES',
+
+        punto:
+          'PRODUCTO_PUNTO',
+
         escalar:
           'MULTIPLICACION_ESCALAR',
+
         transpuesta:
           'MATRIZ_TRANSPUESTA',
+
         matrices:
           'MULTIPLICACION_MATRICES',
+
         combinacion:
           'COMBINACION_LINEAL',
       };
@@ -488,6 +828,7 @@ export default function AnalisisMatematico() {
             )}`,
             {
               method: 'POST',
+
               headers: {
                 'Content-Type':
                   'application/json',
@@ -508,7 +849,9 @@ export default function AnalisisMatematico() {
         const operacionData =
           await operacionGuardada.json();
 
-        if (!operacionData?.id) {
+        if (
+          !operacionData?.id
+        ) {
           console.warn(
             'El backend no devolvió el ID de la operación.'
           );
@@ -521,16 +864,21 @@ export default function AnalisisMatematico() {
             `${API}/resultados-operaciones`,
             {
               method: 'POST',
+
               headers: {
                 'Content-Type':
                   'application/json',
               },
+
               body: JSON.stringify({
                 operacion_id:
                   operacionData.id,
+
                 resultado:
                   JSON.stringify(
-                    resultadoFinal
+                    normalizarResultado(
+                      resultadoFinal
+                    )
                   ),
               }),
             }
@@ -563,7 +911,54 @@ export default function AnalisisMatematico() {
   };
 
   // ============================================================
-  // LIMPIAR RESULTADO
+  // NORMALIZAR RESULTADO
+  // ============================================================
+
+  const normalizarResultado = (
+    valor: any
+  ): Resultado => {
+    if (
+      Array.isArray(valor)
+    ) {
+      return valor.map(
+        (item) =>
+          normalizarResultado(
+            item
+          ) as any
+      ) as any;
+    }
+
+    if (
+      valor !== null &&
+      typeof valor ===
+        'object'
+    ) {
+      if (
+        'resultado' in valor
+      ) {
+        return normalizarResultado(
+          valor.resultado
+        );
+      }
+
+      if (
+        'result' in valor
+      ) {
+        return normalizarResultado(
+          valor.result
+        );
+      }
+
+      return JSON.stringify(
+        valor
+      );
+    }
+
+    return String(valor);
+  };
+
+  // ============================================================
+  // LIMPIAR
   // ============================================================
 
   const limpiar = () => {
@@ -584,6 +979,7 @@ export default function AnalisisMatematico() {
         <Plus size={18} />
       ),
     },
+
     {
       id: 'resta',
       nombre:
@@ -592,6 +988,7 @@ export default function AnalisisMatematico() {
         <Minus size={18} />
       ),
     },
+
     {
       id: 'punto',
       nombre:
@@ -600,6 +997,7 @@ export default function AnalisisMatematico() {
         <Dot size={20} />
       ),
     },
+
     {
       id: 'escalar',
       nombre:
@@ -608,6 +1006,7 @@ export default function AnalisisMatematico() {
         <Sigma size={18} />
       ),
     },
+
     {
       id: 'transpuesta',
       nombre:
@@ -616,6 +1015,7 @@ export default function AnalisisMatematico() {
         <RotateCcw size={18} />
       ),
     },
+
     {
       id: 'matrices',
       nombre:
@@ -624,6 +1024,7 @@ export default function AnalisisMatematico() {
         <Grid3X3 size={18} />
       ),
     },
+
     {
       id: 'combinacion',
       nombre:
@@ -641,19 +1042,48 @@ export default function AnalisisMatematico() {
     operacion === 'combinacion';
 
   const necesitaMatriz =
-    operacion === 'transpuesta' ||
+    operacion ===
+      'transpuesta' ||
     operacion === 'matrices';
 
   // ============================================================
   // TOTAL DE VENTAS
   // ============================================================
 
-  const totalVentas = ventas.reduce(
-    (total, venta) =>
-      total +
-      Number(venta?.total || 0),
-    0
-  );
+  /*
+    Para el total visual usamos Number solamente
+    si el valor cabe correctamente.
+
+    El cálculo matemático NO depende de este total.
+  */
+
+  const totalVentas =
+    ventas.reduce(
+      (
+        total: number,
+        venta: any
+      ) => {
+        const valor =
+          Number(
+            venta?.total ?? 0
+          );
+
+        if (
+          Number.isFinite(
+            valor
+          )
+        ) {
+          return total + valor;
+        }
+
+        return total;
+      },
+      0
+    );
+
+  // ============================================================
+  // RENDER
+  // ============================================================
 
   return (
     <div
@@ -663,9 +1093,7 @@ export default function AnalisisMatematico() {
           GRIS_FONDO,
       }}
     >
-      {/* ======================================================
-          ENCABEZADO
-      ====================================================== */}
+      {/* ENCABEZADO */}
 
       <div className="flex items-center justify-between">
         <div className="flex items-center gap-4">
@@ -705,15 +1133,14 @@ export default function AnalisisMatematico() {
         </div>
       </div>
 
-      {/* ======================================================
-          RESUMEN DE VENTAS
-      ====================================================== */}
+      {/* RESUMEN DE VENTAS */}
 
       <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
         <div
           className="rounded-2xl border bg-white p-5 shadow-sm"
           style={{
-            borderColor: '#E5E5E5',
+            borderColor:
+              '#E5E5E5',
           }}
         >
           <p
@@ -728,7 +1155,8 @@ export default function AnalisisMatematico() {
           <p
             className="mt-2 text-2xl font-bold"
             style={{
-              color: VINO_OSCURO,
+              color:
+                VINO_OSCURO,
             }}
           >
             {ventas.length}
@@ -738,7 +1166,8 @@ export default function AnalisisMatematico() {
         <div
           className="rounded-2xl border bg-white p-5 shadow-sm"
           style={{
-            borderColor: '#E5E5E5',
+            borderColor:
+              '#E5E5E5',
           }}
         >
           <p
@@ -753,17 +1182,22 @@ export default function AnalisisMatematico() {
           <p
             className="mt-2 text-2xl font-bold"
             style={{
-              color: VINO_OSCURO,
+              color:
+                VINO_OSCURO,
             }}
           >
-            S/ {totalVentas.toFixed(2)}
+            S/{' '}
+            {totalVentas.toFixed(
+              2
+            )}
           </p>
         </div>
 
         <div
           className="rounded-2xl border bg-white p-5 shadow-sm"
           style={{
-            borderColor: '#E5E5E5',
+            borderColor:
+              '#E5E5E5',
           }}
         >
           <p
@@ -789,14 +1223,14 @@ export default function AnalisisMatematico() {
       </div>
 
       <div className="grid gap-6 lg:grid-cols-3">
-        {/* ====================================================
-            MENÚ DE OPERACIONES
-        ==================================================== */}
+
+        {/* MENÚ */}
 
         <div
           className="rounded-2xl border bg-white p-5 shadow-sm"
           style={{
-            borderColor: '#E5E5E5',
+            borderColor:
+              '#E5E5E5',
           }}
         >
           <div className="mb-5">
@@ -840,8 +1274,6 @@ export default function AnalisisMatematico() {
                             VINO_OSCURO,
                           color:
                             '#FFFFFF',
-                          boxShadow:
-                            '0 4px 10px rgba(107, 70, 82, 0.18)',
                         }
                       : {
                           backgroundColor:
@@ -850,34 +1282,6 @@ export default function AnalisisMatematico() {
                             NEGRO,
                         }
                   }
-                  onMouseEnter={(
-                    e
-                  ) => {
-                    if (
-                      operacion !==
-                      item.id
-                    ) {
-                      e.currentTarget.style.backgroundColor =
-                        VINO_SUAVE;
-
-                      e.currentTarget.style.color =
-                        VINO_OSCURO;
-                    }
-                  }}
-                  onMouseLeave={(
-                    e
-                  ) => {
-                    if (
-                      operacion !==
-                      item.id
-                    ) {
-                      e.currentTarget.style.backgroundColor =
-                        '#FAFAFA';
-
-                      e.currentTarget.style.color =
-                        NEGRO;
-                    }
-                  }}
                 >
                   <span
                     className="flex h-8 w-8 items-center justify-center rounded-lg"
@@ -904,24 +1308,23 @@ export default function AnalisisMatematico() {
           </div>
         </div>
 
-        {/* ====================================================
-            DATOS
-        ==================================================== */}
+        {/* DATOS */}
 
         <div
           className="rounded-2xl border bg-white p-6 shadow-sm lg:col-span-2"
           style={{
-            borderColor: '#E5E5E5',
+            borderColor:
+              '#E5E5E5',
           }}
         >
-          {/* ==================================================
-              DATOS REALES DE VENTAS
-          ================================================== */}
+
+          {/* DATOS REALES */}
 
           <div
             className="mb-6 rounded-2xl border p-5"
             style={{
-              borderColor: '#DCC8CF',
+              borderColor:
+                '#DCC8CF',
               backgroundColor:
                 VINO_SUAVE,
             }}
@@ -1034,11 +1437,9 @@ export default function AnalisisMatematico() {
                           }}
                         >
                           S/{' '}
-                          {Number(
-                            venta.total ||
+                          {String(
+                            venta.total ??
                               0
-                          ).toFixed(
-                            2
                           )}
                         </div>
                       </div>
@@ -1075,17 +1476,9 @@ export default function AnalisisMatematico() {
                         (
                           venta: any
                         ) =>
-                          Number(
-                            venta.total ||
+                          String(
+                            venta.total ??
                               0
-                          )
-                      )
-                      .filter(
-                        (
-                          valor: number
-                        ) =>
-                          Number.isFinite(
-                            valor
                           )
                       )
                       .join(
@@ -1098,9 +1491,7 @@ export default function AnalisisMatematico() {
             )}
           </div>
 
-          {/* ==================================================
-              DATOS DE ENTRADA
-          ================================================== */}
+          {/* DATOS DE ENTRADA */}
 
           <div className="mb-6">
             <h3
@@ -1118,14 +1509,16 @@ export default function AnalisisMatematico() {
                 color: GRIS,
               }}
             >
-              Los datos de ventas pueden
-              utilizarse directamente para
-              realizar las operaciones.
+              Escribe los valores separados
+              por comas. Los números grandes
+              se conservan como texto para
+              evitar pérdida de precisión.
             </p>
           </div>
 
           {!necesitaMatriz ? (
             <div className="space-y-5">
+
               {/* VECTOR A */}
 
               <div>
@@ -1145,26 +1538,12 @@ export default function AnalisisMatematico() {
                       e.target.value
                     )
                   }
-                  placeholder="Valores de ventas"
-                  className="w-full rounded-xl border bg-white px-4 py-3 text-sm outline-none transition"
+                  placeholder="Ejemplo: 999999999999999999,888888888888888888"
+                  className="w-full rounded-xl border bg-white px-4 py-3 text-sm outline-none"
                   style={{
                     borderColor:
                       '#D8D8D8',
                     color: NEGRO,
-                  }}
-                  onFocus={(e) => {
-                    e.currentTarget.style.borderColor =
-                      VINO;
-
-                    e.currentTarget.style.boxShadow =
-                      `0 0 0 3px ${VINO_SUAVE}`;
-                  }}
-                  onBlur={(e) => {
-                    e.currentTarget.style.borderColor =
-                      '#D8D8D8';
-
-                    e.currentTarget.style.boxShadow =
-                      'none';
                   }}
                 />
 
@@ -1199,26 +1578,12 @@ export default function AnalisisMatematico() {
                         e.target.value
                       )
                     }
-                    placeholder="Ejemplo: 4,5,6"
-                    className="w-full rounded-xl border bg-white px-4 py-3 text-sm outline-none transition"
+                    placeholder="Ejemplo: 111111111111111111,222222222222222222"
+                    className="w-full rounded-xl border bg-white px-4 py-3 text-sm outline-none"
                     style={{
                       borderColor:
                         '#D8D8D8',
                       color: NEGRO,
-                    }}
-                    onFocus={(e) => {
-                      e.currentTarget.style.borderColor =
-                        VINO;
-
-                      e.currentTarget.style.boxShadow =
-                        `0 0 0 3px ${VINO_SUAVE}`;
-                    }}
-                    onBlur={(e) => {
-                      e.currentTarget.style.borderColor =
-                        '#D8D8D8';
-
-                      e.currentTarget.style.boxShadow =
-                        'none';
                     }}
                   />
 
@@ -1228,8 +1593,10 @@ export default function AnalisisMatematico() {
                       color: GRIS,
                     }}
                   >
-                    Para comparar o combinar
-                    los datos con otro vector.
+                    Para suma, resta y
+                    producto punto debe tener
+                    la misma cantidad de elementos
+                    que Vector A.
                   </p>
                 </div>
               )}
@@ -1249,44 +1616,22 @@ export default function AnalisisMatematico() {
                   </label>
 
                   <input
-                    type="number"
+                    type="text"
+                    inputMode="decimal"
                     value={escalar}
                     onChange={(e) =>
                       setEscalar(
                         e.target.value
                       )
                     }
-                    className="w-full rounded-xl border bg-white px-4 py-3 text-sm outline-none transition"
+                    placeholder="Ejemplo: 999999999999999999999"
+                    className="w-full rounded-xl border bg-white px-4 py-3 text-sm outline-none"
                     style={{
                       borderColor:
                         '#D8D8D8',
                       color: NEGRO,
                     }}
-                    onFocus={(e) => {
-                      e.currentTarget.style.borderColor =
-                        VINO;
-
-                      e.currentTarget.style.boxShadow =
-                        `0 0 0 3px ${VINO_SUAVE}`;
-                    }}
-                    onBlur={(e) => {
-                      e.currentTarget.style.borderColor =
-                        '#D8D8D8';
-
-                      e.currentTarget.style.boxShadow =
-                        'none';
-                    }}
                   />
-
-                  <p
-                    className="mt-1.5 text-xs"
-                    style={{
-                      color: GRIS,
-                    }}
-                  >
-                    Número por el cual se
-                    multiplicará cada venta.
-                  </p>
                 </div>
               )}
 
@@ -1305,6 +1650,7 @@ export default function AnalisisMatematico() {
                   </label>
 
                   <input
+                    type="text"
                     value={escalares}
                     onChange={(e) =>
                       setEscalares(
@@ -1312,41 +1658,19 @@ export default function AnalisisMatematico() {
                       )
                     }
                     placeholder="Ejemplo: 2,3"
-                    className="w-full rounded-xl border bg-white px-4 py-3 text-sm outline-none transition"
+                    className="w-full rounded-xl border bg-white px-4 py-3 text-sm outline-none"
                     style={{
                       borderColor:
                         '#D8D8D8',
                       color: NEGRO,
                     }}
-                    onFocus={(e) => {
-                      e.currentTarget.style.borderColor =
-                        VINO;
-
-                      e.currentTarget.style.boxShadow =
-                        `0 0 0 3px ${VINO_SUAVE}`;
-                    }}
-                    onBlur={(e) => {
-                      e.currentTarget.style.borderColor =
-                        '#D8D8D8';
-
-                      e.currentTarget.style.boxShadow =
-                        'none';
-                    }}
                   />
-
-                  <p
-                    className="mt-1.5 text-xs"
-                    style={{
-                      color: GRIS,
-                    }}
-                  >
-                    Un escalar por cada vector.
-                  </p>
                 </div>
               )}
             </div>
           ) : (
             <div className="space-y-5">
+
               {/* MATRIZ A */}
 
               <div>
@@ -1370,25 +1694,11 @@ export default function AnalisisMatematico() {
                   placeholder={
                     '1,2\n3,4'
                   }
-                  className="w-full resize-none rounded-xl border bg-white px-4 py-3 font-mono text-sm outline-none transition"
+                  className="w-full resize-none rounded-xl border bg-white px-4 py-3 font-mono text-sm outline-none"
                   style={{
                     borderColor:
                       '#D8D8D8',
                     color: NEGRO,
-                  }}
-                  onFocus={(e) => {
-                    e.currentTarget.style.borderColor =
-                      VINO;
-
-                    e.currentTarget.style.boxShadow =
-                      `0 0 0 3px ${VINO_SUAVE}`;
-                  }}
-                  onBlur={(e) => {
-                    e.currentTarget.style.borderColor =
-                      '#D8D8D8';
-
-                    e.currentTarget.style.boxShadow =
-                      'none';
                   }}
                 />
 
@@ -1428,25 +1738,11 @@ export default function AnalisisMatematico() {
                     placeholder={
                       '5,6\n7,8'
                     }
-                    className="w-full resize-none rounded-xl border bg-white px-4 py-3 font-mono text-sm outline-none transition"
+                    className="w-full resize-none rounded-xl border bg-white px-4 py-3 font-mono text-sm outline-none"
                     style={{
                       borderColor:
                         '#D8D8D8',
                       color: NEGRO,
-                    }}
-                    onFocus={(e) => {
-                      e.currentTarget.style.borderColor =
-                        VINO;
-
-                      e.currentTarget.style.boxShadow =
-                        `0 0 0 3px ${VINO_SUAVE}`;
-                    }}
-                    onBlur={(e) => {
-                      e.currentTarget.style.borderColor =
-                        '#D8D8D8';
-
-                      e.currentTarget.style.boxShadow =
-                        'none';
                     }}
                   />
 
@@ -1464,9 +1760,7 @@ export default function AnalisisMatematico() {
             </div>
           )}
 
-          {/* ==================================================
-              BOTONES
-          ================================================== */}
+          {/* BOTONES */}
 
           <div className="mt-7 flex flex-wrap gap-3">
             <button
@@ -1481,24 +1775,6 @@ export default function AnalisisMatematico() {
               style={{
                 backgroundColor:
                   VINO_OSCURO,
-                boxShadow:
-                  '0 4px 10px rgba(107, 70, 82, 0.16)',
-              }}
-              onMouseEnter={(e) => {
-                if (
-                  !cargando
-                ) {
-                  e.currentTarget.style.backgroundColor =
-                    VINO;
-                }
-              }}
-              onMouseLeave={(e) => {
-                if (
-                  !cargando
-                ) {
-                  e.currentTarget.style.backgroundColor =
-                    VINO_OSCURO;
-                }
               }}
             >
               {cargando
@@ -1511,40 +1787,18 @@ export default function AnalisisMatematico() {
               onClick={
                 limpiar
               }
-              className="rounded-xl border bg-white px-6 py-3 text-sm font-semibold transition"
+              className="rounded-xl border bg-white px-6 py-3 text-sm font-semibold"
               style={{
                 borderColor:
                   '#D8D8D8',
                 color: NEGRO,
-              }}
-              onMouseEnter={(e) => {
-                e.currentTarget.style.backgroundColor =
-                  VINO_SUAVE;
-
-                e.currentTarget.style.borderColor =
-                  VINO;
-
-                e.currentTarget.style.color =
-                  VINO_OSCURO;
-              }}
-              onMouseLeave={(e) => {
-                e.currentTarget.style.backgroundColor =
-                  '#FFFFFF';
-
-                e.currentTarget.style.borderColor =
-                  '#D8D8D8';
-
-                e.currentTarget.style.color =
-                  NEGRO;
               }}
             >
               Limpiar
             </button>
           </div>
 
-          {/* ==================================================
-              ERROR
-          ================================================== */}
+          {/* ERROR */}
 
           {error && (
             <div
@@ -1568,9 +1822,7 @@ export default function AnalisisMatematico() {
             </div>
           )}
 
-          {/* ==================================================
-              RESULTADO
-          ================================================== */}
+          {/* RESULTADO */}
 
           {resultado !== null && (
             <div
@@ -1631,8 +1883,7 @@ export default function AnalisisMatematico() {
                 }}
               >
                 ✓ Operación realizada
-                correctamente con los
-                datos disponibles.
+                correctamente.
               </p>
             </div>
           )}
