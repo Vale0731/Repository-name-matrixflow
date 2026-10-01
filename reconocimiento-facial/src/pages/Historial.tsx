@@ -8,11 +8,17 @@ import {
   AlertCircle,
 } from 'lucide-react';
 
-const VINO = '#775b66';
-const VINO_OSCURO = '#6B4652';
-const VINO_SUAVE = '#F8E9EE';
-const GRIS_FONDO = '#F3F3F1';
-const GRIS = '#6B7280';
+const EMPRESA_NOMBRE = 'MATAS PERU EIRL';
+const EMPRESA_GERENTE = 'GERARDO GARCIA MATAS';
+const EMPRESA_RUBRO = 'Electricidad y Soluciones Integrales';
+
+const GRIS_MARCA = '#4B5563';
+const GRIS_OSCURO = '#2F3337';
+const GRIS_MEDIO = '#6B7280';
+const GRIS_SUAVE = '#E5E7EB';
+const GRIS_FONDO = '#F3F4F6';
+const GRIS_MUY_SUAVE = '#F9FAFB';
+const BLANCO = '#FFFFFF';
 const NEGRO = '#111111';
 
 interface Registro {
@@ -38,14 +44,19 @@ export default function Historial() {
     setError('');
 
     try {
-      const [respuestaOperaciones, respuestaResultados] =
-        await Promise.all([
-          fetch(`${API}/operaciones`),
-          fetch(`${API}/resultados-operaciones`),
-        ]);
+      const [
+        respuestaOperaciones,
+        respuestaResultados,
+      ] = await Promise.all([
+        fetch(`${API}/operaciones`),
+        fetch(`${API}/resultados-operaciones`),
+      ]);
 
-      const datosOperaciones = await respuestaOperaciones.json();
-      const datosResultados = await respuestaResultados.json();
+      const datosOperaciones =
+        await respuestaOperaciones.json();
+
+      const datosResultados =
+        await respuestaResultados.json();
 
       if (!respuestaOperaciones.ok) {
         throw new Error(
@@ -63,17 +74,19 @@ export default function Historial() {
         );
       }
 
-      const listaOperaciones = Array.isArray(datosOperaciones)
-        ? datosOperaciones
-        : datosOperaciones.operaciones ??
-          datosOperaciones.data ??
-          [];
+      const listaOperaciones =
+        Array.isArray(datosOperaciones)
+          ? datosOperaciones
+          : datosOperaciones.operaciones ??
+            datosOperaciones.data ??
+            [];
 
-      const listaResultados = Array.isArray(datosResultados)
-        ? datosResultados
-        : datosResultados.resultados ??
-          datosResultados.data ??
-          [];
+      const listaResultados =
+        Array.isArray(datosResultados)
+          ? datosResultados
+          : datosResultados.resultados ??
+            datosResultados.data ??
+            [];
 
       setOperaciones(listaOperaciones);
       setResultados(listaResultados);
@@ -101,26 +114,39 @@ export default function Historial() {
     );
 
   const obtenerFecha = (registro: Registro) => {
-    const fecha = registro.fecha ?? registro.created_at;
+    const fecha =
+      registro.fecha ??
+      registro.created_at;
 
     if (!fecha) return '—';
 
-    const fechaObjeto = new Date(String(fecha));
+    const fechaObjeto =
+      new Date(String(fecha));
 
-    if (Number.isNaN(fechaObjeto.getTime())) {
+    if (
+      Number.isNaN(
+        fechaObjeto.getTime()
+      )
+    ) {
       return String(fecha);
     }
 
-    return fechaObjeto.toLocaleString('es-PE');
+    return fechaObjeto.toLocaleString(
+      'es-PE'
+    );
   };
 
   const totalRegistros =
-    operaciones.length + resultados.length;
+    operaciones.length +
+    resultados.length;
 
   return (
     <div
       className="min-h-full space-y-6 p-1"
-      style={{ backgroundColor: GRIS_FONDO }}
+      style={{
+        backgroundColor:
+          GRIS_FONDO,
+      }}
     >
       {/* ENCABEZADO */}
 
@@ -129,8 +155,10 @@ export default function Historial() {
           <div
             className="rounded-2xl p-3 shadow-sm"
             style={{
-              backgroundColor: VINO_SUAVE,
-              color: VINO,
+              backgroundColor:
+                GRIS_SUAVE,
+              color:
+                GRIS_MARCA,
             }}
           >
             <History size={25} />
@@ -139,16 +167,41 @@ export default function Historial() {
           <div>
             <h2
               className="text-2xl font-bold"
-              style={{ color: NEGRO }}
+              style={{
+                color: NEGRO,
+              }}
             >
               Historial
             </h2>
 
             <p
               className="mt-1 text-sm"
-              style={{ color: GRIS }}
+              style={{
+                color:
+                  GRIS_MEDIO,
+              }}
             >
               Registro de operaciones matemáticas realizadas
+            </p>
+
+            <p
+              className="mt-1 text-xs font-medium"
+              style={{
+                color:
+                  GRIS_MARCA,
+              }}
+            >
+              {EMPRESA_NOMBRE} · {EMPRESA_RUBRO}
+            </p>
+
+            <p
+              className="text-xs"
+              style={{
+                color:
+                  GRIS_MEDIO,
+              }}
+            >
+              Gerente: {EMPRESA_GERENTE}
             </p>
           </div>
         </div>
@@ -159,30 +212,47 @@ export default function Historial() {
           disabled={cargando}
           className="flex items-center justify-center gap-2 rounded-xl border bg-white px-5 py-3 text-sm font-semibold transition disabled:cursor-not-allowed disabled:opacity-50"
           style={{
-            borderColor: '#D8D8D8',
+            borderColor:
+              '#D1D5DB',
             color: NEGRO,
           }}
           onMouseEnter={(e) => {
             if (!cargando) {
-              e.currentTarget.style.backgroundColor = VINO_SUAVE;
-              e.currentTarget.style.borderColor = VINO;
-              e.currentTarget.style.color = VINO_OSCURO;
+              e.currentTarget.style.backgroundColor =
+                GRIS_SUAVE;
+
+              e.currentTarget.style.borderColor =
+                GRIS_MARCA;
+
+              e.currentTarget.style.color =
+                GRIS_OSCURO;
             }
           }}
           onMouseLeave={(e) => {
             if (!cargando) {
-              e.currentTarget.style.backgroundColor = '#FFFFFF';
-              e.currentTarget.style.borderColor = '#D8D8D8';
-              e.currentTarget.style.color = NEGRO;
+              e.currentTarget.style.backgroundColor =
+                BLANCO;
+
+              e.currentTarget.style.borderColor =
+                '#D1D5DB';
+
+              e.currentTarget.style.color =
+                NEGRO;
             }
           }}
         >
           <RefreshCw
             size={17}
-            className={cargando ? 'animate-spin' : ''}
+            className={
+              cargando
+                ? 'animate-spin'
+                : ''
+            }
           />
 
-          {cargando ? 'Actualizando...' : 'Actualizar'}
+          {cargando
+            ? 'Actualizando...'
+            : 'Actualizar'}
         </button>
       </div>
 
@@ -192,12 +262,16 @@ export default function Historial() {
         <div
           className="flex items-center gap-3 rounded-xl border p-4 text-sm"
           style={{
-            borderColor: '#E8C9D1',
-            backgroundColor: '#FDF3F5',
-            color: '#8A3D4F',
+            borderColor:
+              '#D1D5DB',
+            backgroundColor:
+              GRIS_MUY_SUAVE,
+            color:
+              GRIS_OSCURO,
           }}
         >
           <AlertCircle size={20} />
+
           <span>{error}</span>
         </div>
       )}
@@ -206,78 +280,120 @@ export default function Historial() {
 
       <div className="grid gap-5 md:grid-cols-3">
         <div
-          className="rounded-2xl border bg-white p-5 shadow-sm"
-          style={{ borderColor: '#E5E5E5' }}
+          className="rounded-2xl border p-5 shadow-sm"
+          style={{
+            borderColor:
+              GRIS_SUAVE,
+            backgroundColor:
+              BLANCO,
+          }}
         >
           <p
             className="text-sm"
-            style={{ color: GRIS }}
+            style={{
+              color:
+                GRIS_MEDIO,
+            }}
           >
             Registros totales
           </p>
 
           <p
             className="mt-2 text-3xl font-bold"
-            style={{ color: NEGRO }}
+            style={{
+              color:
+                NEGRO,
+            }}
           >
             {totalRegistros}
           </p>
 
           <p
             className="mt-2 text-xs"
-            style={{ color: GRIS }}
+            style={{
+              color:
+                GRIS_MEDIO,
+            }}
           >
             Operaciones y resultados almacenados
           </p>
         </div>
 
         <div
-          className="rounded-2xl border bg-white p-5 shadow-sm"
-          style={{ borderColor: '#E5E5E5' }}
+          className="rounded-2xl border p-5 shadow-sm"
+          style={{
+            borderColor:
+              GRIS_SUAVE,
+            backgroundColor:
+              BLANCO,
+          }}
         >
           <p
             className="text-sm"
-            style={{ color: GRIS }}
+            style={{
+              color:
+                GRIS_MEDIO,
+            }}
           >
             Operaciones
           </p>
 
           <p
             className="mt-2 text-3xl font-bold"
-            style={{ color: VINO }}
+            style={{
+              color:
+                GRIS_MARCA,
+            }}
           >
             {operaciones.length}
           </p>
 
           <p
             className="mt-2 text-xs"
-            style={{ color: GRIS }}
+            style={{
+              color:
+                GRIS_MEDIO,
+            }}
           >
             Cálculos registrados
           </p>
         </div>
 
         <div
-          className="rounded-2xl border bg-white p-5 shadow-sm"
-          style={{ borderColor: '#E5E5E5' }}
+          className="rounded-2xl border p-5 shadow-sm"
+          style={{
+            borderColor:
+              GRIS_SUAVE,
+            backgroundColor:
+              BLANCO,
+          }}
         >
           <p
             className="text-sm"
-            style={{ color: GRIS }}
+            style={{
+              color:
+                GRIS_MEDIO,
+            }}
           >
             Resultados
           </p>
 
           <p
             className="mt-2 text-3xl font-bold"
-            style={{ color: VINO_OSCURO }}
+            style={{
+              color:
+                GRIS_OSCURO,
+            }}
           >
             {resultados.length}
           </p>
 
           <p
             className="mt-2 text-xs"
-            style={{ color: GRIS }}
+            style={{
+              color:
+                GRIS_MEDIO,
+            }}
           >
             Resultados almacenados
           </p>
@@ -287,19 +403,29 @@ export default function Historial() {
       {/* OPERACIONES */}
 
       <div
-        className="overflow-hidden rounded-2xl border bg-white shadow-sm"
-        style={{ borderColor: '#E5E5E5' }}
+        className="overflow-hidden rounded-2xl border shadow-sm"
+        style={{
+          borderColor:
+            GRIS_SUAVE,
+          backgroundColor:
+            BLANCO,
+        }}
       >
         <div
           className="border-b p-5"
-          style={{ borderColor: '#E5E5E5' }}
+          style={{
+            borderColor:
+              GRIS_SUAVE,
+          }}
         >
           <div className="flex items-center gap-3">
             <div
               className="flex h-9 w-9 items-center justify-center rounded-xl"
               style={{
-                backgroundColor: VINO_SUAVE,
-                color: VINO,
+                backgroundColor:
+                  GRIS_SUAVE,
+                color:
+                  GRIS_MARCA,
               }}
             >
               <Calculator size={19} />
@@ -308,14 +434,20 @@ export default function Historial() {
             <div>
               <h3
                 className="font-semibold"
-                style={{ color: NEGRO }}
+                style={{
+                  color:
+                    NEGRO,
+                }}
               >
                 Operaciones registradas
               </h3>
 
               <p
                 className="mt-0.5 text-xs"
-                style={{ color: GRIS }}
+                style={{
+                  color:
+                    GRIS_MEDIO,
+                }}
               >
                 Historial de cálculos realizados
               </p>
@@ -328,8 +460,10 @@ export default function Historial() {
             <div
               className="mx-auto flex h-14 w-14 items-center justify-center rounded-2xl"
               style={{
-                backgroundColor: VINO_SUAVE,
-                color: VINO,
+                backgroundColor:
+                  GRIS_SUAVE,
+                color:
+                  GRIS_MARCA,
               }}
             >
               <History size={28} />
@@ -337,14 +471,20 @@ export default function Historial() {
 
             <p
               className="mt-4 text-sm font-medium"
-              style={{ color: NEGRO }}
+              style={{
+                color:
+                  NEGRO,
+              }}
             >
               No hay operaciones registradas todavía.
             </p>
 
             <p
               className="mt-1 text-xs"
-              style={{ color: GRIS }}
+              style={{
+                color:
+                  GRIS_MEDIO,
+              }}
             >
               Las operaciones realizadas aparecerán aquí.
             </p>
@@ -356,34 +496,48 @@ export default function Historial() {
                 <tr
                   className="border-b"
                   style={{
-                    borderColor: '#E5E5E5',
-                    backgroundColor: '#FAFAFA',
+                    borderColor:
+                      GRIS_SUAVE,
+                    backgroundColor:
+                      GRIS_MUY_SUAVE,
                   }}
                 >
                   <th
                     className="px-5 py-4 text-xs font-semibold uppercase tracking-wide"
-                    style={{ color: GRIS }}
+                    style={{
+                      color:
+                        GRIS_MEDIO,
+                    }}
                   >
                     ID
                   </th>
 
                   <th
                     className="px-5 py-4 text-xs font-semibold uppercase tracking-wide"
-                    style={{ color: GRIS }}
+                    style={{
+                      color:
+                        GRIS_MEDIO,
+                    }}
                   >
                     Operación
                   </th>
 
                   <th
                     className="px-5 py-4 text-xs font-semibold uppercase tracking-wide"
-                    style={{ color: GRIS }}
+                    style={{
+                      color:
+                        GRIS_MEDIO,
+                    }}
                   >
                     Fecha
                   </th>
 
                   <th
                     className="px-5 py-4 text-xs font-semibold uppercase tracking-wide"
-                    style={{ color: GRIS }}
+                    style={{
+                      color:
+                        GRIS_MEDIO,
+                    }}
                   >
                     Estado
                   </th>
@@ -391,72 +545,106 @@ export default function Historial() {
               </thead>
 
               <tbody>
-                {operaciones.map((registro, index) => (
-                  <tr
-                    key={String(registro.id ?? index)}
-                    className="border-b transition last:border-0"
-                    style={{ borderColor: '#F0F0F0' }}
-                    onMouseEnter={(e) => {
-                      e.currentTarget.style.backgroundColor =
-                        '#FCF8FA';
-                    }}
-                    onMouseLeave={(e) => {
-                      e.currentTarget.style.backgroundColor =
-                        '#FFFFFF';
-                    }}
-                  >
-                    <td
-                      className="px-5 py-4 text-sm font-medium"
-                      style={{ color: GRIS }}
+                {operaciones.map(
+                  (
+                    registro,
+                    index
+                  ) => (
+                    <tr
+                      key={String(
+                        registro.id ??
+                          index
+                      )}
+                      className="border-b transition last:border-0"
+                      style={{
+                        borderColor:
+                          '#F0F0F0',
+                      }}
+                      onMouseEnter={(e) => {
+                        e.currentTarget.style.backgroundColor =
+                          GRIS_MUY_SUAVE;
+                      }}
+                      onMouseLeave={(e) => {
+                        e.currentTarget.style.backgroundColor =
+                          BLANCO;
+                      }}
                     >
-                      #{registro.id ?? index + 1}
-                    </td>
-
-                    <td className="px-5 py-4">
-                      <div className="flex items-center gap-3">
-                        <div
-                          className="flex h-8 w-8 items-center justify-center rounded-lg"
-                          style={{
-                            backgroundColor: VINO_SUAVE,
-                            color: VINO,
-                          }}
-                        >
-                          <Calculator size={15} />
-                        </div>
-
-                        <span
-                          className="font-medium"
-                          style={{ color: NEGRO }}
-                        >
-                          {obtenerTipo(registro)}
-                        </span>
-                      </div>
-                    </td>
-
-                    <td
-                      className="px-5 py-4 text-sm"
-                      style={{ color: GRIS }}
-                    >
-                      {obtenerFecha(registro)}
-                    </td>
-
-                    <td className="px-5 py-4">
-                      <span
-                        className="inline-flex items-center gap-1.5 rounded-full px-3 py-1 text-xs font-semibold"
+                      <td
+                        className="px-5 py-4 text-sm font-medium"
                         style={{
-                          backgroundColor: '#F3F8F5',
-                          color: '#47705A',
+                          color:
+                            GRIS_MEDIO,
                         }}
                       >
-                        <CheckCircle2 size={14} />
+                        #{registro.id ??
+                          index + 1}
+                      </td>
 
-                        {String(
-                          registro.estado ?? 'Registrada'
+                      <td className="px-5 py-4">
+                        <div className="flex items-center gap-3">
+                          <div
+                            className="flex h-8 w-8 items-center justify-center rounded-lg"
+                            style={{
+                              backgroundColor:
+                                GRIS_SUAVE,
+                              color:
+                                GRIS_MARCA,
+                            }}
+                          >
+                            <Calculator
+                              size={15}
+                            />
+                          </div>
+
+                          <span
+                            className="font-medium"
+                            style={{
+                              color:
+                                NEGRO,
+                            }}
+                          >
+                            {obtenerTipo(
+                              registro
+                            )}
+                          </span>
+                        </div>
+                      </td>
+
+                      <td
+                        className="px-5 py-4 text-sm"
+                        style={{
+                          color:
+                            GRIS_MEDIO,
+                        }}
+                      >
+                        {obtenerFecha(
+                          registro
                         )}
-                      </span>
-                    </td>
-                  </tr>
-                ))}
+                      </td>
+
+                      <td className="px-5 py-4">
+                        <span
+                          className="inline-flex items-center gap-1.5 rounded-full px-3 py-1 text-xs font-semibold"
+                          style={{
+                            backgroundColor:
+                              GRIS_SUAVE,
+                            color:
+                              GRIS_OSCURO,
+                          }}
+                        >
+                          <CheckCircle2
+                            size={14}
+                          />
+
+                          {String(
+                            registro.estado ??
+                              'Registrada'
+                          )}
+                        </span>
+                      </td>
+                    </tr>
+                  )
+                )}
               </tbody>
             </table>
           </div>
@@ -466,24 +654,38 @@ export default function Historial() {
       {/* RESULTADOS */}
 
       <div
-        className="overflow-hidden rounded-2xl border bg-white shadow-sm"
-        style={{ borderColor: '#E5E5E5' }}
+        className="overflow-hidden rounded-2xl border shadow-sm"
+        style={{
+          borderColor:
+            GRIS_SUAVE,
+          backgroundColor:
+            BLANCO,
+        }}
       >
         <div
           className="border-b p-5"
-          style={{ borderColor: '#E5E5E5' }}
+          style={{
+            borderColor:
+              GRIS_SUAVE,
+          }}
         >
           <div>
             <h3
               className="font-semibold"
-              style={{ color: NEGRO }}
+              style={{
+                color:
+                  NEGRO,
+              }}
             >
               Resultados almacenados
             </h3>
 
             <p
               className="mt-1 text-xs"
-              style={{ color: GRIS }}
+              style={{
+                color:
+                  GRIS_MEDIO,
+              }}
             >
               Valores obtenidos en las operaciones matemáticas.
             </p>
@@ -493,69 +695,131 @@ export default function Historial() {
         {resultados.length === 0 ? (
           <div
             className="p-8 text-center text-sm"
-            style={{ color: GRIS }}
+            style={{
+              color:
+                GRIS_MEDIO,
+            }}
           >
             No hay resultados almacenados todavía.
           </div>
         ) : (
           <div className="space-y-3 p-5">
-            {resultados.map((registro, index) => (
-              <div
-                key={String(registro.id ?? index)}
-                className="rounded-2xl border p-4 transition"
-                style={{
-                  borderColor: '#E9E3E6',
-                  backgroundColor: '#FCFAFB',
-                }}
-              >
-                <div className="flex flex-col justify-between gap-2 sm:flex-row sm:items-center">
-                  <div className="flex items-center gap-3">
-                    <div
-                      className="flex h-8 w-8 items-center justify-center rounded-lg"
-                      style={{
-                        backgroundColor: VINO_SUAVE,
-                        color: VINO,
-                      }}
-                    >
-                      <Calculator size={15} />
+            {resultados.map(
+              (
+                registro,
+                index
+              ) => (
+                <div
+                  key={String(
+                    registro.id ??
+                      index
+                  )}
+                  className="rounded-2xl border p-4 transition"
+                  style={{
+                    borderColor:
+                      GRIS_SUAVE,
+                    backgroundColor:
+                      GRIS_MUY_SUAVE,
+                  }}
+                >
+                  <div className="flex flex-col justify-between gap-2 sm:flex-row sm:items-center">
+                    <div className="flex items-center gap-3">
+                      <div
+                        className="flex h-8 w-8 items-center justify-center rounded-lg"
+                        style={{
+                          backgroundColor:
+                            GRIS_SUAVE,
+                          color:
+                            GRIS_MARCA,
+                        }}
+                      >
+                        <Calculator
+                          size={15}
+                        />
+                      </div>
+
+                      <span
+                        className="font-medium"
+                        style={{
+                          color:
+                            NEGRO,
+                        }}
+                      >
+                        {obtenerTipo(
+                          registro
+                        )}
+                      </span>
                     </div>
 
                     <span
-                      className="font-medium"
-                      style={{ color: NEGRO }}
+                      className="text-xs"
+                      style={{
+                        color:
+                          GRIS_MEDIO,
+                      }}
                     >
-                      {obtenerTipo(registro)}
+                      {obtenerFecha(
+                        registro
+                      )}
                     </span>
                   </div>
 
-                  <span
-                    className="text-xs"
-                    style={{ color: GRIS }}
-                  >
-                    {obtenerFecha(registro)}
-                  </span>
+                  {registro.resultado !==
+                    undefined && (
+                    <pre
+                      className="mt-4 overflow-auto rounded-xl border bg-white p-4 font-mono text-xs"
+                      style={{
+                        borderColor:
+                          GRIS_SUAVE,
+                        color:
+                          NEGRO,
+                      }}
+                    >
+                      {JSON.stringify(
+                        registro.resultado,
+                        null,
+                        2
+                      )}
+                    </pre>
+                  )}
                 </div>
-
-                {registro.resultado !== undefined && (
-                  <pre
-                    className="mt-4 overflow-auto rounded-xl border bg-white p-4 font-mono text-xs"
-                    style={{
-                      borderColor: '#E5E5E5',
-                      color: NEGRO,
-                    }}
-                  >
-                    {JSON.stringify(
-                      registro.resultado,
-                      null,
-                      2
-                    )}
-                  </pre>
-                )}
-              </div>
-            ))}
+              )
+            )}
           </div>
         )}
       </div>
-    </div>
-  );
+
+      {/* IDENTIDAD EMPRESARIAL */}
+
+      <div
+        className="rounded-2xl border p-5"
+        style={{
+          borderColor:
+            GRIS_SUAVE,
+          backgroundColor:
+            BLANCO,
+        }}
+      >
+        <p
+          className="text-sm font-bold"
+          style={{
+            color:
+              GRIS_OSCURO,
+          }}
+        >
+          {EMPRESA_NOMBRE}
+        </p>
+
+        <p
+          className="mt-1 text-xs"
+          style={{
+            color:
+              GRIS_MEDIO,
+          }}
+        >
+        {EMPRESA_RUBRO} · Gerente: {EMPRESA_GERENTE} 
+        </p>
+      </div>
+    </div> 
+  ); 
 }
