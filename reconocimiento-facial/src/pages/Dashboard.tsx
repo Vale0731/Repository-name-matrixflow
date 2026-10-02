@@ -143,7 +143,7 @@ function getOperationLabel(tipo: string) {
     COMBINACION_LINEAL: 'Combinación lineal',
   };
 
-  return labels[tipo] || tipo.replaceAll('_', ' ');
+ return labels[tipo] || tipo.replace(/_/g, ' ');
 }
 
 /* =========================================================
