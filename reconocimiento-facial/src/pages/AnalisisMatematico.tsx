@@ -144,12 +144,12 @@ export default function AnalisisMatematico() {
               ? texto
               : null;
           })
-          .filter(
-            (
-              valor
-            ): valor is string =>
-              valor !== null
-          );
+         .filter(
+  (
+    valor: string | null
+  ): valor is string =>
+    valor !== null
+);
 
       if (
         valoresVentas.length > 0
